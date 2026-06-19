@@ -2,7 +2,7 @@
 
 <main class="container mt-5">
     <h1 class="mb-3">Contato</h1>
-    <p class="lead">Entre em contato com a Metalúrgica Oliveira.</p>
+    <p class="lead">Entre em contato conosco para solicitar um orçamento, tirar dúvidas ou conhecer melhor nossos serviços.</p>
     
     <div class="alert alert-info">
         <p><strong>Telefone:</strong> (11) 99999-9999</p>

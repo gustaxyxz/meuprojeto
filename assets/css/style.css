@@ -1,1 +1,62 @@
 
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.banner {
+    background: url('../imagens/Firefly_Gemini\ Flash_preciso\ que\ gere\ imagem\ para\ eu\ por\ em\ um\ banner\ do\ meu\ site\ de\ metalurgica\ e\ estrutu\ 457830.png') center/cover no-repeat;
+    min-height: 520px;
+}
+
+.sobrecapa-banner {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0, 0.9) 0%, rgba(0,0,0, 0.5) 50%, rgba(0,0,0, 0.1) 100%);
+}
+
+.banner .container {
+    position: relative;
+    z-index: 1;
+}
+
+.caixa-destaque {
+    background: #fff;
+}
+
+.cartao-servico {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cartao-servico:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08);
+}
+
+footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+.navbar .nav-link.active {
+    color: #ffffff !important;
+}
+
+.navbar .nav-link.active i {
+    color: #ffffff !important;
+}
+
+.botao-orcamento:hover {
+    background-color: #ffc107;
+    color: #000;
+}
