@@ -32,7 +32,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '.\xampp\htdocs\meuprojeto\index.php'
 
       - name: Deploy to GitHub Pages
         if: github.event_name != 'pull_request'
