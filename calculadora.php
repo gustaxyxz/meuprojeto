@@ -1,0 +1,728 @@
+<?php include "includes/header.php"; ?>
+
+<style>
+/* ── Variáveis do site ─────────────────── */
+:root {
+  --amarelo: #ffc107;
+  --amarelo2: #e6a800;
+  --preto:  #000000;
+  --cinza-bg: #f8f9fa;
+  --borda: #dee2e6;
+}
+
+/* ── Hero da calculadora ──────────────── */
+.calc-hero {
+  background: linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.25) 100%),
+              url('assets/imagens/Firefly_Gemini Flash_preciso que gere imagem para eu por em um banner do meu site de metalurgica e estrutu 457830.png') center/cover no-repeat;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding: 3rem 0;
+}
+.calc-hero h1 { font-size: 2rem; font-weight: 800; }
+.calc-hero h1 span { color: var(--amarelo); }
+.calc-hero p { opacity: .85; }
+
+/* ── Barra de Progresso (Steps) ────────── */
+.steps-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem 0;
+  flex-wrap: wrap;
+  gap: 0;
+  row-gap: .5rem;
+}
+.step-dot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+.step-dot::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: calc(50% + 20px);
+  width: 36px;
+  height: 2px;
+  background: var(--borda);
+  transition: background .3s;
+}
+.step-dot:last-child::after { display: none; }
+.step-dot.done::after { background: var(--amarelo); }
+.step-circle {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2.5px solid var(--borda);
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .85rem;
+  color: #aaa;
+  transition: all .3s;
+  margin: 0 20px;
+}
+.step-dot.active .step-circle {
+  border-color: var(--preto);
+  background: var(--preto);
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.1);
+}
+.step-dot.done .step-circle {
+  border-color: var(--amarelo);
+  background: var(--amarelo);
+  color: var(--preto);
+}
+.step-label { font-size: .68rem; font-weight: 600; color: #999; white-space: nowrap; }
+.step-dot.active .step-label { color: var(--preto); }
+.step-dot.done .step-label  { color: var(--amarelo2); }
+
+/* ── Layout principal ────────────────── */
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1.2rem;
+  align-items: start;
+  margin: 1.5rem 0 4rem;
+}
+@media(max-width: 767px) {
+  .calc-layout { grid-template-columns: 1fr; }
+  .price-sidebar { order: -1; }
+}
+
+/* ── Painel do Wizard ────────────────── */
+.wizard-panel {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  padding: 2rem;
+}
+.step-section { display: none; }
+.step-section.active { display: block; animation: fadeIn .3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+.step-title    { font-size: 1.2rem; font-weight: 700; color: #111; margin-bottom: .2rem; }
+.step-subtitle { font-size: .88rem; color: #777; border-bottom: 2px solid var(--amarelo); padding-bottom: .8rem; margin-bottom: 1.4rem; }
+
+/* ── Cards de Opção ─────────────────── */
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+  gap: .8rem;
+  margin-bottom: 1rem;
+}
+.option-card {
+  border: 2px solid var(--borda);
+  border-radius: 10px;
+  padding: .85rem .7rem;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  background: #fff;
+  user-select: none;
+  position: relative;
+}
+.option-card:hover  { border-color: #555; box-shadow: 0 4px 16px rgba(0,0,0,.1); transform: translateY(-3px); }
+.option-card.selected { border-color: var(--amarelo); background: #fffbea; box-shadow: 0 4px 16px rgba(255,193,7,.2); }
+.option-card img { width: 100%; height: 85px; object-fit: contain; border-radius: 6px; margin-bottom: .5rem; background: #f8f9fa; }
+.option-card .card-icon { font-size: 2rem; display: block; margin-bottom: .4rem; }
+.option-card .card-name { font-weight: 700; font-size: .88rem; color: #111; margin-bottom: .2rem; }
+.option-card .card-desc { font-size: .72rem; color: #777; line-height: 1.3; }
+.option-card .card-price { font-size: .78rem; font-weight: 700; color: var(--amarelo2); margin-top: .3rem; }
+.check-badge {
+  position: absolute; top: 7px; right: 7px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--amarelo); color: #111;
+  font-size: .72rem; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .2s;
+}
+.option-card.selected .check-badge { opacity: 1; }
+
+/* ── Campos de Medida ───────────────── */
+.medida-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+@media(max-width: 500px) { .medida-grid { grid-template-columns: 1fr; } }
+.medida-field label { font-size: .82rem; font-weight: 600; color: #333; margin-bottom: .3rem; display: block; }
+.medida-field input,
+.medida-field select { width: 100%; border: 2px solid var(--borda); border-radius: 8px; padding: .6rem .8rem; font-size: .95rem; font-weight: 600; outline: none; transition: border .2s; }
+.medida-field input:focus,
+.medida-field select:focus { border-color: var(--preto); }
+.medida-field .hint { font-size: .7rem; color: #999; margin-top: .2rem; }
+
+/* ── Ilustração SVG ─────────────────── */
+.medida-visual { background: var(--cinza-bg); border-radius: 10px; padding: 1rem; text-align: center; margin-bottom: 1.2rem; border: 1px dashed var(--borda); }
+.medida-visual svg { max-width: 250px; }
+
+/* ── Info Box ────────────────────────── */
+.info-box { background: #fff9e6; border-left: 4px solid var(--amarelo); border-radius: 6px; padding: .7rem 1rem; font-size: .82rem; color: #555; margin-bottom: 1rem; }
+.info-box strong { color: #333; }
+
+/* ── Navegação ──────────────────────── */
+.wizard-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid var(--borda); }
+.btn-prev { background: none; border: 2px solid var(--borda); color: #555; border-radius: 8px; padding: .5rem 1.4rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+.btn-prev:hover { border-color: #333; color: #111; }
+.btn-next { background: var(--amarelo); border: none; color: #000; border-radius: 8px; padding: .6rem 1.8rem; font-weight: 700; cursor: pointer; transition: all .2s; font-size: .95rem; }
+.btn-next:hover { background: var(--amarelo2); transform: translateX(2px); }
+
+/* ── Sidebar de Preço ───────────────── */
+.price-sidebar {
+  background: #111;
+  color: #fff;
+  border-radius: 12px;
+  padding: 1.4rem;
+  position: sticky;
+  top: 1rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+}
+.price-sidebar h3 { font-size: .9rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--amarelo); margin-bottom: .9rem; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: .7rem; }
+.progress-bar-wrap { background: rgba(255,255,255,.1); border-radius: 99px; height: 5px; margin: .4rem 0 .9rem; }
+.progress-bar-fill { background: var(--amarelo); height: 5px; border-radius: 99px; transition: width .4s ease; width: 0%; }
+.price-line { display: flex; justify-content: space-between; padding: .32rem 0; font-size: .8rem; border-bottom: 1px solid rgba(255,255,255,.06); opacity: .35; transition: opacity .3s; }
+.price-line.active { opacity: 1; }
+.price-line .label { color: rgba(255,255,255,.8); }
+.price-line .val   { font-weight: 700; color: var(--amarelo); }
+.price-total { display: flex; justify-content: space-between; align-items: center; margin-top: .9rem; padding-top: .8rem; border-top: 2px solid var(--amarelo); }
+.price-total .label { font-size: .88rem; font-weight: 700; }
+.price-total .val   { font-size: 1.4rem; font-weight: 900; color: var(--amarelo); }
+.price-note { font-size: .65rem; color: rgba(255,255,255,.4); margin-top: .5rem; text-align: center; }
+
+/* ── Formulário de Contato ──────────── */
+.contact-field { margin-bottom: 1rem; }
+.contact-field label { font-size: .82rem; font-weight: 600; color: #333; margin-bottom: .3rem; display: block; }
+.contact-field input,
+.contact-field textarea { width: 100%; border: 2px solid var(--borda); border-radius: 8px; padding: .6rem .9rem; font-size: .95rem; outline: none; transition: border .2s; font-family: inherit; }
+.contact-field input:focus,
+.contact-field textarea:focus { border-color: var(--preto); }
+
+/* ── Resultado Final ────────────────── */
+.result-header { text-align: center; padding: 1.2rem 0 .8rem; }
+.big-price { font-size: 2.6rem; font-weight: 900; color: #111; }
+.big-price span { color: var(--amarelo2); }
+.result-items { background: var(--cinza-bg); border-radius: 10px; padding: 1.2rem; margin: 1rem 0; }
+.result-row { display: flex; justify-content: space-between; padding: .45rem 0; border-bottom: 1px dashed var(--borda); font-size: .88rem; }
+.result-row:last-child { border: none; }
+.result-row .r-label { color: #555; }
+.result-row .r-val   { font-weight: 700; color: #111; }
+
+@media print {
+  nav, .calc-hero, .steps-bar, .price-sidebar, .wizard-nav, .btn-whatsapp, .btn-reset { display: none !important; }
+  .calc-layout { grid-template-columns: 1fr; }
+  .wizard-panel { box-shadow: none; }
+}
+</style>
+
+<!-- HERO -->
+<section class="calc-hero mb-0">
+  <div class="container">
+    <span class="badge bg-warning text-dark mb-3">Simulador de Orçamento</span>
+    <h1>Calcule o custo do seu <span>Galpão</span></h1>
+    <p class="lead mt-2 mb-0">Escolha as especificações e receba uma estimativa instantânea — sem compromisso.</p>
+  </div>
+</section>
+
+<!-- BARRA DE ETAPAS -->
+<div class="steps-bar bg-white border-bottom py-3" id="stepsBar">
+  <div class="step-dot active" data-step="1"><div class="step-circle">1</div><span class="step-label">Medidas</span></div>
+  <div class="step-dot" data-step="2"><div class="step-circle">2</div><span class="step-label">Estrutura</span></div>
+  <div class="step-dot" data-step="3"><div class="step-circle">3</div><span class="step-label">Colunas</span></div>
+  <div class="step-dot" data-step="4"><div class="step-circle">4</div><span class="step-label">Cobertura</span></div>
+  <div class="step-dot" data-step="5"><div class="step-circle">5</div><span class="step-label">Extras</span></div>
+  <div class="step-dot" data-step="6"><div class="step-circle">6</div><span class="step-label">Contato</span></div>
+</div>
+
+<main>
+  <div class="container">
+    <div class="calc-layout">
+
+      <!-- WIZARD -->
+      <div class="wizard-panel">
+
+        <!-- ETAPA 1: MEDIDAS -->
+        <div class="step-section active" id="step-1">
+          <div class="step-title"><i class="bi bi-rulers me-2"></i>Medidas do Galpão</div>
+          <div class="step-subtitle">Informe as dimensões. Não precisa ser exato — ajustamos na visita técnica.</div>
+          <div class="medida-visual">
+            <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
+              <line x1="20" y1="115" x2="260" y2="115" stroke="#ccc" stroke-width="1.5"/>
+              <rect x="40" y="60" width="200" height="55" fill="none" stroke="#111" stroke-width="2"/>
+              <polyline points="40,60 140,20 260,60" fill="none" stroke="#111" stroke-width="2.5"/>
+              <line x1="40" y1="125" x2="260" y2="125" stroke="#ffc107" stroke-width="1.5"/>
+              <text x="150" y="123" font-size="9" fill="#997404" text-anchor="middle" font-weight="bold">COMPRIMENTO</text>
+              <text x="6" y="90" font-size="7" fill="#997404" text-anchor="middle" font-weight="bold" transform="rotate(-90,6,90)">LARGURA</text>
+              <line x1="268" y1="60" x2="268" y2="115" stroke="#555" stroke-width="1.5" stroke-dasharray="4,2"/>
+              <text x="276" y="90" font-size="7" fill="#555" text-anchor="middle" font-weight="bold" transform="rotate(90,276,90)">PÉ-DIREITO</text>
+            </svg>
+          </div>
+          <div class="medida-grid">
+            <div class="medida-field">
+              <label><i class="bi bi-arrow-left-right me-1"></i>Comprimento (m)</label>
+              <input type="number" id="comprimento" min="4" max="200" step="0.5" placeholder="Ex: 20" oninput="recalc()">
+              <div class="hint">Tamanho do lado mais longo</div>
+            </div>
+            <div class="medida-field">
+              <label><i class="bi bi-arrow-down-up me-1"></i>Largura / Vão (m)</label>
+              <input type="number" id="largura" min="3" max="40" step="0.5" placeholder="Ex: 15" oninput="recalc()">
+              <div class="hint">Largura total (entre colunas)</div>
+            </div>
+            <div class="medida-field">
+              <label><i class="bi bi-building me-1"></i>Pé-Direito (m)</label>
+              <select id="pe_direito" onchange="recalc()">
+                <option value="">Selecione...</option>
+                <option value="3">3 metros</option>
+                <option value="3.5">3,5 metros</option>
+                <option value="4">4 metros</option>
+                <option value="4.5">4,5 metros</option>
+                <option value="5">5 metros</option>
+                <option value="6">6 metros</option>
+                <option value="7">7 metros</option>
+              </select>
+              <div class="hint">Altura das colunas</div>
+            </div>
+          </div>
+          <div class="info-box"><i class="bi bi-lightbulb me-1"></i><strong>Dica:</strong> Para depósitos leves, 3–4m é suficiente. Para empilhadeiras e maquinários pesados, recomendamos 5m ou mais.</div>
+          <div class="wizard-nav"><span></span><button class="btn-next" onclick="goNext(1)">Próximo <i class="bi bi-arrow-right ms-1"></i></button></div>
+        </div>
+
+        <!-- ETAPA 2: TESOURA -->
+        <div class="step-section" id="step-2">
+          <div class="step-title"><i class="bi bi-triangle me-2"></i>Tipo de Estrutura / Tesoura</div>
+          <div class="step-subtitle">O formato do telhado define resistência, estética e custo da obra.</div>
+          <div class="option-grid">
+            <div class="option-card" data-group="tesoura" data-val="duas_aguas" onclick="selectCard(this,'tesoura')">
+              <div class="check-badge">✓</div>
+              <img src="assets/img/duas_aguas.png" alt="Duas Águas" onerror="this.style.display='none'">
+              <div class="card-name">Duas Águas</div>
+              <div class="card-desc">Modelo clássico e simétrico. Ideal para galpões industriais e armazéns.</div>
+              <div class="card-price">Referência base</div>
+            </div>
+            <div class="option-card" data-group="tesoura" data-val="uma_agua" onclick="selectCard(this,'tesoura')">
+              <div class="check-badge">✓</div>
+              <img src="assets/img/uma_agua.png" alt="Uma Água" onerror="this.style.display='none'">
+              <div class="card-name">Uma Água</div>
+              <div class="card-desc">Uma só inclinação. Ótimo para laterais de muro, garagens e coberturas simples.</div>
+              <div class="card-price">~35% mais econômico</div>
+            </div>
+            <div class="option-card" data-group="tesoura" data-val="arco_abaulado" onclick="selectCard(this,'tesoura')">
+              <div class="check-badge">✓</div>
+              <img src="assets/img/arco_abaulado.png" alt="Arco Abaulado" onerror="this.style.display='none'">
+              <div class="card-name">Arco Abaulado</div>
+              <div class="card-desc">Curvado e elegante. Alta resistência ao vento. Muito usado em igrejas e salões.</div>
+              <div class="card-price">~35% adicional</div>
+            </div>
+            <div class="option-card" data-group="tesoura" data-val="scissor" onclick="selectCard(this,'tesoura')">
+              <div class="check-badge">✓</div>
+              <img src="assets/img/scissor.png" alt="Scissor" onerror="this.style.display='none'">
+              <div class="card-name">Scissor (Tesoura X)</div>
+              <div class="card-desc">Pé-direito alto no centro. Efeito visual impressionante para showrooms e eventos.</div>
+              <div class="card-price">~50% adicional</div>
+            </div>
+          </div>
+          <div class="info-box"><i class="bi bi-lightbulb me-1"></i><strong>Não sabe qual escolher?</strong> A <strong>Duas Águas</strong> é a mais usada na indústria — excelente escoamento e melhor custo-benefício.</div>
+          <div class="wizard-nav">
+            <button class="btn-prev" onclick="goPrev(2)"><i class="bi bi-arrow-left me-1"></i>Anterior</button>
+            <button class="btn-next" onclick="goNext(2)">Próximo <i class="bi bi-arrow-right ms-1"></i></button>
+          </div>
+        </div>
+
+        <!-- ETAPA 3: COLUNAS -->
+        <div class="step-section" id="step-3">
+          <div class="step-title"><i class="bi bi-columns-gap me-2"></i>Perfil das Colunas</div>
+          <div class="step-subtitle">As colunas sustentam toda a estrutura. Cada perfil tem características de carga e custo diferentes.</div>
+          <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(185px,1fr))">
+            <div class="option-card" data-group="coluna" data-val="perfil_u" onclick="selectCard(this,'coluna')">
+              <div class="check-badge">✓</div>
+              <span class="card-icon">⊏</span>
+              <div class="card-name">Perfil U (Calha)</div>
+              <div class="card-desc">Aço dobrado em U. Econômico, muito usado em galpões leves e médios até 15m de vão.</div>
+              <div class="card-price">Mais econômico</div>
+            </div>
+            <div class="option-card" data-group="coluna" data-val="tubo_ret" onclick="selectCard(this,'coluna')">
+              <div class="check-badge">✓</div>
+              <span class="card-icon">▭</span>
+              <div class="card-name">Tubo Retangular</div>
+              <div class="card-desc">Alta resistência à torção. Acabamento limpo. Ideal para vãos médios (15–25m).</div>
+              <div class="card-price">Intermediário</div>
+            </div>
+            <div class="option-card" data-group="coluna" data-val="perfil_w" onclick="selectCard(this,'coluna')">
+              <div class="check-badge">✓</div>
+              <span class="card-icon">I</span>
+              <div class="card-name">Perfil W (Duplo I)</div>
+              <div class="card-desc">Máxima resistência à flexão. Para galpões pesados, pontes rolantes e vãos acima de 25m.</div>
+              <div class="card-price">Premium</div>
+            </div>
+          </div>
+          <div class="info-box"><i class="bi bi-lightbulb me-1"></i>Tem dúvida sobre qual usar? Nosso técnico fará a indicação correta na visita, garantindo segurança e economia.</div>
+          <div class="wizard-nav">
+            <button class="btn-prev" onclick="goPrev(3)"><i class="bi bi-arrow-left me-1"></i>Anterior</button>
+            <button class="btn-next" onclick="goNext(3)">Próximo <i class="bi bi-arrow-right ms-1"></i></button>
+          </div>
+        </div>
+
+        <!-- ETAPA 4: COBERTURA -->
+        <div class="step-section" id="step-4">
+          <div class="step-title"><i class="bi bi-house-roof me-2"></i>Cobertura e Telhas</div>
+          <div class="step-subtitle">Escolha o tipo de telha e as terças que vão sustentar a cobertura.</div>
+
+          <div class="mb-4">
+            <div class="fw-bold small text-uppercase mb-2 text-muted">Tipo de Telha</div>
+            <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(172px,1fr))">
+              <div class="option-card" data-group="telha" data-val="ondulada_043" onclick="selectCard(this,'telha')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">〰️</span>
+                <div class="card-name">Ondulada 0,43mm</div>
+                <div class="card-desc">Galvanizada. A mais popular para depósitos e garagens. Boa durabilidade e custo.</div>
+                <div class="card-price">R$ 32/m²</div>
+              </div>
+              <div class="option-card" data-group="telha" data-val="trapezoidal_050" onclick="selectCard(this,'telha')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">⌇</span>
+                <div class="card-name">Trapezoidal 0,50mm</div>
+                <div class="card-desc">Perfil trapezoidal, maior rigidez. Excelente para galpões industriais e comerciais.</div>
+                <div class="card-price">R$ 45/m²</div>
+              </div>
+              <div class="option-card" data-group="telha" data-val="sanduiche" onclick="selectCard(this,'telha')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">🧊</span>
+                <div class="card-name">Sanduíche Isotérmica</div>
+                <div class="card-desc">Dupla face com isolamento interno. Conforto térmico e acústico superior.</div>
+                <div class="card-price">R$ 95/m²</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="fw-bold small text-uppercase mb-2 text-muted">Tipo de Terça</div>
+            <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(172px,1fr))">
+              <div class="option-card" data-group="terca" data-val="simples" onclick="selectCard(this,'terca')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">━</span>
+                <div class="card-name">Terça Simples</div>
+                <div class="card-desc">Perfil leve. Para vãos curtos e cargas de telha moderadas.</div>
+              </div>
+              <div class="option-card" data-group="terca" data-val="enrigecida" onclick="selectCard(this,'terca')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">━━</span>
+                <div class="card-name">Terça Enrijecida</div>
+                <div class="card-desc">Com enrijecedor. Mais resistente à flambagem. Recomendada para a maioria dos galpões.</div>
+                <div class="card-price">R$ 140/peça 6m</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wizard-nav">
+            <button class="btn-prev" onclick="goPrev(4)"><i class="bi bi-arrow-left me-1"></i>Anterior</button>
+            <button class="btn-next" onclick="goNext(4)">Próximo <i class="bi bi-arrow-right ms-1"></i></button>
+          </div>
+        </div>
+
+        <!-- ETAPA 5: EXTRAS -->
+        <div class="step-section" id="step-5">
+          <div class="step-title"><i class="bi bi-door-open me-2"></i>Fechamentos e Acessórios</div>
+          <div class="step-subtitle">Configure os elementos complementares da sua estrutura.</div>
+
+          <div class="mb-4">
+            <div class="fw-bold small text-uppercase mb-2 text-muted">Fechamento Lateral</div>
+            <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(155px,1fr))">
+              <div class="option-card" data-group="fechamento" data-val="sem" onclick="selectCard(this,'fechamento')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">🌬️</span>
+                <div class="card-name">Sem Fechamento</div>
+                <div class="card-desc">Estrutura aberta. Para garagens, coberturas abertas e pátios.</div>
+              </div>
+              <div class="option-card" data-group="fechamento" data-val="meia_parede" onclick="selectCard(this,'fechamento')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">▪️</span>
+                <div class="card-name">Meia Parede</div>
+                <div class="card-desc">Fechamento até a metade da altura. Ventilação com proteção parcial.</div>
+              </div>
+              <div class="option-card" data-group="fechamento" data-val="completo" onclick="selectCard(this,'fechamento')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">🏭</span>
+                <div class="card-name">Fechamento Total</div>
+                <div class="card-desc">Laterais totalmente fechadas em chapa metálica. Máxima proteção.</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="fw-bold small text-uppercase mb-2 text-muted">Portão Principal</div>
+            <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(155px,1fr))">
+              <div class="option-card" data-group="portao" data-val="sem" onclick="selectCard(this,'portao')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon">—</span>
+                <div class="card-name">Sem Portão</div>
+                <div class="card-desc">Abertura livre ou portão por conta do cliente.</div>
+              </div>
+              <div class="option-card" data-group="portao" data-val="basculante" onclick="selectCard(this,'portao')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon" style="font-size:1.6rem"><i class="bi bi-arrow-up-square"></i></span>
+                <div class="card-name">Basculante</div>
+                <div class="card-desc">Abre de baixo para cima. Ótimo para caminhões e garagens altas.</div>
+              </div>
+              <div class="option-card" data-group="portao" data-val="deslizante" onclick="selectCard(this,'portao')">
+                <div class="check-badge">✓</div>
+                <span class="card-icon" style="font-size:1.6rem"><i class="bi bi-arrow-left-right"></i></span>
+                <div class="card-name">Deslizante</div>
+                <div class="card-desc">Desliza lateralmente. Ideal quando não há espaço para abrir frontal.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wizard-nav">
+            <button class="btn-prev" onclick="goPrev(5)"><i class="bi bi-arrow-left me-1"></i>Anterior</button>
+            <button class="btn-next" onclick="goNext(5)">Próximo <i class="bi bi-arrow-right ms-1"></i></button>
+          </div>
+        </div>
+
+        <!-- ETAPA 6: CONTATO -->
+        <div class="step-section" id="step-6">
+          <div class="step-title"><i class="bi bi-person-lines-fill me-2"></i>Seus Dados</div>
+          <div class="step-subtitle">Informe seus dados para que possamos entrar em contato e confirmar o orçamento.</div>
+          <div class="contact-field">
+            <label><i class="bi bi-person me-1"></i>Seu Nome *</label>
+            <input type="text" id="c_nome" placeholder="Ex: João Silva">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="contact-field">
+              <label><i class="bi bi-whatsapp me-1"></i>WhatsApp *</label>
+              <input type="tel" id="c_fone" placeholder="(44) 99999-9999">
+            </div>
+            <div class="contact-field">
+              <label><i class="bi bi-geo-alt me-1"></i>Cidade / Estado</label>
+              <input type="text" id="c_cidade" placeholder="Ex: Maringá – PR">
+            </div>
+          </div>
+          <div class="contact-field">
+            <label><i class="bi bi-chat-text me-1"></i>Observações (opcional)</label>
+            <textarea id="c_obs" rows="3" placeholder="Localização, prazo, acesso ao terreno, finalidade do galpão..."></textarea>
+          </div>
+          <div class="info-box"><i class="bi bi-shield-lock me-1"></i><strong>Privacidade:</strong> Seus dados são usados apenas para contato sobre este orçamento.</div>
+          <div class="wizard-nav">
+            <button class="btn-prev" onclick="goPrev(6)"><i class="bi bi-arrow-left me-1"></i>Anterior</button>
+            <button class="btn-next" onclick="showResult()">Ver Meu Orçamento <i class="bi bi-check2-circle ms-1"></i></button>
+          </div>
+        </div>
+
+        <!-- ETAPA 7: RESULTADO -->
+        <div class="step-section" id="step-7">
+          <div class="result-header">
+            <div style="font-size:2.2rem;margin-bottom:.4rem">🎉</div>
+            <div class="text-muted small mb-1">Estimativa para o seu galpão</div>
+            <div class="big-price">R$ <span id="res-total-val">0</span></div>
+            <div class="text-muted" style="font-size:.78rem;margin-top:.3rem">Valor de referência — sujeito a visita técnica</div>
+          </div>
+
+          <div class="result-items" id="result-breakdown"></div>
+
+          <div class="alert alert-warning" style="font-size:.78rem">
+            <i class="bi bi-exclamation-triangle me-1"></i>
+            Este orçamento é uma <strong>estimativa de referência</strong>. O valor final pode variar conforme dificuldades de acesso, tipo de solo, frete e personalizações. Nossa equipe confirmará todos os detalhes.
+          </div>
+
+          <a id="btn-whatsapp" href="#" target="_blank" class="btn btn-success w-100 fw-bold py-3 mb-2" style="font-size:1.05rem">
+            <i class="bi bi-whatsapp me-2"></i>Enviar Orçamento pelo WhatsApp
+          </a>
+          <button onclick="window.print()" class="btn btn-dark w-100 fw-bold py-2 mb-2">
+            <i class="bi bi-printer me-2"></i>Imprimir / Salvar PDF
+          </button>
+          <div class="text-center">
+            <button onclick="location.reload()" class="btn btn-link text-muted small btn-reset">
+              <i class="bi bi-arrow-counterclockwise me-1"></i>Fazer novo orçamento
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /.wizard-panel -->
+
+      <!-- SIDEBAR DE PREÇO -->
+      <div class="price-sidebar">
+        <h3><i class="bi bi-lightning-charge-fill me-1"></i>Resumo</h3>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="sidebarProgress"></div></div>
+        <div class="price-line" id="sl-estrutura"><span class="label">🔩 Tesouras</span><span class="val" id="sv-estrutura">—</span></div>
+        <div class="price-line" id="sl-colunas"><span class="label">🏗️ Colunas</span><span class="val" id="sv-colunas">—</span></div>
+        <div class="price-line" id="sl-terca"><span class="label">📐 Terças</span><span class="val" id="sv-terca">—</span></div>
+        <div class="price-line" id="sl-tirante"><span class="label">⚙️ Tirantes</span><span class="val" id="sv-tirante">—</span></div>
+        <div class="price-line" id="sl-chumbador"><span class="label">🔧 Chumbadores</span><span class="val" id="sv-chumbador">—</span></div>
+        <div class="price-line" id="sl-telha"><span class="label">🏠 Telhas</span><span class="val" id="sv-telha">—</span></div>
+        <div class="price-line" id="sl-fechamento"><span class="label">🏭 Fechamento</span><span class="val" id="sv-fechamento">—</span></div>
+        <div class="price-line" id="sl-portao"><span class="label">🚪 Portão</span><span class="val" id="sv-portao">—</span></div>
+        <div class="price-total">
+          <span class="label">TOTAL</span>
+          <span class="val" id="sidebar-total">R$ 0</span>
+        </div>
+        <div class="price-note">Estimativa de referência</div>
+      </div>
+
+    </div><!-- /.calc-layout -->
+  </div><!-- /.container -->
+</main>
+
+<script>
+// ═══════════════════════════════════
+//  PREÇOS — edite aqui para atualizar
+// ═══════════════════════════════════
+const P = {
+  tesoura_base_por_metro: 180, // R$2700 / 15m = R$180/m de vão
+  tesoura_mult: { duas_aguas:1.00, uma_agua:0.65, arco_abaulado:1.35, scissor:1.50 },
+  espacamento_tesoura: 3,
+  coluna_pm: { perfil_u:90, tubo_ret:120, perfil_w:160 },
+  terca_6m: { simples:85, enrigecida:140 },
+  terca_espacamento: 1.5,
+  tirante_6m: 35,
+  chumbador_col: 80,
+  telha_m2: { ondulada_043:32, trapezoidal_050:45, sanduiche:95 },
+  fechamento_m2: { sem:0, meia_parede:30, completo:55 },
+  portao: { sem:0, basculante:2800, deslizante:3500 }
+};
+
+const sel = { comprimento:null, largura:null, pe_direito:null, tesoura:null, coluna:null, telha:null, terca:null, fechamento:null, portao:null };
+
+function goNext(step) {
+  if (!validateStep(step)) return;
+  document.getElementById('step-'+step).classList.remove('active');
+  document.getElementById('step-'+(step+1)).classList.add('active');
+  updateBar(step+1);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goPrev(step) {
+  document.getElementById('step-'+step).classList.remove('active');
+  document.getElementById('step-'+(step-1)).classList.add('active');
+  updateBar(step-1);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showResult() {
+  if (!validateStep(6)) return;
+  buildResult();
+  document.getElementById('step-6').classList.remove('active');
+  document.getElementById('step-7').classList.add('active');
+  updateBar(7);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateBar(to) {
+  document.querySelectorAll('.step-dot').forEach(d => {
+    const n = parseInt(d.dataset.step);
+    d.classList.remove('active','done');
+    if (n < to) d.classList.add('done');
+    if (n === to) d.classList.add('active');
+  });
+  document.getElementById('sidebarProgress').style.width = Math.min(((to-1)/6)*100,100)+'%';
+}
+
+function validateStep(step) {
+  if (step===1) {
+    const c=parseFloat(document.getElementById('comprimento').value);
+    const l=parseFloat(document.getElementById('largura').value);
+    const p=parseFloat(document.getElementById('pe_direito').value);
+    if (!c||c<2){alert('Informe o comprimento (mínimo 2m).');return false;}
+    if (!l||l<2){alert('Informe a largura / vão (mínimo 2m).');return false;}
+    if (!p){alert('Selecione o pé-direito.');return false;}
+    sel.comprimento=c;sel.largura=l;sel.pe_direito=p;recalc();return true;
+  }
+  if (step===2&&!sel.tesoura){alert('Selecione o tipo de tesoura.');return false;}
+  if (step===3&&!sel.coluna){alert('Selecione o tipo de coluna.');return false;}
+  if (step===4&&(!sel.telha||!sel.terca)){alert('Selecione o tipo de telha e de terça.');return false;}
+  if (step===5&&(!sel.fechamento||!sel.portao)){alert('Selecione o fechamento e o portão.');return false;}
+  if (step===6){
+    if(!document.getElementById('c_nome').value.trim()){alert('Informe seu nome.');return false;}
+    if(!document.getElementById('c_fone').value.trim()){alert('Informe seu WhatsApp.');return false;}
+  }
+  return true;
+}
+
+function selectCard(el,group) {
+  document.querySelectorAll('.option-card[data-group="'+group+'"]').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  sel[group]=el.dataset.val;
+  recalc();
+}
+
+function calcAll() {
+  const r={};
+  const C=sel.comprimento||0,L=sel.largura||0,PD=sel.pe_direito||0;
+  if(!C||!L||!PD) return r;
+  const nTes=Math.ceil(C/P.espacamento_tesoura)+1;
+  const nCol=nTes*2;
+  if(sel.tesoura) r.estrutura=nTes*L*P.tesoura_base_por_metro*(P.tesoura_mult[sel.tesoura]||1);
+  if(sel.coluna)  r.colunas=nCol*PD*(P.coluna_pm[sel.coluna]||0);
+  if(sel.terca){
+    const nA=sel.tesoura==='uma_agua'?1:2;
+    const fil=Math.ceil((L/2*1.08)/P.terca_espacamento)+1;
+    const pec=Math.ceil(C/6)+1;
+    r.terca=fil*pec*nA*(P.terca_6m[sel.terca]||0);
+  }
+  r.tirante=nTes*2*P.tirante_6m;
+  r.chumbador=nCol*P.chumbador_col;
+  if(sel.telha){
+    const nA=sel.tesoura==='uma_agua'?1:2;
+    r.telha=(L/2*1.08)*C*nA*(P.telha_m2[sel.telha]||0);
+  }
+  if(sel.fechamento){
+    const fator={sem:0,meia_parede:0.5,completo:1};
+    r.fechamento=(2*C+2*L)*PD*(fator[sel.fechamento]||0)*(P.fechamento_m2[sel.fechamento]||0);
+  }
+  if(sel.portao) r.portao=P.portao[sel.portao]||0;
+  r.total=Object.values(r).reduce((a,b)=>a+b,0);
+  return r;
+}
+
+function fmt(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+function recalc(){
+  const r=calcAll();
+  const map=[
+    ['estrutura','sl-estrutura','sv-estrutura'],['colunas','sl-colunas','sv-colunas'],
+    ['terca','sl-terca','sv-terca'],['tirante','sl-tirante','sv-tirante'],
+    ['chumbador','sl-chumbador','sv-chumbador'],['telha','sl-telha','sv-telha'],
+    ['fechamento','sl-fechamento','sv-fechamento'],['portao','sl-portao','sv-portao'],
+  ];
+  map.forEach(([k,li,vi])=>{
+    const line=document.getElementById(li),val=document.getElementById(vi);
+    if(r[k]!==undefined){line.classList.add('active');val.textContent=fmt(r[k]);}
+    else{line.classList.remove('active');val.textContent='—';}
+  });
+  document.getElementById('sidebar-total').textContent=r.total?fmt(r.total):'R$ 0';
+}
+
+function buildResult(){
+  const r=calcAll();
+  document.getElementById('res-total-val').textContent=r.total?r.total.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'0';
+  const nomes={estrutura:'🔩 Tesouras estruturais',colunas:'🏗️ Colunas',terca:'📐 Terças',tirante:'⚙️ Tirantes',chumbador:'🔧 Chumbadores e fixações',telha:'🏠 Telhas',fechamento:'🏭 Fechamento lateral',portao:'🚪 Portão'};
+  let html='';
+  Object.entries(nomes).forEach(([k,l])=>{if(r[k]!==undefined)html+=`<div class="result-row"><span class="r-label">${l}</span><span class="r-val">${fmt(r[k])}</span></div>`;});
+  html+=`<div class="result-row" style="font-size:1rem;font-weight:900;padding-top:.8rem"><span class="r-label fw-bold">TOTAL ESTIMADO</span><span class="r-val" style="color:var(--amarelo2);font-size:1.1rem">${fmt(r.total||0)}</span></div>`;
+  document.getElementById('result-breakdown').innerHTML=html;
+
+  const nome=document.getElementById('c_nome').value||'Cliente';
+  const fone=document.getElementById('c_fone').value||'';
+  const cidade=document.getElementById('c_cidade').value||'';
+  const obs=document.getElementById('c_obs').value||'';
+  const lT={duas_aguas:'Duas Águas',uma_agua:'Uma Água',arco_abaulado:'Arco Abaulado',scissor:'Scissor'};
+  const lC={perfil_u:'Perfil U',tubo_ret:'Tubo Retangular',perfil_w:'Perfil W'};
+  const lTe={ondulada_043:'Ondulada 0,43mm',trapezoidal_050:'Trapezoidal 0,50mm',sanduiche:'Sanduíche Isotérmico'};
+  const lTr={simples:'Simples',enrigecida:'Enrijecida'};
+  const lF={sem:'Sem fechamento',meia_parede:'Meia parede',completo:'Completo'};
+  const lP={sem:'Sem portão',basculante:'Basculante',deslizante:'Deslizante'};
+
+  const msg=[
+    `🏗️ *ORÇAMENTO DE GALPÃO – Metalúrgica Oliveira*`,``,
+    `👤 *Cliente:* ${nome}`,
+    fone?`📱 *WhatsApp:* ${fone}`:'',
+    cidade?`🏙️ *Cidade:* ${cidade}`:'',``,
+    `📐 *MEDIDAS:*`,
+    `• Comprimento: ${sel.comprimento}m`,`• Largura/Vão: ${sel.largura}m`,`• Pé-direito: ${sel.pe_direito}m`,``,
+    `🔩 *CONFIGURAÇÃO:*`,
+    `• Tesoura: ${lT[sel.tesoura]||'-'}`,`• Colunas: ${lC[sel.coluna]||'-'}`,
+    `• Telha: ${lTe[sel.telha]||'-'}`,`• Terça: ${lTr[sel.terca]||'-'}`,
+    `• Fechamento: ${lF[sel.fechamento]||'-'}`,`• Portão: ${lP[sel.portao]||'-'}`,``,
+    `💰 *ESTIMATIVA TOTAL: ${fmt(r.total||0)}*`,``,
+    obs?`💬 *Obs:* ${obs}`:'',``,
+    `_Gerado pela calculadora – Metalúrgica Oliveira_`
+  ].filter(l=>l!=='').join('\n');
+
+  document.getElementById('btn-whatsapp').href='https://wa.me/5544998318534?text='+encodeURIComponent(msg);
+}
+</script>
+
+<?php include "includes/footer.php"; ?>

@@ -40,6 +40,10 @@
                 <i class="bi bi-telephone mb-1"></i>
                 Contato
             </a>
+            <a class="nav-link d-flex flex-column align-items-center fw-bold<?php echo $paginaAtual === 'calculadora.php' ? ' active' : ''; ?>" href="calculadora.php" style="color:#ffc107!important">
+                <i class="bi bi-calculator-fill mb-1" style="color:#ffc107"></i>
+                Calcule seu Galpão
+            </a>
         </div>
     </div>
 </nav>

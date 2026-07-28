@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     "total_bruto" => $totalBruto,
                 ];
 
-                $mensagemSucesso = "Orçamento registrado com sucesso. Número #{$orcamentoId}.";
+                $mensagemSucesso = "Orçamento registrado com sucesso.";
             } catch (PDOException $erro) {
                 $pdo->rollBack();
                 $mensagemErro = "Erro ao salvar orçamento: " . $erro->getMessage();

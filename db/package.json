@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ffuf": "^0.0.34",
+    "prompt-sync": "^4.2.0"
+  }
+}

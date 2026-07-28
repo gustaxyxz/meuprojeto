@@ -48,11 +48,11 @@ if ($filtroPreco !== '' && is_numeric($filtroPreco)) {
     <p class="lead">Conheça nossos produtos a pronta entrega.</p>
 
     <?php if ($mensagemValidacao !== "OK") { ?>
-        <!-- Exibe o erro da validação de negócio se houver problema no array -->
+        
         <div class="alert alert-warning"><?php echo $mensagemValidacao; ?></div>
     <?php } else { ?>
 
-        <!-- Formulário de Filtro -->
+       
         <form method="GET" action="servicos.php" class="row g-3 mb-5 bg-light p-3 rounded shadow-sm align-items-end">
             <div class="col-md-4">
                 <label class="form-label fw-bold">Qual o seu orçamento ideal?</label>
@@ -96,7 +96,7 @@ if ($filtroPreco !== '' && is_numeric($filtroPreco)) {
                                 Tabela: R$ <?php echo number_format($produto["preco_base"], 2, ",", "."); ?>
                             </p>
                             <p class="fw-bold text-success fs-5 mb-0">
-                                R$ <?php echo number_format($precoComDesconto, 2, ",", "."); ?> <small class="text-muted fs-6">no PIX</small>
+                                R$ <?php echo number_format($precoComDesconto, 2, ",", "."); ?> <small class="text-muted fs-6">à vista</small>
                             </p>
                         </div>
                     </div>
