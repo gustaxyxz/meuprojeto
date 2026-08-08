@@ -179,9 +179,10 @@
         </td>
         <td>${badgeFab(p.status_fabricacao)}</td>
         <td>${badgePag(p.status_pagamento)}</td>
-        <td>
-          <a href="extrato.html?id=${p.id_pedido}" class="btn-acao btn-ver me-1"><i class="bi bi-file-earmark-pdf"></i>Extrato</a>
-          <a href="pagamentos.html?id=${p.id_pedido}" class="btn-acao btn-pag"><i class="bi bi-cash"></i>Pagar</a>
+        <td style="white-space:nowrap">
+          <a href="proposta.html?id=${p.id_pedido}" class="btn-acao me-1" style="background:#7c3aed;color:#fff" title="Proposta / Orçamento em PDF"><i class="bi bi-file-text"></i>Proposta</a>
+          <a href="pagamentos.html?id=${p.id_pedido}" class="btn-acao btn-pag me-1" title="Registrar pagamento recebido"><i class="bi bi-cash"></i>Pagar</a>
+          <a href="extrato.html?id=${p.id_pedido}" class="btn-acao btn-ver" title="Extrato com comprovantes"><i class="bi bi-file-earmark-pdf"></i>Extrato</a>
         </td>
       </tr>`).join('');
 

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposta Comercial / Orçamento — Metalúrgica Oliveira</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --amarelo: #ffc107; --preto: #111; }
+    body { background: #e8eaed; font-family: 'Segoe UI', sans-serif; }
+
+    .admin-nav { background: #111; padding: .75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .admin-nav .brand { color: var(--amarelo); font-weight: 800; font-size: 1.05rem; }
+    .admin-nav .nav-links a { color: #aaa; text-decoration: none; margin-left: 1.5rem; font-size: .88rem; font-weight: 600; }
+    .admin-nav .nav-links a:hover { color: #fff; }
+    .admin-nav .btn-sair { background: none; border: 1px solid #444; color: #aaa; border-radius: 6px; padding: .3rem .8rem; font-size: .8rem; cursor: pointer; }
+
+    /* Barra de topo */
+    .action-bar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 1rem 2rem; display: flex; gap: .8rem; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; }
+    .btn-pdf { background: #111; color: #fff; border: none; border-radius: 8px; padding: .6rem 1.4rem; font-weight: 700; font-size: .88rem; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: .4rem; }
+    .btn-pdf:hover { background: #333; }
+    .btn-wpp { background: #25d366; color: #fff; border: none; border-radius: 8px; padding: .6rem 1.4rem; font-weight: 700; font-size: .88rem; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: .4rem; }
+    .btn-wpp:hover { background: #1da851; }
+
+    /* Folha A4 */
+    .doc-wrapper { max-width: 860px; margin: 2rem auto 4rem; padding: 0 1rem; }
+    .doc-a4 {
+      background: #fff;
+      box-shadow: 0 8px 40px rgba(0,0,0,.15);
+      border-radius: 4px;
+      padding: 50px 56px;
+      min-height: 297mm;
+      position: relative;
+    }
+    .doc-a4::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #111 0%, #ffc107 55%, #111 100%);
+      border-radius: 4px 4px 0 0;
+    }
+
+    /* Cabeçalho */
+    .doc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 2.5px solid #111; }
+    .logo-box { display: flex; align-items: center; gap: 14px; }
+    .logo-img { height: 58px; width: 58px; object-fit: contain; background: #111; border-radius: 10px; padding: 6px; }
+    .emp-nome { font-size: 1.25rem; font-weight: 900; color: #111; line-height: 1.1; }
+    .emp-nome span { color: #e6a800; }
+    .emp-sub { font-size: .68rem; color: #777; line-height: 1.5; margin-top: .25rem; }
+    .doc-id { text-align: right; }
+    .doc-id .badge-tipo { font-size: .62rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #777; background: #f5f5f5; padding: .2rem .6rem; border-radius: 4px; display: inline-block; }
+    .doc-id .num { font-size: 1.7rem; font-weight: 900; color: #111; margin-top: .25rem; line-height: 1; }
+    .doc-id .data { font-size: .72rem; color: #888; margin-top: .3rem; }
+
+    /* Seções */
+    .sec-title { font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #999; margin: 20px 0 10px; display: flex; align-items: center; gap: .5rem; }
+    .sec-title::after { content: ''; flex: 1; height: 1px; background: #eee; }
+
+    /* Info Grid */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px 20px; }
+    .info-item .lbl { font-size: .65rem; color: #aaa; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+    .info-item .val { font-size: .88rem; color: #111; font-weight: 700; }
+
+    /* Box de especificações */
+    .materiais-box { background: #fafafa; border: 1px solid #eee; border-left: 4px solid #ffc107; border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: .82rem; color: #333; line-height: 1.9; white-space: pre-line; }
+
+    /* Tabela de Composição / Preço */
+    .preco-box { background: #111; color: #fff; border-radius: 10px; padding: 20px 24px; margin-top: 18px; }
+    .preco-row { display: flex; justify-content: space-between; padding: .35rem 0; font-size: .85rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .preco-row:last-child { border: none; }
+    .preco-row .pl { color: #aaa; }
+    .preco-row .pv { font-weight: 700; color: #fff; }
+    .preco-destaque { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 2px solid #ffc107; }
+    .preco-destaque .pl { font-weight: 800; font-size: 1rem; color: #fff; }
+    .preco-destaque .pv { font-size: 1.8rem; font-weight: 900; color: #ffc107; }
+
+    /* Condições Comerciais */
+    .condicoes-box { background: #fafafa; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px 18px; font-size: .72rem; color: #666; line-height: 1.8; margin-top: 20px; }
+    .condicoes-box strong { color: #222; }
+
+    /* Assinaturas */
+    .assinaturas { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 40px; }
+    .ass { text-align: center; }
+    .ass-linha { border-top: 1.5px solid #ccc; padding-top: 8px; font-size: .72rem; color: #777; }
+    .ass-linha strong { display: block; color: #222; font-size: .82rem; margin-bottom: .2rem; }
+
+    .doc-footer { margin-top: 28px; padding-top: 12px; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; font-size: .65rem; color: #bbb; }
+
+    .loading-full { min-height: 400px; display: flex; align-items: center; justify-content: center; color: #aaa; flex-direction: column; gap: 1rem; font-size: 1rem; }
+
+    @media print {
+      .admin-nav, .action-bar { display: none !important; }
+      body { background: #fff !important; }
+      .doc-wrapper { margin: 0; padding: 0; max-width: 100%; }
+      .doc-a4 { box-shadow: none !important; border-radius: 0; padding: 18mm 20mm; }
+    }
+    @media(max-width:600px) {
+      .doc-a4 { padding: 24px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .assinaturas { grid-template-columns: 1fr; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="admin-nav">
+  <div class="brand"><i class="bi bi-hammer me-2"></i>Metalúrgica Oliveira — Admin</div>
+  <div class="nav-links">
+    <a href="pedidos.html">Pedidos</a>
+    <a href="novo-pedido.html">+ Novo Pedido</a>
+    <button class="btn-sair ms-3" onclick="sair()"><i class="bi bi-box-arrow-right me-1"></i>Sair</button>
+  </div>
+</nav>
+
+<div class="action-bar">
+  <a href="pedidos.html" style="color:#888;text-decoration:none;font-size:.85rem;margin-right:.5rem"><i class="bi bi-arrow-left me-1"></i>Voltar</a>
+  <button class="btn-pdf" onclick="window.print()"><i class="bi bi-printer"></i>Imprimir / Salvar PDF</button>
+  <button class="btn-wpp" id="btnWpp" onclick="enviarWhatsapp()"><i class="bi bi-whatsapp"></i>Enviar Proposta no WhatsApp</button>
+  <a id="btnExtrato" href="#" class="btn btn-outline-dark btn-sm ms-auto fw-bold"><i class="bi bi-receipt me-1"></i>Ver Extrato de Pagamento</a>
+</div>
+
+<div class="doc-wrapper">
+  <div id="docA4" class="doc-a4">
+    <div class="loading-full">
+      <i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite"></i>
+      Carregando proposta...
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/js/supabase-config.js"></script>
+<script>
+  if (sessionStorage.getItem('admin_ok') !== 'true') location.href = 'index.html';
+  function sair() { sessionStorage.removeItem('admin_ok'); location.href = 'index.html'; }
+
+  const params = new URLSearchParams(location.search);
+  const idPedido = params.get('id');
+  if (!idPedido) location.href = 'pedidos.html';
+
+  document.getElementById('btnExtrato').href = `extrato.html?id=${idPedido}`;
+
+  let dadosPedido = null;
+
+  async function carregarProposta() {
+    const { data, error } = await db
+      .from('pedidos_vendas')
+      .select('*, clientes(*)')
+      .eq('id_pedido', idPedido)
+      .single();
+
+    if (error || !data) {
+      document.getElementById('docA4').innerHTML = '<div class="loading-full"><i class="bi bi-exclamation-triangle" style="font-size:2rem;color:#f88"></i>Proposta não encontrada.</div>';
+      return;
+    }
+
+    dadosPedido = data;
+    renderProposta(data);
+  }
+
+  function renderProposta(d) {
+    const cliente = d.clientes || {};
+    const hoje = new Date().toLocaleDateString('pt-BR');
+    const validade = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR');
+    const valorPix = d.valor_total * 0.90;
+    const descontoPix = d.valor_total * 0.10;
+    const materiais = d.materiais_especificacoes || '• Estrutura Metálica Fabricada com Perfis e Aço Certificado\n• Tratamento Anticorrosivo e Pintura de Proteção Industrial\n• Conjunto Completo de Fixações e Chumbadores';
+
+    document.getElementById('docA4').innerHTML = `
+      <!-- CABEÇALHO -->
+      <div class="doc-header">
+        <div class="logo-box">
+          <img src="../assets/imagens/Firefly_Gemini Flash_só logo sem fundo e algo minimalista  tipo as inicias m o sera para uma metalurica  807414.png" class="logo-img" alt="Logo" onerror="this.style.display='none'">
+          <div>
+            <div class="emp-nome">🔨 Metalúrgica <span>Oliveira</span></div>
+            <div class="emp-sub">
+              Fabricação e Venda de Estruturas Metálicas para Galpões<br>
+              Engenheiro Beltrão – PR &nbsp;|&nbsp; <strong>(44) 99831-8534</strong><br>
+              Atendemos Maringá, Campo Mourão e toda a Região
+            </div>
+          </div>
+        </div>
+        <div class="doc-id">
+          <span class="badge-tipo">Proposta Comercial</span>
+          <div class="num">#${String(d.id_pedido).padStart(4,'0')}</div>
+          <div class="data">Data: ${fmtData(d.data_venda)} · Válido até: ${validade}</div>
+        </div>
+      </div>
+
+      <!-- CLIENTE -->
+      <div class="sec-title"><i class="bi bi-person-fill"></i>Dados do Cliente</div>
+      <div class="info-grid">
+        <div class="info-item"><div class="lbl">Cliente</div><div class="val">${cliente.nome || '—'}</div></div>
+        <div class="info-item"><div class="lbl">Telefone / WhatsApp</div><div class="val">${cliente.telefone || '—'}</div></div>
+        <div class="info-item"><div class="lbl">Cidade / Estado</div><div class="val">${cliente.cidade || '—'}</div></div>
+        ${cliente.cpf_cnpj ? `<div class="info-item"><div class="lbl">CPF / CNPJ</div><div class="val">${cliente.cpf_cnpj}</div></div>` : ''}
+        ${cliente.email ? `<div class="info-item"><div class="lbl">E-mail</div><div class="val">${cliente.email}</div></div>` : ''}
+      </div>
+
+      <!-- ESPECIFICAÇÕES DO GALPÃO -->
+      <div class="sec-title"><i class="bi bi-building"></i>Especificações Técnicas da Estrutura</div>
+      <div class="info-grid" style="margin-bottom:12px">
+        <div class="info-item"><div class="lbl">Descrição do Modelo</div><div class="val">${d.descricao_galpao}</div></div>
+        ${d.medidas_comprimento ? `<div class="info-item"><div class="lbl">Comprimento</div><div class="val">${d.medidas_comprimento} m</div></div>` : ''}
+        ${d.medidas_largura ? `<div class="info-item"><div class="lbl">Largura / Vão</div><div class="val">${d.medidas_largura} m</div></div>` : ''}
+        ${d.pe_direito ? `<div class="info-item"><div class="lbl">Pé-Direito</div><div class="val">${d.pe_direito} m</div></div>` : ''}
+        ${d.medidas_largura && d.medidas_comprimento ? `<div class="info-item"><div class="lbl">Área Coberta</div><div class="val">${(d.medidas_largura * d.medidas_comprimento).toFixed(0)} m²</div></div>` : ''}
+      </div>
+
+      <div class="lbl" style="font-size:.65rem;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Materiais e Componentes Inclusos no Orçamento</div>
+      <div class="materiais-box">${materiais}</div>
+
+      <!-- VALOR E CONDIÇÕES DE PAGAMENTO -->
+      <div class="sec-title"><i class="bi bi-currency-dollar"></i>Investimento & Condições de Pagamento</div>
+      <div class="preco-box">
+        <div class="preco-row"><span class="pl">Valor de Tabela da Estrutura</span><span class="pv">${fmt(d.valor_total)}</span></div>
+        <div class="preco-row"><span class="pl">Desconto Especial à Vista no Pix (10%)</span><span class="pv" style="color:#22c55e">- ${fmt(descontoPix)}</span></div>
+        <div class="preco-row"><span class="pl">Opção Parcelada (Entrada + Parcelas a combinar)</span><span class="pv">Consulte condições</span></div>
+        <div class="preco-destaque">
+          <span class="pl">VALOR À VISTA (PIX):</span>
+          <span class="pv">${fmt(valorPix)}</span>
+        </div>
+      </div>
+
+      <!-- CONDIÇÕES COMERCIAIS -->
+      <div class="condicoes-box">
+        <strong>Condições Gerais da Proposta:</strong><br>
+        1. <strong>Validade:</strong> Esta proposta é válida por 15 dias a contar da data de emissão.<br>
+        2. <strong>Pagamento Parcelado:</strong> O cliente pode optar por pagamento de sinal + parcelas conforme o avanço de fabricação.<br>
+        3. <strong>Retirada / Entrega:</strong> A liberação da estrutura no pátio ocorre mediante quitação integral do saldo.<br>
+        4. <strong>Garantia:</strong> Garantia estrutural de fabricação e materiais certificados.
+      </div>
+
+      <!-- ASSINATURAS -->
+      <div class="assinaturas">
+        <div class="ass">
+          <div style="height:38px"></div>
+          <div class="ass-linha"><strong>Metalúrgica Oliveira</strong>Engenheiro Beltrão – PR</div>
+        </div>
+        <div class="ass">
+          <div style="height:38px"></div>
+          <div class="ass-linha"><strong>${cliente.nome || 'De Acordo do Cliente'}</strong>Assinatura de Aprovação</div>
+        </div>
+      </div>
+
+      <!-- RODAPÉ -->
+      <div class="doc-footer">
+        <span>Metalúrgica Oliveira — (44) 99831-8534 — Atendemos Maringá, Campo Mourão e Região</span>
+        <span>Proposta #${String(d.id_pedido).padStart(4,'0')} · Emitido em ${hoje}</span>
+      </div>
+    `;
+  }
+
+  function enviarWhatsapp() {
+    if (!dadosPedido) return;
+    const cliente = dadosPedido.clientes || {};
+    const tel = cliente.telefone ? cliente.telefone.replace(/\D/g, '') : '';
+    const nome = cliente.nome || 'Cliente';
+    const valorPix = dadosPedido.valor_total * 0.90;
+
+    const msg = [
+      `🔨 *PROPOSTA COMERCIAL — Metalúrgica Oliveira*`,
+      ``,
+      `Olá, *${nome}*! Segue a proposta do galpão metálico:`,
+      ``,
+      `🏗️ *Estrutura:* ${dadosPedido.descricao_galpao}`,
+      `📐 *Medidas:* ${dadosPedido.medidas_largura || '-'}m de largura x ${dadosPedido.medidas_comprimento || '-'}m de comprimento`,
+      `🏢 *Pé-direito:* ${dadosPedido.pe_direito || '-'} metros`,
+      ``,
+      `💰 *VALOR DE TABELA:* ${fmt(dadosPedido.valor_total)}`,
+      `🔥 *VALOR À VISTA NO PIX (10% OFF):* ${fmt(valorPix)}`,
+      `💳 *Parcelado:* Entrada + parcelas combinadas conforme o tempo`,
+      ``,
+      `📋 _Podemos fechar? Me responda aqui para reservarmos os materiais na fábrica!_`,
+      `📞 *Metalúrgica Oliveira:* (44) 99831-8534`
+    ].filter(Boolean).join('\n');
+
+    const url = `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  carregarProposta();
+</script>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</body>
+</html>
