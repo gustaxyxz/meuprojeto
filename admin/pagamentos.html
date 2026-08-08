@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Pagamento — Admin Metalúrgica Oliveira</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --amarelo: #ffc107; }
+    body { background: #f4f5f7; font-family: 'Segoe UI', sans-serif; }
+    .admin-nav { background: #111; padding: .75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .admin-nav .brand { color: var(--amarelo); font-weight: 800; font-size: 1.05rem; }
+    .admin-nav .nav-links a { color: #aaa; text-decoration: none; margin-left: 1.5rem; font-size: .88rem; font-weight: 600; }
+    .admin-nav .nav-links a:hover { color: #fff; }
+    .admin-nav .btn-sair { background: none; border: 1px solid #444; color: #aaa; border-radius: 6px; padding: .3rem .8rem; font-size: .8rem; cursor: pointer; }
+    .resumo-card { background: #111; color: #fff; border-radius: 14px; padding: 1.5rem; margin: 1.5rem auto; max-width: 780px; }
+    .resumo-card h5 { color: var(--amarelo); font-weight: 800; margin-bottom: 1rem; }
+    .resumo-row { display: flex; justify-content: space-between; padding: .4rem 0; border-bottom: 1px solid rgba(255,255,255,.07); font-size: .88rem; }
+    .resumo-row:last-child { border: none; }
+    .resumo-row .rl { color: #aaa; }
+    .resumo-row .rv { font-weight: 700; color: #fff; }
+    .resumo-saldo { display: flex; justify-content: space-between; margin-top: .8rem; padding-top: .8rem; border-top: 2px solid var(--amarelo); }
+    .resumo-saldo .rl { font-weight: 700; font-size: .95rem; }
+    .resumo-saldo .rv { font-size: 1.5rem; font-weight: 900; color: var(--amarelo); }
+    .form-card { background: #fff; border-radius: 14px; border: 1px solid #e5e7eb; padding: 2rem; margin: 1.5rem auto 1rem; max-width: 780px; }
+    .form-card h2 { font-size: 1.1rem; font-weight: 800; color: #111; margin-bottom: .3rem; }
+    .form-card p.sub { color: #888; font-size: .85rem; margin-bottom: 1.5rem; }
+    .form-label { font-size: .82rem; font-weight: 700; color: #444; }
+    .form-control, .form-select { border: 1.5px solid #e5e7eb; border-radius: 10px; padding: .65rem .9rem; font-size: .9rem; }
+    .form-control:focus, .form-select:focus { border-color: var(--amarelo); box-shadow: 0 0 0 3px rgba(255,193,7,.12); }
+    .upload-area { border: 2px dashed #e5e7eb; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: all .2s; background: #fafafa; }
+    .upload-area:hover { border-color: var(--amarelo); background: #fffbeb; }
+    .upload-area.tem-arquivo { border-color: #16a34a; background: #f0fdf4; }
+    .upload-area i { font-size: 2rem; color: #ccc; display: block; margin-bottom: .5rem; }
+    .upload-area.tem-arquivo i { color: #16a34a; }
+    .upload-area p { margin: 0; font-size: .85rem; color: #888; }
+    .upload-area.tem-arquivo p { color: #166534; font-weight: 700; }
+    #fileInput { display: none; }
+    .btn-salvar { background: #16a34a; color: #fff; border: none; border-radius: 10px; padding: .8rem 2rem; font-weight: 800; font-size: .95rem; cursor: pointer; transition: all .2s; width: 100%; }
+    .btn-salvar:hover { background: #15803d; }
+    .btn-salvar:disabled { opacity: .6; cursor: not-allowed; }
+    .alert-sucesso { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 10px; padding: 1rem 1.2rem; display: none; margin-bottom: 1.5rem; }
+    .alert-erro { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; border-radius: 10px; padding: 1rem 1.2rem; display: none; margin-bottom: 1.5rem; }
+    .historico-card { background: #fff; border-radius: 14px; border: 1px solid #e5e7eb; padding: 1.5rem; margin: 0 auto 2rem; max-width: 780px; }
+    .historico-card h5 { font-weight: 800; color: #111; margin-bottom: 1rem; }
+    .pag-item { display: flex; align-items: center; gap: 1rem; padding: .9rem 0; border-bottom: 1px solid #f5f5f5; }
+    .pag-item:last-child { border: none; }
+    .pag-icon { width: 42px; height: 42px; border-radius: 10px; background: #f0fdf4; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #16a34a; flex-shrink: 0; }
+    .pag-info { flex: 1; }
+    .pag-info .pag-desc { font-weight: 700; color: #111; font-size: .9rem; }
+    .pag-info .pag-meta { font-size: .78rem; color: #888; margin-top: .1rem; }
+    .pag-valor { font-size: 1.05rem; font-weight: 900; color: #16a34a; }
+    .pag-comp { font-size: .78rem; }
+    .loading { text-align: center; padding: 2rem; color: #aaa; }
+    .progress-pag { height: 8px; border-radius: 99px; background: #f0f0f0; overflow: hidden; margin-top: .5rem; }
+    .progress-pag-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #16a34a, #22c55e); transition: width .5s ease; }
+  </style>
+</head>
+<body>
+
+<nav class="admin-nav">
+  <div class="brand"><i class="bi bi-hammer me-2"></i>Metalúrgica Oliveira — Admin</div>
+  <div class="nav-links">
+    <a href="pedidos.html">Pedidos</a>
+    <a href="novo-pedido.html">+ Novo Pedido</a>
+    <button class="btn-sair ms-3" onclick="sair()"><i class="bi bi-box-arrow-right me-1"></i>Sair</button>
+  </div>
+</nav>
+
+<div style="max-width:780px;margin:1.5rem auto;padding:0 1rem">
+  <a href="pedidos.html" style="color:#888;text-decoration:none;font-size:.85rem"><i class="bi bi-arrow-left me-1"></i>Voltar aos Pedidos</a>
+</div>
+
+<!-- Resumo Financeiro -->
+<div class="resumo-card" id="resumoCard">
+  <div class="loading" style="color:#888;padding:1rem">Carregando pedido...</div>
+</div>
+
+<!-- Formulário de Novo Pagamento -->
+<div class="form-card">
+  <h2><i class="bi bi-cash-coin me-2" style="color:var(--amarelo)"></i>Registrar Novo Pagamento</h2>
+  <p class="sub">Informe os dados do pagamento recebido e anexe o comprovante bancário.</p>
+
+  <div class="alert-sucesso" id="alertSucesso"><i class="bi bi-check-circle-fill me-2"></i>Pagamento registrado com sucesso!</div>
+  <div class="alert-erro" id="alertErro"></div>
+
+  <div class="row g-3">
+    <div class="col-md-4">
+      <label class="form-label">Valor Recebido (R$) *</label>
+      <input type="number" class="form-control" id="valor_pago" placeholder="Ex: 5000" step="0.01" min="0">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Data do Pagamento *</label>
+      <input type="date" class="form-control" id="data_pagamento">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Forma de Pagamento *</label>
+      <select class="form-select" id="forma_pagamento">
+        <option value="Pix">Pix</option>
+        <option value="Transferência">Transferência (TED/DOC)</option>
+        <option value="Dinheiro">Dinheiro (espécie)</option>
+        <option value="Boleto">Boleto</option>
+        <option value="Cartão">Cartão</option>
+        <option value="Cheque">Cheque</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <label class="form-label">Descrição / Observação</label>
+      <input type="text" class="form-control" id="observacao" placeholder="Ex: 1ª Parcela - Sinal de entrada, 2ª Parcela, Pagamento final...">
+    </div>
+    <div class="col-12">
+      <label class="form-label">Comprovante Bancário <span style="color:#aaa;font-weight:400">(foto, print ou PDF — opcional mas recomendado)</span></label>
+      <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+        <i class="bi bi-cloud-upload" id="uploadIcon"></i>
+        <p id="uploadText">Clique para selecionar o comprovante<br><small>JPG, PNG ou PDF — máx. 5MB</small></p>
+      </div>
+      <input type="file" id="fileInput" accept="image/*,.pdf" onchange="selecionarArquivo(this)">
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <button class="btn-salvar" id="btnSalvar" onclick="salvarPagamento()">
+      <i class="bi bi-check2-circle me-2"></i>Confirmar Pagamento Recebido
+    </button>
+  </div>
+</div>
+
+<!-- Histórico de Pagamentos -->
+<div class="historico-card">
+  <h5><i class="bi bi-clock-history me-2" style="color:var(--amarelo)"></i>Histórico de Pagamentos</h5>
+  <div id="historicoContainer"><div class="loading">Carregando...</div></div>
+</div>
+
+<div style="max-width:780px;margin:0 auto 2rem;padding:0 1rem;text-align:center">
+  <a id="linkExtrato" href="#" class="btn btn-dark btn-sm fw-bold"><i class="bi bi-file-earmark-pdf me-1"></i>Ver Extrato Completo em PDF</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/js/supabase-config.js"></script>
+<script>
+  if (sessionStorage.getItem('admin_ok') !== 'true') location.href = 'index.html';
+  function sair() { sessionStorage.removeItem('admin_ok'); location.href = 'index.html'; }
+
+  const params = new URLSearchParams(location.search);
+  const idPedido = params.get('id');
+  if (!idPedido) location.href = 'pedidos.html';
+
+  document.getElementById('data_pagamento').value = new Date().toISOString().split('T')[0];
+  document.getElementById('linkExtrato').href = `extrato.html?id=${idPedido}`;
+
+  let pedidoAtual = null;
+  let arquivoSelecionado = null;
+
+  function selecionarArquivo(input) {
+    if (input.files && input.files[0]) {
+      arquivoSelecionado = input.files[0];
+      const area = document.getElementById('uploadArea');
+      area.classList.add('tem-arquivo');
+      document.getElementById('uploadIcon').className = 'bi bi-file-earmark-check';
+      document.getElementById('uploadText').innerHTML = `<strong>${arquivoSelecionado.name}</strong><br><small>${(arquivoSelecionado.size / 1024).toFixed(0)} KB · Clique para trocar</small>`;
+    }
+  }
+
+  async function carregarPedido() {
+    const { data, error } = await db
+      .from('pedidos_vendas')
+      .select('*, clientes(*), pagamentos_pedidos(*)')
+      .eq('id_pedido', idPedido)
+      .single();
+
+    if (error || !data) {
+      document.getElementById('resumoCard').innerHTML = '<div class="loading" style="color:#f88">Pedido não encontrado.</div>';
+      return;
+    }
+
+    pedidoAtual = data;
+    const totalPago = (data.pagamentos_pedidos || []).reduce((a, b) => a + parseFloat(b.valor_pago), 0);
+    const saldo = parseFloat(data.valor_total) - totalPago;
+    const pct = Math.min(100, (totalPago / parseFloat(data.valor_total)) * 100);
+
+    document.getElementById('resumoCard').innerHTML = `
+      <h5><i class="bi bi-receipt me-2"></i>Pedido #${data.id_pedido} — ${data.clientes?.nome || ''}</h5>
+      <div class="resumo-row"><span class="rl">Galpão</span><span class="rv">${data.descricao_galpao}</span></div>
+      <div class="resumo-row"><span class="rl">Data da Venda</span><span class="rv">${fmtData(data.data_venda)}</span></div>
+      <div class="resumo-row"><span class="rl">Valor Total</span><span class="rv">${fmt(data.valor_total)}</span></div>
+      <div class="resumo-row"><span class="rl">Total Pago</span><span class="rv" style="color:#22c55e">${fmt(totalPago)}</span></div>
+      <div class="progress-pag mt-2 mb-1"><div class="progress-pag-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:.72rem;color:#888;text-align:right;margin-bottom:.5rem">${pct.toFixed(1)}% quitado</div>
+      <div class="resumo-saldo">
+        <span class="rl">SALDO DEVEDOR</span>
+        <span class="rv">${saldo > 0 ? fmt(saldo) : '<span style="color:#22c55e;font-size:1.1rem">QUITADO ✓</span>'}</span>
+      </div>`;
+
+    renderHistorico(data.pagamentos_pedidos || []);
+  }
+
+  function renderHistorico(pagamentos) {
+    if (!pagamentos.length) {
+      document.getElementById('historicoContainer').innerHTML = '<p style="color:#aaa;font-size:.88rem;text-align:center;padding:1rem">Nenhum pagamento registrado ainda.</p>';
+      return;
+    }
+    const sorted = [...pagamentos].sort((a, b) => new Date(a.data_pagamento) - new Date(b.data_pagamento));
+    document.getElementById('historicoContainer').innerHTML = sorted.map((p, i) => `
+      <div class="pag-item">
+        <div class="pag-icon"><i class="bi bi-cash-coin"></i></div>
+        <div class="pag-info">
+          <div class="pag-desc">${p.observacao || `Pagamento #${i + 1}`}</div>
+          <div class="pag-meta">${fmtData(p.data_pagamento)} · ${p.forma_pagamento}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="pag-valor">${fmt(p.valor_pago)}</div>
+          ${p.comprovante_url ? `<a href="${p.comprovante_url}" target="_blank" class="pag-comp text-success"><i class="bi bi-paperclip me-1"></i>Comprovante</a>` : '<span class="pag-comp text-muted">Sem comprovante</span>'}
+        </div>
+      </div>`).join('');
+  }
+
+  async function salvarPagamento() {
+    const valor = parseFloat(document.getElementById('valor_pago').value);
+    const data = document.getElementById('data_pagamento').value;
+    const forma = document.getElementById('forma_pagamento').value;
+
+    if (!valor || !data || !forma) {
+      mostrarErro('Preencha o valor, data e forma de pagamento.');
+      return;
+    }
+
+    const btn = document.getElementById('btnSalvar');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-arrow-repeat me-2" style="animation:spin 1s linear infinite"></i>Salvando...';
+
+    try {
+      let comprovanteUrl = null;
+
+      // Upload do comprovante se houver arquivo selecionado
+      if (arquivoSelecionado) {
+        const ext = arquivoSelecionado.name.split('.').pop();
+        const nomeArq = `pedido-${idPedido}/${Date.now()}.${ext}`;
+        const { data: uploadData, error: uploadErr } = await db.storage
+          .from('comprovantes')
+          .upload(nomeArq, arquivoSelecionado, { upsert: false });
+
+        if (uploadErr) throw new Error('Erro no upload: ' + uploadErr.message);
+
+        const { data: urlData } = db.storage.from('comprovantes').getPublicUrl(nomeArq);
+        comprovanteUrl = urlData.publicUrl;
+      }
+
+      // Inserir pagamento
+      const { error } = await db.from('pagamentos_pedidos').insert({
+        id_pedido: parseInt(idPedido),
+        valor_pago: valor,
+        data_pagamento: data,
+        forma_pagamento: forma,
+        observacao: document.getElementById('observacao').value.trim() || null,
+        comprovante_url: comprovanteUrl,
+      });
+
+      if (error) throw error;
+
+      // Recalcular status de pagamento
+      const { data: todos } = await db.from('pagamentos_pedidos').select('valor_pago').eq('id_pedido', idPedido);
+      const totalPago = (todos || []).reduce((a, b) => a + parseFloat(b.valor_pago), 0);
+      const totalVenda = parseFloat(pedidoAtual.valor_total);
+      const novoStatus = totalPago >= totalVenda ? 'Quitado' : totalPago > 0 ? 'Parcial' : 'Pendente';
+      await db.from('pedidos_vendas').update({ status_pagamento: novoStatus }).eq('id_pedido', idPedido);
+
+      // Resetar form
+      document.getElementById('valor_pago').value = '';
+      document.getElementById('observacao').value = '';
+      document.getElementById('fileInput').value = '';
+      arquivoSelecionado = null;
+      const area = document.getElementById('uploadArea');
+      area.classList.remove('tem-arquivo');
+      document.getElementById('uploadIcon').className = 'bi bi-cloud-upload';
+      document.getElementById('uploadText').innerHTML = 'Clique para selecionar o comprovante<br><small>JPG, PNG ou PDF — máx. 5MB</small>';
+
+      document.getElementById('alertSucesso').style.display = 'block';
+      setTimeout(() => document.getElementById('alertSucesso').style.display = 'none', 4000);
+      carregarPedido();
+
+    } catch (e) {
+      mostrarErro(e.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-check2-circle me-2"></i>Confirmar Pagamento Recebido';
+    }
+  }
+
+  function mostrarErro(msg) {
+    const el = document.getElementById('alertErro');
+    el.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>' + msg;
+    el.style.display = 'block';
+  }
+
+  carregarPedido();
+</script>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</body>
+</html>

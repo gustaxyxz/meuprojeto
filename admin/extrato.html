@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extrato do Pedido — Metalúrgica Oliveira</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- jsPDF para geração do PDF no navegador -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root { --amarelo: #ffc107; }
+    body { background: #f4f5f7; font-family: 'Segoe UI', sans-serif; }
+    .admin-nav { background: #111; padding: .75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .admin-nav .brand { color: var(--amarelo); font-weight: 800; font-size: 1.05rem; }
+    .admin-nav .nav-links a { color: #aaa; text-decoration: none; margin-left: 1.5rem; font-size: .88rem; font-weight: 600; }
+    .admin-nav .nav-links a:hover { color: #fff; }
+    .admin-nav .btn-sair { background: none; border: 1px solid #444; color: #aaa; border-radius: 6px; padding: .3rem .8rem; font-size: .8rem; cursor: pointer; }
+
+    /* Barra de ações impressão */
+    .action-bar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 1rem 2rem; display: flex; gap: .8rem; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .btn-pdf { background: #111; color: #fff; border: none; border-radius: 8px; padding: .6rem 1.4rem; font-weight: 700; font-size: .88rem; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: .4rem; }
+    .btn-pdf:hover { background: #333; }
+    .btn-wpp { background: #25d366; color: #fff; border: none; border-radius: 8px; padding: .6rem 1.4rem; font-weight: 700; font-size: .88rem; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: .4rem; }
+    .btn-wpp:hover { background: #1da851; }
+    .btn-editar { background: var(--amarelo); color: #000; border: none; border-radius: 8px; padding: .6rem 1.4rem; font-weight: 700; font-size: .88rem; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: .4rem; text-decoration: none; }
+    .btn-editar:hover { background: #e6a800; color: #000; }
+
+    /* Documento A4 Preview */
+    .doc-wrapper { max-width: 820px; margin: 2rem auto 4rem; padding: 0 1rem; }
+    .doc-a4 { background: #fff; border-radius: 4px; box-shadow: 0 4px 30px rgba(0,0,0,.12); padding: 48px 52px; min-height: 297mm; position: relative; }
+
+    /* Cabeçalho do documento */
+    .doc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 3px solid #111; }
+    .doc-logo-area { flex: 1; }
+    .doc-logo-area .empresa-nome { font-size: 1.3rem; font-weight: 900; color: #111; letter-spacing: -.01em; }
+    .doc-logo-area .empresa-nome span { color: #e6a800; }
+    .doc-logo-area .empresa-sub { font-size: .72rem; color: #666; margin-top: .2rem; line-height: 1.4; }
+    .doc-titulo-area { text-align: right; }
+    .doc-titulo-area .doc-tipo { font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #aaa; }
+    .doc-titulo-area .doc-num { font-size: 1.5rem; font-weight: 900; color: #111; }
+    .doc-titulo-area .doc-data { font-size: .78rem; color: #888; margin-top: .2rem; }
+
+    /* Faixas de status */
+    .status-faixa { display: flex; gap: .6rem; margin-bottom: 20px; }
+    .status-chip { padding: .3rem .8rem; border-radius: 6px; font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; border: 1.5px solid currentColor; }
+    .chip-fab-fab { color: #1d4ed8; border-color: #bfdbfe; background: #eff6ff; }
+    .chip-fab-pat { color: #92400e; border-color: #fde68a; background: #fffbeb; }
+    .chip-fab-pr  { color: #166534; border-color: #bbf7d0; background: #f0fdf4; }
+    .chip-fab-ent { color: #374151; border-color: #e5e7eb; background: #f9fafb; }
+    .chip-pag-pend { color: #dc2626; border-color: #fecaca; background: #fef2f2; }
+    .chip-pag-parc { color: #92400e; border-color: #fde68a; background: #fffbeb; }
+    .chip-pag-quit { color: #166534; border-color: #bbf7d0; background: #f0fdf4; }
+
+    /* Seções do documento */
+    .doc-section { margin-bottom: 24px; }
+    .doc-section-title { font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #aaa; margin-bottom: 10px; display: flex; align-items: center; gap: .4rem; }
+    .doc-section-title::after { content: ''; flex: 1; height: 1px; background: #f0f0f0; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; }
+    .info-item .il { font-size: .72rem; color: #aaa; font-weight: 600; }
+    .info-item .iv { font-size: .88rem; color: #111; font-weight: 700; }
+
+    /* Tabela de materiais */
+    .materiais-box { background: #fafafa; border: 1px solid #f0f0f0; border-radius: 8px; padding: 12px 16px; font-size: .82rem; color: #555; line-height: 1.8; white-space: pre-line; }
+
+    /* Tabela financeira */
+    .tabela-fin { width: 100%; border-collapse: collapse; font-size: .85rem; margin-bottom: 16px; }
+    .tabela-fin th { background: #111; color: #fff; padding: 8px 12px; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+    .tabela-fin th:first-child { border-radius: 6px 0 0 0; }
+    .tabela-fin th:last-child { border-radius: 0 6px 0 0; text-align: right; }
+    .tabela-fin td { padding: 9px 12px; border-bottom: 1px solid #f5f5f5; color: #333; }
+    .tabela-fin td:last-child { text-align: right; font-weight: 700; }
+    .tabela-fin tr:last-child td { border: none; }
+    .tabela-fin tr:hover td { background: #fafafa; }
+    .comp-link { font-size: .75rem; }
+    .comp-link a { color: #16a34a; text-decoration: none; font-weight: 600; }
+    .forma-badge { background: #f0f0f0; border-radius: 4px; padding: .15rem .4rem; font-size: .72rem; font-weight: 700; color: #555; }
+
+    /* Box de totais */
+    .totais-box { background: #111; color: #fff; border-radius: 10px; padding: 16px 20px; }
+    .totais-row { display: flex; justify-content: space-between; padding: .3rem 0; font-size: .85rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .totais-row:last-child { border: none; }
+    .totais-row .tl { color: #aaa; }
+    .totais-row .tv { font-weight: 700; color: #fff; }
+    .totais-destaque { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 2px solid var(--amarelo); }
+    .totais-destaque .tl { font-weight: 800; font-size: .95rem; color: #fff; }
+    .totais-destaque .tv { font-size: 1.6rem; font-weight: 900; color: var(--amarelo); }
+    .quitado-banner { background: #f0fdf4; border: 2px solid #22c55e; border-radius: 10px; padding: 12px 20px; text-align: center; margin-top: 16px; color: #166534; font-weight: 800; font-size: 1.05rem; display: none; }
+
+    /* Termos */
+    .termos-box { background: #fafafa; border-left: 3px solid #ddd; padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: .72rem; color: #777; line-height: 1.7; margin-top: 24px; }
+    .termos-box strong { color: #555; }
+
+    /* Assinaturas */
+    .assinaturas { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
+    .ass-box { text-align: center; }
+    .ass-linha { border-top: 1.5px solid #ccc; padding-top: 8px; font-size: .75rem; color: #888; }
+
+    /* Rodapé do doc */
+    .doc-rodape { margin-top: 30px; padding-top: 14px; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; font-size: .68rem; color: #bbb; }
+
+    .loading-full { min-height: 400px; display: flex; align-items: center; justify-content: center; color: #aaa; flex-direction: column; gap: 1rem; font-size: 1rem; }
+
+    @media print {
+      .admin-nav, .action-bar { display: none !important; }
+      body { background: #fff !important; }
+      .doc-wrapper { margin: 0; padding: 0; max-width: 100%; }
+      .doc-a4 { box-shadow: none !important; border-radius: 0; padding: 20mm 20mm; }
+    }
+    @media(max-width:600px) {
+      .doc-a4 { padding: 24px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .assinaturas { grid-template-columns: 1fr; gap: 24px; }
+      .action-bar { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="admin-nav">
+  <div class="brand"><i class="bi bi-hammer me-2"></i>Metalúrgica Oliveira — Admin</div>
+  <div class="nav-links">
+    <a href="pedidos.html">Pedidos</a>
+    <a href="novo-pedido.html">+ Novo Pedido</a>
+    <button class="btn-sair ms-3" onclick="sair()"><i class="bi bi-box-arrow-right me-1"></i>Sair</button>
+  </div>
+</nav>
+
+<div class="action-bar">
+  <a href="pedidos.html" style="color:#888;text-decoration:none;font-size:.85rem;margin-right:.5rem"><i class="bi bi-arrow-left me-1"></i>Voltar</a>
+  <button class="btn-pdf" onclick="gerarPDF()"><i class="bi bi-file-earmark-pdf"></i>Baixar PDF</button>
+  <button class="btn-pdf" onclick="window.print()" style="background:#555"><i class="bi bi-printer"></i>Imprimir</button>
+  <button class="btn-wpp" id="btnWpp" onclick="enviarWhatsapp()"><i class="bi bi-whatsapp"></i>Enviar WhatsApp</button>
+  <a id="btnPagar" href="#" class="btn-editar ms-auto"><i class="bi bi-cash-coin"></i>Registrar Pagamento</a>
+</div>
+
+<div class="doc-wrapper">
+  <div id="docA4" class="doc-a4">
+    <div class="loading-full">
+      <i class="bi bi-arrow-repeat" style="font-size:2rem;animation:spin 1s linear infinite"></i>
+      Carregando extrato...
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/js/supabase-config.js"></script>
+<script>
+  if (sessionStorage.getItem('admin_ok') !== 'true') location.href = 'index.html';
+  function sair() { sessionStorage.removeItem('admin_ok'); location.href = 'index.html'; }
+
+  const params = new URLSearchParams(location.search);
+  const idPedido = params.get('id');
+  if (!idPedido) location.href = 'pedidos.html';
+
+  document.getElementById('btnPagar').href = `pagamentos.html?id=${idPedido}`;
+
+  let dadosPedido = null;
+
+  const chipFab = { 'Em Fabricação': 'chip-fab-fab', 'No Pátio': 'chip-fab-pat', 'Pronto para Retirada': 'chip-fab-pr', 'Entregue': 'chip-fab-ent' };
+  const chipPag = { 'Pendente': 'chip-pag-pend', 'Parcial': 'chip-pag-parc', 'Quitado': 'chip-pag-quit' };
+
+  async function carregarExtrato() {
+    const { data, error } = await db
+      .from('pedidos_vendas')
+      .select('*, clientes(*), pagamentos_pedidos(*)')
+      .eq('id_pedido', idPedido)
+      .single();
+
+    if (error || !data) {
+      document.getElementById('docA4').innerHTML = '<div class="loading-full"><i class="bi bi-exclamation-triangle" style="font-size:2rem;color:#f88"></i>Pedido não encontrado.</div>';
+      return;
+    }
+
+    dadosPedido = data;
+    renderExtrato(data);
+  }
+
+  function renderExtrato(d) {
+    const cliente = d.clientes || {};
+    const pagamentos = (d.pagamentos_pedidos || []).sort((a, b) => new Date(a.data_pagamento) - new Date(b.data_pagamento));
+    const totalPago = pagamentos.reduce((a, b) => a + parseFloat(b.valor_pago), 0);
+    const saldo = parseFloat(d.valor_total) - totalPago;
+    const pct = Math.min(100, (totalPago / parseFloat(d.valor_total)) * 100);
+    const hoje = new Date().toLocaleDateString('pt-BR');
+    const quitado = saldo <= 0;
+
+    // Botão WhatsApp
+    document.getElementById('btnWpp').dataset.tel = cliente.telefone || '';
+
+    // Linhas da tabela de pagamentos
+    let linhasPag = pagamentos.length ? pagamentos.map((p, i) => `
+      <tr>
+        <td>${fmtData(p.data_pagamento)}</td>
+        <td>${p.observacao || `Pagamento #${i + 1}`}</td>
+        <td><span class="forma-badge">${p.forma_pagamento}</span></td>
+        <td>${fmt(p.valor_pago)}</td>
+        <td>${p.comprovante_url ? `<a href="${p.comprovante_url}" target="_blank" class="comp-link"><i class="bi bi-paperclip me-1"></i>Ver comprovante</a>` : '<span style="color:#ccc;font-size:.75rem">—</span>'}</td>
+      </tr>`).join('') : `<tr><td colspan="5" style="text-align:center;color:#aaa;padding:1.5rem">Nenhum pagamento registrado ainda</td></tr>`;
+
+    // Materiais formatados
+    const materiais = d.materiais_especificacoes || 'Especificações a definir com o técnico responsável.';
+
+    document.getElementById('docA4').innerHTML = `
+
+      <!-- CABEÇALHO -->
+      <div class="doc-header">
+        <div class="doc-logo-area">
+          <div class="empresa-nome">🔨 Metalúrgica <span>Oliveira</span></div>
+          <div class="empresa-sub">
+            Fabricação e Venda de Estruturas Metálicas para Galpões<br>
+            Engenheiro Beltrão - PR | Atendemos Maringá, Campo Mourão e Região<br>
+            <strong>(44) 99831-8534</strong> · metalurgicaoliveira@email.com.br
+          </div>
+        </div>
+        <div class="doc-titulo-area">
+          <div class="doc-tipo">Extrato de Pedido</div>
+          <div class="doc-num">#${String(d.id_pedido).padStart(4,'0')}</div>
+          <div class="doc-data">Emitido em ${hoje}</div>
+        </div>
+      </div>
+
+      <!-- STATUS -->
+      <div class="status-faixa">
+        <span class="status-chip ${chipFab[d.status_fabricacao] || 'chip-fab-fab'}">
+          <i class="bi bi-gear me-1"></i>${d.status_fabricacao}
+        </span>
+        <span class="status-chip ${chipPag[d.status_pagamento] || 'chip-pag-pend'}">
+          <i class="bi bi-cash me-1"></i>Pagamento: ${d.status_pagamento}
+        </span>
+      </div>
+
+      <!-- DADOS DO CLIENTE -->
+      <div class="doc-section">
+        <div class="doc-section-title"><i class="bi bi-person-fill"></i>Dados do Cliente</div>
+        <div class="info-grid">
+          <div class="info-item"><div class="il">Nome Completo</div><div class="iv">${cliente.nome || '—'}</div></div>
+          <div class="info-item"><div class="il">CPF / CNPJ</div><div class="iv">${cliente.cpf_cnpj || 'Não informado'}</div></div>
+          <div class="info-item"><div class="il">Telefone / WhatsApp</div><div class="iv">${cliente.telefone || '—'}</div></div>
+          <div class="info-item"><div class="il">E-mail</div><div class="iv">${cliente.email || 'Não informado'}</div></div>
+          <div class="info-item"><div class="il">Cidade / Estado</div><div class="iv">${cliente.cidade || '—'}</div></div>
+          <div class="info-item"><div class="il">Data da Venda</div><div class="iv">${fmtData(d.data_venda)}</div></div>
+        </div>
+      </div>
+
+      <!-- ESPECIFICAÇÕES DO GALPÃO -->
+      <div class="doc-section">
+        <div class="doc-section-title"><i class="bi bi-building"></i>Especificações Técnicas do Galpão</div>
+        <div class="info-grid" style="margin-bottom:10px">
+          <div class="info-item"><div class="il">Descrição</div><div class="iv">${d.descricao_galpao}</div></div>
+          ${d.medidas_comprimento ? `<div class="info-item"><div class="il">Comprimento</div><div class="iv">${d.medidas_comprimento}m</div></div>` : ''}
+          ${d.medidas_largura ? `<div class="info-item"><div class="il">Largura / Vão</div><div class="iv">${d.medidas_largura}m</div></div>` : ''}
+          ${d.pe_direito ? `<div class="info-item"><div class="il">Pé-Direito</div><div class="iv">${d.pe_direito}m</div></div>` : ''}
+          ${d.medidas_largura && d.medidas_comprimento ? `<div class="info-item"><div class="il">Área Total</div><div class="iv">${(d.medidas_largura * d.medidas_comprimento).toFixed(0)} m²</div></div>` : ''}
+        </div>
+        <div class="il" style="font-size:.72rem;color:#aaa;margin-bottom:6px">Materiais e Componentes</div>
+        <div class="materiais-box">${materiais}</div>
+      </div>
+
+      <!-- HISTÓRICO DE PAGAMENTOS -->
+      <div class="doc-section">
+        <div class="doc-section-title"><i class="bi bi-clock-history"></i>Histórico de Pagamentos Recebidos</div>
+        <table class="tabela-fin">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Descrição / Parcela</th>
+              <th>Forma</th>
+              <th style="text-align:right">Valor Pago</th>
+              <th style="text-align:right">Comprovante</th>
+            </tr>
+          </thead>
+          <tbody>${linhasPag}</tbody>
+        </table>
+      </div>
+
+      <!-- RESUMO FINANCEIRO -->
+      <div class="doc-section">
+        <div class="doc-section-title"><i class="bi bi-currency-dollar"></i>Resumo Financeiro</div>
+        <div class="totais-box">
+          <div class="totais-row"><span class="tl">Valor Total da Estrutura</span><span class="tv">${fmt(d.valor_total)}</span></div>
+          <div class="totais-row"><span class="tl">Total Pago até hoje</span><span class="tv" style="color:#22c55e">${fmt(totalPago)}</span></div>
+          <div class="totais-row"><span class="tl">Progresso de quitação</span><span class="tv">${pct.toFixed(1)}%</span></div>
+          <div class="totais-destaque">
+            <span class="tl">${quitado ? '✓ VALOR TOTAL QUITADO' : 'SALDO DEVEDOR RESTANTE'}</span>
+            <span class="tv" style="${quitado ? 'color:#22c55e' : ''}">${quitado ? 'R$ 0,00' : fmt(saldo)}</span>
+          </div>
+        </div>
+        ${quitado ? '<div class="quitado-banner" style="display:block">✅ Pagamento Integral Confirmado — Estrutura liberada para retirada ou entrega.</div>' : ''}
+      </div>
+
+      <!-- TERMOS -->
+      <div class="termos-box">
+        <strong>Termos e Condições de Retirada:</strong><br>
+        1. A liberação e o carregamento da estrutura no pátio da Metalúrgica Oliveira somente serão autorizados após a <strong>quitação integral do saldo devedor</strong>.<br>
+        2. O armazenamento da estrutura pronta no pátio da empresa é garantido por até <strong>90 dias</strong> após o aviso de conclusão de fabricação.<br>
+        3. Após 90 dias sem retirada, poderá ser cobrada taxa de armazenagem.<br>
+        4. Este documento tem validade como comprovante de negociação entre as partes.
+      </div>
+
+      <!-- ASSINATURAS -->
+      <div class="assinaturas">
+        <div class="ass-box">
+          <div style="height:40px"></div>
+          <div class="ass-linha">Metalúrgica Oliveira<br><small>Responsável pela empresa</small></div>
+        </div>
+        <div class="ass-box">
+          <div style="height:40px"></div>
+          <div class="ass-linha">${cliente.nome || 'Assinatura do Cliente'}<br><small>${cliente.cpf_cnpj || 'CPF/CNPJ do Cliente'}</small></div>
+        </div>
+      </div>
+
+      <!-- RODAPÉ -->
+      <div class="doc-rodape">
+        <span>Metalúrgica Oliveira — Engenheiro Beltrão - PR — (44) 99831-8534</span>
+        <span>Pedido #${String(d.id_pedido).padStart(4,'0')} · Emitido em ${hoje}</span>
+      </div>
+    `;
+  }
+
+  // Gera PDF usando jsPDF (renderiza o HTML como página do browser e imprime)
+  function gerarPDF() {
+    window.print();
+  }
+
+  function enviarWhatsapp() {
+    if (!dadosPedido) return;
+    const pagamentos = (dadosPedido.pagamentos_pedidos || []);
+    const totalPago = pagamentos.reduce((a, b) => a + parseFloat(b.valor_pago), 0);
+    const saldo = parseFloat(dadosPedido.valor_total) - totalPago;
+    const tel = dadosPedido.clientes?.telefone?.replace(/\D/g, '') || '';
+    const nome = dadosPedido.clientes?.nome || 'Cliente';
+    const msg = [
+      `🔨 *Metalúrgica Oliveira — Extrato de Pagamento*`,
+      ``,
+      `Olá, ${nome}! Segue o resumo atualizado do seu pedido:`,
+      ``,
+      `📦 *Pedido:* #${String(dadosPedido.id_pedido).padStart(4,'0')}`,
+      `🏗️ *Estrutura:* ${dadosPedido.descricao_galpao}`,
+      `📅 *Data da Venda:* ${fmtData(dadosPedido.data_venda)}`,
+      ``,
+      `💰 *RESUMO FINANCEIRO:*`,
+      `• Valor Total: ${fmt(dadosPedido.valor_total)}`,
+      `• Total Pago: ${fmt(totalPago)}`,
+      `• Saldo Restante: ${saldo > 0 ? fmt(saldo) : '✅ QUITADO'}`,
+      ``,
+      `⚙️ *Status:* ${dadosPedido.status_fabricacao} | Pagamento: ${dadosPedido.status_pagamento}`,
+      ``,
+      `_Dúvidas? Fale conosco pelo WhatsApp: (44) 99831-8534_`
+    ].filter(Boolean).join('\n');
+
+    const url = `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  carregarExtrato();
+</script>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</body>
+</html>

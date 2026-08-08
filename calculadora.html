@@ -570,9 +570,15 @@
           <a id="btn-whatsapp" href="#" target="_blank" class="btn btn-success w-100 fw-bold py-3 mb-2" style="font-size:1.05rem">
             <i class="bi bi-whatsapp me-2"></i>Enviar Orçamento pelo WhatsApp
           </a>
-          <button onclick="window.print()" class="btn btn-dark w-100 fw-bold py-2 mb-2">
-            <i class="bi bi-printer me-2"></i>Imprimir / Salvar PDF
+          <button onclick="imprimirOrcamentoPDF()" class="btn btn-dark w-100 fw-bold py-2 mb-2">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Baixar Orçamento em PDF
           </button>
+          <div id="salvando-msg" style="text-align:center;font-size:.75rem;color:#aaa;margin-top:.3rem;display:none">
+            <i class="bi bi-cloud-upload me-1"></i>Salvando orçamento...
+          </div>
+          <div id="salvo-msg" style="text-align:center;font-size:.75rem;color:#16a34a;margin-top:.3rem;display:none">
+            <i class="bi bi-check-circle me-1"></i>Orçamento salvo com sucesso!
+          </div>
           <div class="text-center">
             <button onclick="location.reload()" class="btn btn-link text-muted small btn-reset">
               <i class="bi bi-arrow-counterclockwise me-1"></i>Fazer novo orçamento
@@ -768,8 +774,71 @@ function buildResult(){
   ].filter(l=>l!=='').join('\n');
 
   document.getElementById('btn-whatsapp').href='https://wa.me/5544998318534?text='+encodeURIComponent(msg);
+
+  // Salvar orçamento no Supabase silenciosamente
+  salvarOrcamentoSupabase(r, nome, fone, cidade, obs);
+}
+
+async function salvarOrcamentoSupabase(r, nome, fone, cidade, obs) {
+  try {
+    document.getElementById('salvando-msg').style.display = 'block';
+    const lT={duas_aguas:'Duas Águas',uma_agua:'Uma Água',arco_abaulado:'Arco Abaulado',scissor:'Scissor'};
+    const lC={perfil_u:'Perfil U',tubo_ret:'Tubo Retangular',perfil_w:'Perfil W'};
+    const lTe={ondulada_043:'Ondulada 0,43mm',trapezoidal_050:'Trapezoidal 0,50mm',sanduiche:'Sanduíche Isotérmico'};
+    const lF={sem:'Sem fechamento',meia_parede:'Meia parede',completo:'Completo'};
+    const lP={sem:'Sem portão',basculante:'Basculante',deslizante:'Deslizante'};
+
+    // Criar ou buscar cliente
+    let clienteId = null;
+    if (fone) {
+      const { data: cli } = await db.from('clientes').select('id_cliente').eq('telefone', fone).maybeSingle();
+      if (cli) {
+        clienteId = cli.id_cliente;
+      } else {
+        const { data: novoCli } = await db.from('clientes').insert({ nome, telefone: fone, cidade, email: null }).select('id_cliente').single();
+        if (novoCli) clienteId = novoCli.id_cliente;
+      }
+    }
+
+    // Salvar orçamento como pedido com status 'Em Negociação'
+    if (clienteId) {
+      const descricao = `Galpão ${sel.comprimento}x${sel.largura}m — ${lT[sel.tesoura]||''} — ${lC[sel.coluna]||''}`;
+      const materiais = [
+        sel.tesoura ? `• Tesoura: ${lT[sel.tesoura]}` : '',
+        sel.coluna  ? `• Colunas: ${lC[sel.coluna]}` : '',
+        sel.telha   ? `• Telha: ${lTe[sel.telha]}` : '',
+        sel.fechamento ? `• Fechamento: ${lF[sel.fechamento]}` : '',
+        sel.portao  ? `• Portão: ${lP[sel.portao]}` : '',
+        obs ? `• Observação: ${obs}` : ''
+      ].filter(Boolean).join('\n');
+
+      await db.from('pedidos_vendas').insert({
+        id_cliente: clienteId,
+        descricao_galpao: descricao,
+        medidas_comprimento: sel.comprimento,
+        medidas_largura: sel.largura,
+        pe_direito: sel.pe_direito,
+        materiais_especificacoes: materiais,
+        valor_total: r.total || 0,
+        status_fabricacao: 'Em Fabricação',
+        status_pagamento: 'Pendente',
+        data_venda: new Date().toISOString().split('T')[0]
+      });
+    }
+    document.getElementById('salvando-msg').style.display = 'none';
+    document.getElementById('salvo-msg').style.display = 'block';
+  } catch (e) {
+    document.getElementById('salvando-msg').style.display = 'none';
+    // Falha silenciosa — não atrapalha o cliente
+  }
+}
+
+function imprimirOrcamentoPDF() {
+  window.print();
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
 
 <footer class="bg-black text-white py-4 mt-5 border-top border-secondary">
     <div class="container">
