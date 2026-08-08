@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEMO — Extrato de Pagamento — Metalúrgica Oliveira</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #e8eaed; font-family: 'Segoe UI', sans-serif; }
+
+    /* Barra de demo */
+    .demo-bar {
+      background: #1a1a2e;
+      color: #fff;
+      padding: .7rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .demo-bar .demo-label { background: #ffc107; color: #000; border-radius: 6px; padding: .25rem .7rem; font-weight: 800; font-size: .8rem; letter-spacing: .05em; }
+    .demo-bar p { margin: 0; font-size: .82rem; color: #ccc; }
+    .btn-imprimir { background: #ffc107; color: #000; border: none; border-radius: 8px; padding: .5rem 1.2rem; font-weight: 700; font-size: .85rem; cursor: pointer; }
+    .btn-imprimir:hover { background: #e6a800; }
+
+    /* Wrapper do documento */
+    .doc-wrapper { max-width: 860px; margin: 2rem auto; padding: 0 1rem 4rem; }
+
+    /* Folha A4 */
+    .doc-a4 {
+      background: #fff;
+      box-shadow: 0 8px 40px rgba(0,0,0,.18);
+      border-radius: 3px;
+      padding: 52px 58px;
+      position: relative;
+    }
+
+    /* Faixa dourada superior */
+    .doc-a4::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #111 0%, #ffc107 60%, #111 100%);
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* ── CABEÇALHO ── */
+    .doc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 2.5px solid #111; }
+    .empresa-logo-area { display: flex; align-items: center; gap: 14px; }
+    .empresa-logo-area .logo-icon { width: 50px; height: 50px; background: #111; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: #ffc107; flex-shrink: 0; }
+    .empresa-nome-bloco .nome { font-size: 1.25rem; font-weight: 900; color: #111; letter-spacing: -.01em; line-height: 1.1; }
+    .empresa-nome-bloco .nome span { color: #e6a800; }
+    .empresa-nome-bloco .sub { font-size: .68rem; color: #777; line-height: 1.5; margin-top: .25rem; }
+    .doc-numero-bloco { text-align: right; }
+    .doc-numero-bloco .doc-tipo-label { font-size: .6rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; color: #aaa; background: #f5f5f5; padding: .2rem .6rem; border-radius: 4px; display: inline-block; }
+    .doc-numero-bloco .doc-num { font-size: 1.7rem; font-weight: 900; color: #111; margin-top: .25rem; line-height: 1; }
+    .doc-numero-bloco .doc-data-emissao { font-size: .72rem; color: #888; margin-top: .3rem; }
+
+    /* ── CHIPS DE STATUS ── */
+    .status-chips { display: flex; gap: .6rem; margin-bottom: 18px; }
+    .chip { padding: .3rem .85rem; border-radius: 20px; font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; display: flex; align-items: center; gap: .3rem; }
+    .chip-fab { background: #eff6ff; color: #1d4ed8; border: 1.5px solid #bfdbfe; }
+    .chip-pag-parc { background: #fffbeb; color: #92400e; border: 1.5px solid #fde68a; }
+    .chip-pag-quit { background: #f0fdf4; color: #166534; border: 1.5px solid #bbf7d0; }
+
+    /* ── SEÇÕES ── */
+    .section-title { font-size: .62rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #999; margin: 18px 0 10px; display: flex; align-items: center; gap: .5rem; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: #ececec; }
+
+    /* ── GRID DE INFORMAÇÕES ── */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px 20px; }
+    .info-item .lbl { font-size: .65rem; color: #aaa; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2px; }
+    .info-item .val { font-size: .88rem; color: #111; font-weight: 700; }
+
+    /* ── BOX DE MATERIAIS ── */
+    .materiais-box {
+      background: #fafafa;
+      border: 1px solid #ebebeb;
+      border-left: 4px solid #ffc107;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      font-size: .8rem;
+      color: #444;
+      line-height: 2;
+      white-space: pre-line;
+    }
+
+    /* ── TABELA DE PAGAMENTOS ── */
+    .tabela-pag { width: 100%; border-collapse: collapse; font-size: .82rem; }
+    .tabela-pag thead { background: #111; }
+    .tabela-pag thead th { color: #fff; padding: 9px 12px; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .tabela-pag thead th:first-child { border-radius: 6px 0 0 0; }
+    .tabela-pag thead th:last-child { border-radius: 0 6px 0 0; text-align: right; }
+    .tabela-pag tbody tr { border-bottom: 1px solid #f5f5f5; }
+    .tabela-pag tbody tr:hover { background: #fafafa; }
+    .tabela-pag tbody tr:last-child { border: none; }
+    .tabela-pag td { padding: 9px 12px; color: #333; vertical-align: middle; }
+    .tabela-pag td:last-child { text-align: right; font-weight: 800; color: #16a34a; }
+    .forma-chip { background: #f5f5f5; border-radius: 4px; padding: .1rem .5rem; font-size: .7rem; font-weight: 700; color: #555; }
+    .comp-link { font-size: .72rem; }
+    .comp-link a { color: #16a34a; text-decoration: none; font-weight: 600; }
+    .comp-link a:hover { text-decoration: underline; }
+
+    /* ── BOX FINANCEIRO ── */
+    .financeiro-box { background: #111; color: #fff; border-radius: 10px; padding: 16px 20px; margin-top: 16px; }
+    .fin-row { display: flex; justify-content: space-between; padding: .32rem 0; font-size: .82rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .fin-row:last-child { border: none; }
+    .fin-row .fl { color: #aaa; }
+    .fin-row .fv { font-weight: 700; color: #fff; }
+    .fin-row .fv.verde { color: #22c55e; }
+    .fin-saldo { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 2px solid #ffc107; }
+    .fin-saldo .fl { font-weight: 800; font-size: .95rem; color: #fff; }
+    .fin-saldo .fv { font-size: 1.65rem; font-weight: 900; color: #ffc107; }
+
+    /* Barra de progresso */
+    .prog-bar { height: 6px; background: rgba(255,255,255,.1); border-radius: 99px; margin: 10px 0 4px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #16a34a, #22c55e); }
+    .prog-label { font-size: .68rem; color: rgba(255,255,255,.4); text-align: right; }
+
+    /* ── TERMOS ── */
+    .termos { background: #fafafa; border-left: 3px solid #ddd; padding: 11px 16px; border-radius: 0 7px 7px 0; font-size: .68rem; color: #888; line-height: 1.8; margin-top: 20px; }
+    .termos strong { color: #666; }
+
+    /* ── ASSINATURAS ── */
+    .assinaturas { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 36px; }
+    .ass { text-align: center; }
+    .ass-linha { border-top: 1.5px solid #ccc; padding-top: 8px; font-size: .72rem; color: #777; }
+    .ass-linha strong { display: block; color: #333; font-size: .8rem; margin-bottom: .2rem; }
+
+    /* ── RODAPÉ ── */
+    .doc-footer { margin-top: 28px; padding-top: 12px; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; font-size: .65rem; color: #bbb; }
+
+    /* ── PRINT ── */
+    @media print {
+      .demo-bar { display: none !important; }
+      body { background: #fff; }
+      .doc-wrapper { margin: 0; padding: 0; max-width: 100%; }
+      .doc-a4 { box-shadow: none; border-radius: 0; padding: 20mm 22mm; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Barra de demonstração -->
+<div class="demo-bar">
+  <div style="display:flex;align-items:center;gap:.8rem">
+    <span class="demo-label">👁️ PREVIEW</span>
+    <p>Esta é uma visualização de exemplo do Extrato. Com dados reais do Supabase, ficará exatamente assim.</p>
+  </div>
+  <button class="btn-imprimir" onclick="window.print()">
+    <i class="bi bi-printer me-1"></i>Imprimir / Salvar PDF
+  </button>
+</div>
+
+<div class="doc-wrapper">
+  <div class="doc-a4">
+
+    <!-- CABEÇALHO -->
+    <div class="doc-header">
+      <div class="empresa-logo-area">
+        <img src="../assets/imagens/Firefly_Gemini Flash_só logo sem fundo e algo minimalista  tipo as inicias m o sera para uma metalurica  807414.png" alt="Logo" style="height:60px;width:60px;object-fit:contain;background:#111;border-radius:10px;padding:6px" onerror="this.style.display='none'">
+        <div class="empresa-nome-bloco">
+          <div class="nome">Metalúrgica <span>Oliveira</span></div>
+          <div class="sub">
+            Fabricação e Venda de Estruturas Metálicas para Galpões<br>
+            Engenheiro Beltrão – PR &nbsp;|&nbsp; <strong>(44) 99831-8534</strong> &nbsp;|&nbsp; Atendemos toda a região
+          </div>
+        </div>
+      </div>
+      <div class="doc-numero-bloco">
+        <span class="doc-tipo-label">Extrato de Pagamento</span>
+        <div class="doc-num">#0042</div>
+        <div class="doc-data-emissao">Emitido em 08/08/2026</div>
+      </div>
+    </div>
+
+    <!-- STATUS CHIPS -->
+    <div class="status-chips">
+      <span class="chip chip-fab"><i class="bi bi-gear-fill"></i>Em Fabricação</span>
+      <span class="chip chip-pag-parc"><i class="bi bi-hourglass-split"></i>Pagamento: Parcial</span>
+    </div>
+
+    <!-- DADOS DO CLIENTE -->
+    <div class="section-title"><i class="bi bi-person-fill"></i>Dados do Cliente</div>
+    <div class="info-grid">
+      <div class="info-item"><div class="lbl">Nome Completo</div><div class="val">João Carlos da Silva</div></div>
+      <div class="info-item"><div class="lbl">CPF / CNPJ</div><div class="val">123.456.789-00</div></div>
+      <div class="info-item"><div class="lbl">Telefone / WhatsApp</div><div class="val">(44) 99888-7766</div></div>
+      <div class="info-item"><div class="lbl">E-mail</div><div class="val">joao@email.com</div></div>
+      <div class="info-item"><div class="lbl">Cidade / Estado</div><div class="val">Campo Mourão – PR</div></div>
+      <div class="info-item"><div class="lbl">Data da Venda</div><div class="val">12/07/2026</div></div>
+    </div>
+
+    <!-- ESPECIFICAÇÕES DO GALPÃO -->
+    <div class="section-title"><i class="bi bi-building"></i>Especificações Técnicas do Galpão</div>
+    <div class="info-grid" style="margin-bottom:10px">
+      <div class="info-item"><div class="lbl">Descrição</div><div class="val">Estrutura Metálica 12x20m (240m²)</div></div>
+      <div class="info-item"><div class="lbl">Comprimento</div><div class="val">20,00 m</div></div>
+      <div class="info-item"><div class="lbl">Largura / Vão</div><div class="val">12,00 m</div></div>
+      <div class="info-item"><div class="lbl">Pé-Direito</div><div class="val">6,00 m</div></div>
+      <div class="info-item"><div class="lbl">Área Total</div><div class="val">240 m²</div></div>
+    </div>
+    <div class="lbl" style="font-size:.65rem;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Materiais e Componentes Incluídos</div>
+    <div class="materiais-box">• Tesoura em Perfil U Enrijecido — Duas Águas
+• Colunas em Tubo Retangular 100x100mm
+• Terças Enrijecidas Espaçadas a 1,5m
+• Telhas Trapezoidais 0,50mm (inclusa)
+• Tirantes e Contraventamentos
+• Pintura Anticorrosiva de Proteção Industrial
+• Chumbadores e Fixações em Aço</div>
+
+    <!-- HISTÓRICO DE PAGAMENTOS -->
+    <div class="section-title"><i class="bi bi-clock-history"></i>Histórico de Pagamentos Recebidos</div>
+    <table class="tabela-pag">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Descrição / Parcela</th>
+          <th>Forma</th>
+          <th style="text-align:right">Valor Pago</th>
+          <th style="text-align:right">Comprovante</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>12/07/2026</td>
+          <td>1ª Parcela — Sinal de Entrada</td>
+          <td><span class="forma-chip">Pix</span></td>
+          <td>R$ 5.000,00</td>
+          <td class="comp-link"><a href="#">📎 Ver comprovante</a></td>
+        </tr>
+        <tr>
+          <td>05/08/2026</td>
+          <td>2ª Parcela</td>
+          <td><span class="forma-chip">Transferência</span></td>
+          <td>R$ 7.500,00</td>
+          <td class="comp-link"><a href="#">📎 Ver comprovante</a></td>
+        </tr>
+        <tr>
+          <td>08/08/2026</td>
+          <td>3ª Parcela</td>
+          <td><span class="forma-chip">Pix</span></td>
+          <td>R$ 5.000,00</td>
+          <td class="comp-link"><a href="#">📎 Ver comprovante</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- RESUMO FINANCEIRO -->
+    <div class="section-title"><i class="bi bi-currency-dollar"></i>Resumo Financeiro</div>
+    <div class="financeiro-box">
+      <div class="fin-row"><span class="fl">Valor Total da Estrutura</span><span class="fv">R$ 30.000,00</span></div>
+      <div class="fin-row"><span class="fl">Total já Pago até hoje</span><span class="fv verde">R$ 17.500,00</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:58.3%"></div></div>
+      <div class="prog-label">58,3% quitado</div>
+      <div class="fin-saldo">
+        <span class="fl">SALDO DEVEDOR RESTANTE</span>
+        <span class="fv">R$ 12.500,00</span>
+      </div>
+    </div>
+
+    <!-- TERMOS -->
+    <div class="termos">
+      <strong>Termos e Condições de Retirada:</strong><br>
+      1. A liberação e o carregamento da estrutura no pátio da Metalúrgica Oliveira somente serão autorizados após a <strong>quitação integral do saldo devedor</strong>.<br>
+      2. O armazenamento da estrutura pronta no pátio é garantido por até <strong>90 dias</strong> após aviso de conclusão de fabricação. Após esse prazo, poderá ser cobrada taxa de armazenagem.<br>
+      3. Este documento tem validade como comprovante da negociação entre as partes.
+    </div>
+
+    <!-- ASSINATURAS -->
+    <div class="assinaturas">
+      <div class="ass">
+        <div style="height:42px"></div>
+        <div class="ass-linha"><strong>Metalúrgica Oliveira</strong>Responsável pela empresa</div>
+      </div>
+      <div class="ass">
+        <div style="height:42px"></div>
+        <div class="ass-linha"><strong>João Carlos da Silva</strong>CPF: 123.456.789-00</div>
+      </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <div class="doc-footer">
+      <span>Metalúrgica Oliveira — Engenheiro Beltrão – PR — (44) 99831-8534</span>
+      <span>Pedido #0042 · Emitido em 08/08/2026 · Documento de uso interno</span>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
