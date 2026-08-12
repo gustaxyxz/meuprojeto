@@ -78,6 +78,10 @@
     <!-- Escopo (Itens) -->
     <div class="border-t pt-5">
       <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="list" class="w-4 h-4"></i> Escopo do Fornecimento</h3>
+      <div class="flex items-center gap-2 mb-4 bg-slate-50 border border-slate-200 p-2 rounded">
+        <input type="checkbox" id="fMostrarPrecos" onchange="up()" class="w-4 h-4 cursor-pointer">
+        <label for="fMostrarPrecos" class="text-xs font-bold text-slate-600 cursor-pointer">Mostrar Preços Unitários no PDF</label>
+      </div>
       <div id="listaItens" class="flex flex-col gap-3"></div>
       <button onclick="addItem()" class="mt-3 w-full bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-300 rounded p-2 text-sm font-bold transition flex justify-center items-center gap-2">
         <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Item
@@ -201,9 +205,20 @@ Taxas, licenças e ART da obra civil</textarea>
       <div class="mb-4 border-b border-doc-line pb-2">
         <span class="block text-[11px] font-extrabold uppercase tracking-[0.1em] text-doc-ink" id="dItemPrincipal">Escopo do fornecimento</span>
       </div>
-      <div id="dItensList">
-        <!-- JS injeta os itens aqui -->
-      </div>
+      <table class="w-full text-left border-collapse mt-4">
+        <thead>
+          <tr class="border-b-2 border-doc-ink" id="dItensHeader">
+            <th class="py-2 px-2 text-center text-[8.5px] uppercase tracking-widest text-doc-soft w-10">Item</th>
+            <th class="py-2 px-2 text-[8.5px] uppercase tracking-widest text-doc-soft">Descrição Técnica / Material</th>
+            <th class="py-2 px-2 text-center text-[8.5px] uppercase tracking-widest text-doc-soft w-20">Qtd</th>
+            <th class="py-2 px-2 text-right text-[8.5px] uppercase tracking-widest text-doc-soft w-28 dVUnitHeader" style="display:none">V. Unit. (R$)</th>
+            <th class="py-2 px-2 text-right text-[8.5px] uppercase tracking-widest text-doc-ink w-28 font-bold dTotalHeader" style="display:none">Total (R$)</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-doc-line" id="dItensList">
+          <!-- JS injeta os itens aqui -->
+        </tbody>
+      </table>
     </div>
 
     <!-- Spacer para empurrar o resto pro final da pag se der -->
@@ -431,11 +446,11 @@ Taxas, licenças e ART da obra civil</textarea>
 
 // ESTADO DOS ITENS
 let items = [
-  { t: "Barracão em estrutura metálica", d: "Área total de 240 m². Pé-direito de 5,00 m, vão livre sem pilar central.", q: "1 un" },
-  { t: "Tesouras treliçadas", d: "Vão de 12 m em perfil metálico, espaçamento de 5 m entre eixos.", q: "5 un" },
-  { t: "Terças e travamentos", d: "Perfil U enrijecido 150 × 60 × 20 × #2,25 mm, com correntes.", q: "conj." },
-  { t: "Tratamento e pintura", d: "Limpeza mecânica, fundo anticorrosivo e acabamento esmalte.", q: "240 m²" },
-  { t: "Montagem no local", d: "Mão de obra especializada, equipamentos e içamento inclusos.", q: "serviço" }
+  { t: "Barracão em estrutura metálica", d: "Área total de 240 m². Pé-direito de 5,00 m, vão livre sem pilar central.", q: "1 un", v: "85000" },
+  { t: "Tesouras treliçadas", d: "Vão de 12 m em perfil metálico, espaçamento de 5 m entre eixos.", q: "5 un", v: "4500" },
+  { t: "Terças e travamentos", d: "Perfil U enrijecido 150 × 60 × 20 × #2,25 mm, com correntes.", q: "conj.", v: "12000" },
+  { t: "Tratamento e pintura", d: "Limpeza mecânica, fundo anticorrosivo e acabamento esmalte.", q: "240 m²", v: "40" },
+  { t: "Montagem no local", d: "Mão de obra especializada, equipamentos e içamento inclusos.", q: "serviço", v: "18500" }
 ];
 
 function addItem() {
@@ -466,9 +481,15 @@ function renderItemsForm() {
         <label class="block text-[10px] font-bold mb-1 text-slate-500">Descrição detalhada</label>
         <textarea class="w-full border rounded p-1.5 text-xs bg-white min-h-[40px]" oninput="items[${i}].d=this.value; up()">${it.d}</textarea>
       </div>
-      <div>
-        <label class="block text-[10px] font-bold mb-1 text-slate-500">Qtd / Und</label>
-        <input type="text" class="w-24 border rounded p-1.5 text-xs bg-white" placeholder="Ex: 5 un" value="${it.q}" oninput="items[${i}].q=this.value; up()">
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <label class="block text-[10px] font-bold mb-1 text-slate-500">Qtd / Und</label>
+          <input type="text" class="w-full border rounded p-1.5 text-xs bg-white" placeholder="Ex: 5 un" value="${it.q}" oninput="items[${i}].q=this.value; up()">
+        </div>
+        <div class="flex-1">
+          <label class="block text-[10px] font-bold mb-1 text-slate-500">V. Unit (R$)</label>
+          <input type="number" class="w-full border rounded p-1.5 text-xs bg-white" placeholder="0.00" value="${it.v || ''}" oninput="items[${i}].v=this.value; up()">
+        </div>
       </div>
     `;
     container.appendChild(div);
@@ -492,15 +513,21 @@ function capitalizeFirstLetter(string) {
 function up() {
   const num = g("fNum") || "—";
   const data = g("fData");
-  const val = g("fVal") || "15";
+  const val = g("fVal");
   
   // Header Info
   s("dNum", num);
   s("dEmit", "Emissão " + fd(data));
-  s("dVal", "Válida por " + val + " dias");
-  toggleRow("dVal", val);
-  s("dCondVal", val);
-  toggleRow("rowCondVal", val);
+  
+  if (val) {
+    s("dVal", "Válida por " + val + " dias");
+    toggleRow("dVal", true);
+    s("dCondVal", val);
+    toggleRow("rowCondVal", true);
+  } else {
+    toggleRow("dVal", false);
+    toggleRow("rowCondVal", false);
+  }
   
   s("dSubtitPg2", `Orçamento ${num} · METALÚRGICA OLIVEIRA`);
 
@@ -551,22 +578,40 @@ function up() {
 
   // Itens (Escopo)
   const itensList = document.getElementById("dItensList");
-  itensList.innerHTML = "";
-  items.forEach((it, i) => {
-    if(it.t || it.d) {
-      const bg = i % 2 === 0 ? "bg-doc-zebra" : "";
-      itensList.innerHTML += `
-        <li class="flex items-start gap-3 rounded-md px-3 py-2 ${bg}">
-          <span class="mt-[5px] w-[5px] h-[5px] shrink-0 rounded-full bg-doc-ink"></span>
-          <div class="min-w-0 flex-1">
-            <p class="text-[9.6px] font-bold leading-tight">${it.t}</p>
-            <p class="mt-0.5 text-[8.3px] leading-snug text-doc-soft">${it.d}</p>
-          </div>
-          <span class="shrink-0 text-[9px] font-semibold text-doc-soft">${it.q}</span>
-        </li>
-      `;
-    }
-  });
+  const fMostrarPrecos = document.getElementById("fMostrarPrecos");
+  const mostrarPreco = fMostrarPrecos ? fMostrarPrecos.checked : false;
+  
+  document.querySelectorAll(".dVUnitHeader").forEach(el => el.style.display = mostrarPreco ? "" : "none");
+  document.querySelectorAll(".dTotalHeader").forEach(el => el.style.display = mostrarPreco ? "" : "none");
+
+  if(itensList) {
+    itensList.innerHTML = "";
+    items.forEach((it, i) => {
+      if(it.t || it.d) {
+        const numIdx = String(i+1).padStart(2, '0');
+        const valU = parseFloat(it.v) || 0;
+        let qNum = parseFloat(String(it.q).replace(',', '.')) || 1;
+        if (isNaN(qNum) || qNum === 0) qNum = 1;
+        const subtotalItem = valU * qNum;
+
+        const bg = i % 2 === 0 ? "bg-doc-zebra/50" : "";
+        itensList.innerHTML += `
+          <tr class="${bg}">
+            <td class="py-3 px-2 text-center text-[9px] text-doc-soft font-semibold">${numIdx}</td>
+            <td class="py-3 px-2">
+              <p class="text-[9.6px] font-bold leading-tight text-doc-ink">${it.t}</p>
+              <p class="mt-0.5 text-[8.3px] leading-snug text-doc-soft">${it.d}</p>
+            </td>
+            <td class="py-3 px-2 text-center text-[9px] font-semibold text-doc-ink">${it.q}</td>
+            ${mostrarPreco ? `
+            <td class="py-3 px-2 text-right text-[9px] text-doc-soft">${valU.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            <td class="py-3 px-2 text-right text-[9px] font-bold text-doc-ink">${subtotalItem.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            ` : ''}
+          </tr>
+        `;
+      }
+    });
+  }
 
   // Incluso / Não Incluso
   const incList = document.getElementById("dIncList");
