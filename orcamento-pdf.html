@@ -24,7 +24,6 @@
 <style type="text/tailwindcss">
 /* Tailwind for Sidebar */
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body class="flex h-screen text-slate-800">
 
@@ -324,20 +323,20 @@ Taxas, licenças e ART da obra civil</textarea>
       </div>
       <dl class="space-y-3">
         <div class="flex gap-4">
-          <dt class="w-[26mm] shrink-0 text-[10px] font-bold">Validade</dt>
-          <dd class="text-[9.5px] leading-snug text-doc-soft">Esta proposta é válida por <span id="dCondVal">15</span> dias a partir da data de emissão. Após esse prazo os valores podem ser revistos conforme o preço do aço.</dd>
+          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Validade</dt>
+          <dd class="text-[8.6px] leading-snug text-doc-soft">Esta proposta é válida por <span id="dCondVal">15</span> dias a partir da data de emissão. Após esse prazo os valores podem ser revistos conforme o preço do aço.</dd>
         </div>
         <div class="flex gap-4">
-          <dt class="w-[26mm] shrink-0 text-[10px] font-bold">Garantia</dt>
-          <dd class="text-[9.5px] leading-snug text-doc-soft">12 meses sobre a estrutura e a solda, contra defeitos de fabricação e montagem, conforme o Código de Defesa do Consumidor.</dd>
+          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Garantia</dt>
+          <dd class="text-[8.6px] leading-snug text-doc-soft">12 meses sobre a estrutura e a solda, contra defeitos de fabricação e montagem, conforme o Código de Defesa do Consumidor.</dd>
         </div>
         <div class="flex gap-4">
-          <dt class="w-[26mm] shrink-0 text-[10px] font-bold">Execução</dt>
-          <dd class="text-[9.5px] leading-snug text-doc-soft">O prazo começa a contar após a aprovação da proposta, o pagamento do sinal e a liberação da obra civil (blocos curados e nivelados).</dd>
+          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Execução</dt>
+          <dd class="text-[8.6px] leading-snug text-doc-soft">O prazo começa a contar após a aprovação da proposta, o pagamento do sinal e a liberação da obra civil (blocos curados e nivelados).</dd>
         </div>
         <div class="flex gap-4">
-          <dt class="w-[26mm] shrink-0 text-[10px] font-bold">Alterações</dt>
-          <dd class="text-[9.5px] leading-snug text-doc-soft">Qualquer mudança de medidas, cargas ou acabamento após a aprovação será orçada em aditivo, por escrito.</dd>
+          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Alterações</dt>
+          <dd class="text-[8.6px] leading-snug text-doc-soft">Qualquer mudança de medidas, cargas ou acabamento após a aprovação será orçada em aditivo, por escrito.</dd>
         </div>
       </dl>
     </div>
@@ -347,7 +346,7 @@ Taxas, licenças e ART da obra civil</textarea>
       <i data-lucide="shield-check" class="w-5 h-5 shrink-0" stroke-width="1.6"></i>
       <div>
         <p class="text-[9.4px] font-bold">12 meses de garantia · estrutura calculada e padronizada</p>
-        <p class="mt-0.5 text-[9.5px] text-doc-soft">Trabalhamos com garantia estrutural e materiais com certificação de origem.</p>
+        <p class="mt-0.5 text-[8.3px] text-doc-soft">Trabalhamos com garantia estrutural e materiais com certificação de origem.</p>
       </div>
     </div>
 
@@ -361,25 +360,25 @@ Taxas, licenças e ART da obra civil</textarea>
         <div class="rounded-xl bg-doc-card px-4 py-4">
           <div class="flex items-center gap-2.5">
             <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">1</span>
-            <p class="text-[10px] font-bold leading-tight">Você aprova</p>
+            <p class="text-[9.2px] font-bold leading-tight">Você aprova</p>
           </div>
-          <p class="mt-2 text-[9.5px] leading-snug text-doc-soft">Assine abaixo ou confirme por mensagem.</p>
+          <p class="mt-2 text-[8px] leading-snug text-doc-soft">Assine abaixo ou confirme por mensagem.</p>
         </div>
         
         <div class="rounded-xl bg-doc-card px-4 py-4">
           <div class="flex items-center gap-2.5">
             <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">2</span>
-            <p class="text-[10px] font-bold leading-tight">Sinal e Contrato</p>
+            <p class="text-[9.2px] font-bold leading-tight">Sinal e Contrato</p>
           </div>
-          <p class="mt-2 text-[9.5px] leading-snug text-doc-soft">Confirmamos os detalhes e agendamos a obra.</p>
+          <p class="mt-2 text-[8px] leading-snug text-doc-soft">Confirmamos os detalhes e agendamos a obra.</p>
         </div>
 
         <div class="rounded-xl bg-doc-card px-4 py-4">
           <div class="flex items-center gap-2.5">
             <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">3</span>
-            <p class="text-[10px] font-bold leading-tight">Fabricação e montagem</p>
+            <p class="text-[9.2px] font-bold leading-tight">Fabricação e montagem</p>
           </div>
-          <p class="mt-2 text-[9.5px] leading-snug text-doc-soft" id="dPrazoStep">Prazo definido em contrato para a entrega.</p>
+          <p class="mt-2 text-[8px] leading-snug text-doc-soft" id="dPrazoStep">Prazo definido em contrato para a entrega.</p>
         </div>
 
       </div>
@@ -392,22 +391,16 @@ Taxas, licenças e ART da obra civil</textarea>
       <div class="mb-4 border-b border-doc-line pb-2">
         <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Aprovação</span>
       </div>
-      <div class="mt-10 grid grid-cols-[1fr_1fr_auto] gap-8 items-end">
-        <div class="pb-2">
+      <div class="mt-12 grid grid-cols-2 gap-14">
+        <div>
           <div class="border-t border-doc-ink"></div>
-          <p class="mt-2 text-[10px] font-bold" id="dAssCliente">Cliente</p>
+          <p class="mt-2 text-[9.2px] font-bold" id="dAssCliente">Cliente</p>
           <p class="text-[8px] text-doc-soft">Nome / CNPJ · Data</p>
         </div>
-        <div class="pb-2">
+        <div>
           <div class="border-t border-doc-ink"></div>
-          <p class="mt-2 text-[10px] font-bold">Metalúrgica Oliveira</p>
+          <p class="mt-2 text-[9.2px] font-bold">Metalúrgica Oliveira</p>
           <p class="text-[8px] text-doc-soft">Responsável · Data</p>
-        </div>
-        <div class="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-lg p-2">
-          <div id="dQrCode" class="w-[20mm] h-[20mm] bg-white shrink-0"></div>
-          <div class="text-[8px] text-slate-500 leading-tight w-[28mm]">
-            <strong>Aprovação Digital</strong><br/>Escaneie para aprovar via WhatsApp
-          </div>
         </div>
       </div>
     </div>
@@ -431,15 +424,15 @@ Taxas, licenças e ART da obra civil</textarea>
 
 // ESTADO DOS ITENS
 let items = [
-  { t: "Barracão em estrutura metálica", d: "Área total de 240 m². Pé-direito de 5,00 m, vão livre sem pilar central.", q: "1 un", h: true },
-  { t: "Tesouras treliçadas", d: "Vão de 12 m em perfil metálico, espaçamento de 5 m entre eixos.", q: "5 un", h: false },
-  { t: "Terças e travamentos", d: "Perfil U enrijecido 150 × 60 × 20 × #2,25 mm, com correntes.", q: "conj.", h: false },
-  { t: "Tratamento e pintura", d: "Limpeza mecânica, fundo anticorrosivo e acabamento esmalte.", q: "240 m²", h: false },
-  { t: "Montagem no local", d: "Mão de obra especializada, equipamentos e içamento inclusos.", q: "serviço", h: false }
+  { t: "Barracão em estrutura metálica", d: "Área total de 240 m². Pé-direito de 5,00 m, vão livre sem pilar central.", q: "1 un" },
+  { t: "Tesouras treliçadas", d: "Vão de 12 m em perfil metálico, espaçamento de 5 m entre eixos.", q: "5 un" },
+  { t: "Terças e travamentos", d: "Perfil U enrijecido 150 × 60 × 20 × #2,25 mm, com correntes.", q: "conj." },
+  { t: "Tratamento e pintura", d: "Limpeza mecânica, fundo anticorrosivo e acabamento esmalte.", q: "240 m²" },
+  { t: "Montagem no local", d: "Mão de obra especializada, equipamentos e içamento inclusos.", q: "serviço" }
 ];
 
 function addItem() {
-  items.push({ t: "", d: "", q: "", h: false });
+  items.push({ t: "", d: "", q: "" });
   renderItemsForm();
   up();
 }
@@ -466,35 +459,13 @@ function renderItemsForm() {
         <label class="block text-[10px] font-bold mb-1 text-slate-500">Descrição detalhada</label>
         <textarea class="w-full border rounded p-1.5 text-xs bg-white min-h-[40px]" oninput="items[${i}].d=this.value; up()">${it.d}</textarea>
       </div>
-      <div class="flex gap-4 items-end">
-        <div>
-          <label class="block text-[10px] font-bold mb-1 text-slate-500">Qtd / Und</label>
-          <input type="text" class="w-24 border rounded p-1.5 text-xs bg-white" placeholder="Ex: 5 un" value="${it.q}" oninput="items[${i}].q=this.value; up()">
-        </div>
-        <div class="flex items-center gap-1.5 mb-2">
-          <input type="checkbox" id="chkDest_${i}" ${it.h ? 'checked' : ''} onchange="items[${i}].h=this.checked; up()">
-          <label for="chkDest_${i}" class="text-[10px] font-bold text-slate-500 cursor-pointer">Destacar</label>
-        </div>
+      <div>
+        <label class="block text-[10px] font-bold mb-1 text-slate-500">Qtd / Und</label>
+        <input type="text" class="w-24 border rounded p-1.5 text-xs bg-white" placeholder="Ex: 5 un" value="${it.q}" oninput="items[${i}].q=this.value; up()">
       </div>
     `;
     container.appendChild(div);
   });
-  
-  // QR Code
-  const qrContainer = document.getElementById("dQrCode");
-  qrContainer.innerHTML = "";
-  if(window.QRCode) {
-    const zapUrl = `https://wa.me/5544997671935?text=Aprovo%20o%20orçamento%20${num}`;
-    new QRCode(qrContainer, {
-      text: zapUrl,
-      width: 75,
-      height: 75,
-      colorDark : "#0f172a", // doc-ink
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.L
-    });
-  }
-
   lucide.createIcons();
 }
 
@@ -559,15 +530,15 @@ function up() {
   itensList.innerHTML = "";
   items.forEach((it, i) => {
     if(it.t || it.d) {
-      const bg = it.h ? "bg-doc-yellow/10 border-l-2 border-doc-yellow" : (i % 2 === 0 ? "bg-doc-zebra" : "");
+      const bg = i % 2 === 0 ? "bg-doc-zebra" : "";
       itensList.innerHTML += `
         <li class="flex items-start gap-3 rounded-md px-3 py-2 ${bg}">
           <span class="mt-[5px] w-[5px] h-[5px] shrink-0 rounded-full bg-doc-ink"></span>
           <div class="min-w-0 flex-1">
-            <p class="text-[11px] font-bold leading-tight">${it.t}</p>
-            <p class="mt-0.5 text-[9.5px] leading-snug text-doc-soft">${it.d}</p>
+            <p class="text-[9.6px] font-bold leading-tight">${it.t}</p>
+            <p class="mt-0.5 text-[8.3px] leading-snug text-doc-soft">${it.d}</p>
           </div>
-          <span class="shrink-0 text-[10px] font-semibold text-doc-soft">${it.q}</span>
+          <span class="shrink-0 text-[9px] font-semibold text-doc-soft">${it.q}</span>
         </li>
       `;
     }
@@ -578,7 +549,7 @@ function up() {
   incList.innerHTML = "";
   g("fInc").split('\n').filter(l=>l.trim()).forEach(l => {
     incList.innerHTML += `
-      <li class="flex items-start gap-2.5 text-[9.5px] leading-snug">
+      <li class="flex items-start gap-2.5 text-[8.6px] leading-snug">
         <i data-lucide="check-circle-2" class="mt-[1px] w-3 h-3 shrink-0" stroke-width="1.8"></i>
         ${l}
       </li>
@@ -589,28 +560,12 @@ function up() {
   nincList.innerHTML = "";
   g("fNinc").split('\n').filter(l=>l.trim()).forEach(l => {
     nincList.innerHTML += `
-      <li class="flex items-start gap-2.5 text-[9.5px] leading-snug text-doc-soft">
+      <li class="flex items-start gap-2.5 text-[8.6px] leading-snug text-doc-soft">
         <i data-lucide="x-circle" class="mt-[1px] w-3 h-3 shrink-0 text-doc-disabled" stroke-width="1.8"></i>
         ${l}
       </li>
     `;
   });
-
-  
-  // QR Code
-  const qrContainer = document.getElementById("dQrCode");
-  qrContainer.innerHTML = "";
-  if(window.QRCode) {
-    const zapUrl = `https://wa.me/5544997671935?text=Aprovo%20o%20orçamento%20${num}`;
-    new QRCode(qrContainer, {
-      text: zapUrl,
-      width: 75,
-      height: 75,
-      colorDark : "#0f172a", // doc-ink
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.L
-    });
-  }
 
   lucide.createIcons();
 }
