@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Orcamento - Metalurgica Oliveira</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Barlow:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--am:#ffc107;--ame:#e6a800;--amc:#fff8e1;--pr:#111;--gb:#e8eaed;--fn:Inter,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fn);background:var(--gb);min-height:100vh;}
+.topbar{background:#111;padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(0,0,0,.45);}
+.tbrand{display:flex;align-items:center;gap:.7rem;}
+.tbrand img{height:36px;width:36px;object-fit:contain;background:#222;border-radius:8px;padding:4px;}
+.marca{font-weight:900;font-size:1rem;color:var(--am);}
+.submarca{font-size:.71rem;color:#777;}
+.tactions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;}
+.btn{display:flex;align-items:center;gap:.4rem;padding:.52rem 1.1rem;border-radius:8px;border:none;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .2s;}
+.btn-am{background:var(--am);color:#111;} .btn-am:hover{background:var(--ame);transform:translateY(-1px);}
+.btn-wpp{background:#25d366;color:#fff;} .btn-wpp:hover{background:#1da851;transform:translateY(-1px);}
+.btn-cl{background:#2d2d2d;color:#aaa;border:1px solid #444;} .btn-cl:hover{background:#444;color:#fff;}
+.lay{display:grid;grid-template-columns:420px 1fr;min-height:calc(100vh - 60px);}
+.fp{background:#fff;border-right:1px solid #e5e7eb;overflow-y:auto;height:calc(100vh - 60px);position:sticky;top:60px;}
+.fs{padding:1.2rem 1.5rem;border-bottom:1px solid #f0f0f0;}
+.fst{font-size:.69rem;font-weight:800;text-transform:uppercase;letter-spacing:.11em;color:#999;margin-bottom:.9rem;display:flex;align-items:center;gap:.45rem;}
+.fst i{color:var(--ame);} .fst::after{content:"";flex:1;height:1px;background:#f0f0f0;}
+.fg{margin-bottom:.8rem;}
+.fg label{display:block;font-size:.71rem;font-weight:700;color:#555;margin-bottom:.28rem;text-transform:uppercase;letter-spacing:.04em;}
+.fg input,.fg select,.fg textarea{width:100%;padding:.48rem .7rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.84rem;font-family:var(--fn);color:#222;background:#fafafa;transition:border-color .2s;outline:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--am);box-shadow:0 0 0 3px rgba(255,193,7,.14);background:#fff;}
+.fg textarea{resize:vertical;min-height:76px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem;}
+.il{display:flex;flex-direction:column;gap:.45rem;}
+.ir{background:#fafafa;border:1px solid #e5e7eb;border-radius:8px;padding:.55rem .7rem;display:grid;grid-template-columns:1fr 58px 78px 22px;gap:.38rem;align-items:center;}
+.ir input{padding:.28rem .45rem;font-size:.79rem;border:1px solid #e0e0e0;border-radius:6px;background:#fff;outline:none;}
+.ir input:focus{border-color:var(--am);}
+.bri{background:none;border:none;color:#ccc;cursor:pointer;font-size:.95rem;padding:.2rem;} .bri:hover{color:#ef4444;}
+.bai{display:flex;align-items:center;gap:.4rem;padding:.48rem .9rem;background:var(--amc);color:var(--ame);border:1.5px dashed var(--am);border-radius:8px;font-size:.79rem;font-weight:700;cursor:pointer;width:100%;justify-content:center;margin-top:.45rem;transition:all .2s;}
+.bai:hover{background:var(--am);color:#111;border-style:solid;}
+.rv{background:#111;border-radius:10px;padding:.85rem .95rem;margin-top:.7rem;}
+.rl{display:flex;justify-content:space-between;font-size:.79rem;padding:.18rem 0;color:#aaa;}
+.rl.d{color:var(--am);font-weight:900;font-size:1rem;border-top:1px solid #ffc10730;margin-top:.38rem;padding-top:.38rem;}
+.rl span:last-child{font-weight:700;color:#fff;} .rl.d span:last-child{color:var(--am);}
+.pp{background:var(--gb);overflow-y:auto;padding:1.8rem 1.4rem 4rem;}
+.plbl{text-align:center;margin-bottom:.9rem;}
+.plbl span{background:#1e1e1e;color:#aaa;border-radius:20px;padding:.28rem .85rem;font-size:.71rem;font-weight:700;}
+.a4{background:#fff;max-width:794px;margin:0 auto;box-shadow:0 8px 48px rgba(0,0,0,.18);border-radius:4px;padding:48px 54px;min-height:297mm;position:relative;font-family:Inter,"Segoe UI",sans-serif;}
+.a4::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#111 0%,#ffc107 45%,#e6a800 60%,#111 100%);border-radius:4px 4px 0 0;}
+.dh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;padding-bottom:18px;border-bottom:2.5px solid #111;}
+.dlb{display:flex;align-items:center;gap:13px;}
+.dli{height:60px;width:60px;object-fit:contain;background:#111;border-radius:10px;padding:6px;}
+.den{font-size:1.25rem;font-weight:900;color:#111;font-family:Barlow,var(--fn);}
+.den .dc{color:var(--ame);}
+.des{font-size:.67rem;color:#777;line-height:1.6;margin-top:.28rem;}
+.dcnpj{font-size:.61rem;color:#bbb;margin-top:.38rem;}
+.dib{text-align:right;}
+.dbt{font-size:.61rem;font-weight:800;text-transform:uppercase;letter-spacing:.11em;color:#888;background:#f5f5f5;padding:.22rem .65rem;border-radius:4px;display:inline-block;}
+.dn{font-size:1.85rem;font-weight:900;color:#111;line-height:1;margin-top:.28rem;font-family:Barlow,var(--fn);}
+.ddv{font-size:.69rem;color:#888;margin-top:.28rem;line-height:1.6;}
+.dst{font-size:.61rem;font-weight:800;text-transform:uppercase;letter-spacing:.11em;color:#ccc;margin:20px 0 9px;display:flex;align-items:center;gap:.45rem;}
+.dst::after{content:"";flex:1;height:1px;background:#eee;} .dst i{color:var(--ame);}
+.dig{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px 18px;}
+.dii .lb{font-size:.59rem;color:#bbb;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+.dii .vl{font-size:.87rem;color:#111;font-weight:700;}
+.dtab{width:100%;border-collapse:collapse;font-size:.81rem;margin-top:7px;}
+.dtab thead tr{background:#111;color:#fff;}
+.dtab thead th{padding:.55rem .75rem;font-size:.61rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;}
+.dtab thead th:last-child{text-align:right;}
+.dtab tbody tr{border-bottom:1px solid #f0f0f0;}
+.dtab tbody tr:nth-child(even){background:#fafafa;}
+.dtab tbody td{padding:.5rem .75rem;color:#333;}
+.dtab tbody td:last-child{text-align:right;font-weight:700;color:#111;}
+.dtab tfoot tr{border-top:2px solid #111;}
+.dtab tfoot td{padding:.45rem .75rem;font-weight:700;}
+.dpb{background:#111;color:#fff;border-radius:10px;padding:17px 21px;margin-top:16px;}
+.dpr{display:flex;justify-content:space-between;padding:.33rem 0;font-size:.82rem;border-bottom:1px solid rgba(255,255,255,.07);}
+.dpr:last-child{border:none;} .dpr .pl{color:#aaa;} .dpr .pv{font-weight:700;color:#fff;}
+.dpd{display:flex;justify-content:space-between;align-items:center;margin-top:11px;padding-top:11px;border-top:2px solid var(--am);}
+.dpd .pl{font-weight:800;font-size:.98rem;color:#fff;}
+.dpd .pv{font-size:1.8rem;font-weight:900;color:var(--am);font-family:Barlow,var(--fn);}
+.dob{background:#fafafa;border:1px solid #eee;border-left:4px solid var(--am);border-radius:0 8px 8px 0;padding:11px 15px;font-size:.79rem;color:#444;line-height:1.9;white-space:pre-line;margin-top:4px;}
+.dcb{background:#fafafa;border:1px solid #e5e7eb;border-radius:8px;padding:11px 15px;font-size:.71rem;color:#666;line-height:1.82;margin-top:4px;}
+.dcb strong{color:#222;} .dci{display:flex;gap:.55rem;padding:.18rem 0;}
+.dcn{color:var(--ame);font-weight:900;min-width:18px;}
+.dpraz{display:inline-flex;align-items:center;gap:.48rem;background:var(--amc);border:1.5px solid var(--am);border-radius:8px;padding:.55rem .9rem;font-size:.81rem;font-weight:700;color:#7a5800;margin-top:4px;}
+.dass{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:42px;}
+.da{text-align:center;} .dal{border-top:1.5px solid #ccc;padding-top:8px;font-size:.71rem;color:#888;}
+.dal strong{display:block;color:#222;font-size:.81rem;margin-bottom:.18rem;}
+.df{margin-top:28px;padding-top:11px;border-top:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;font-size:.61rem;color:#ccc;}
+.df .dfm{font-weight:800;color:#aaa;font-size:.67rem;}
+.stmp{position:absolute;right:46px;top:50%;transform:translateY(-50%) rotate(-30deg);font-size:3.2rem;font-weight:900;color:rgba(255,193,7,.045);pointer-events:none;letter-spacing:.08em;font-family:Barlow,sans-serif;white-space:nowrap;}
+@media print{.topbar,.fp,.plbl{display:none!important;}.lay{display:block!important;}.pp{padding:0!important;background:#fff!important;overflow:visible!important;}body{background:#fff!important;}.a4{box-shadow:none!important;border-radius:0!important;padding:18mm 20mm 16mm!important;max-width:100%!important;min-height:0!important;}.stmp{display:none;}}
+@media(max-width:900px){.lay{grid-template-columns:1fr;}.fp{height:auto;position:relative;top:0;}.a4{padding:26px;}.dig{grid-template-columns:1fr 1fr;}.dass{grid-template-columns:1fr;gap:22px;}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="tbrand">
+    <img src="assets/imagens/logo_cabecalho_original.png" alt="Logo" onerror="this.style.display='none'">
+    <div><div class="marca">&#128296; Metalurgica Oliveira</div><div class="submarca">Gerador de Orcamento PDF</div></div>
+  </div>
+  <div class="tactions">
+    <button class="btn btn-cl" onclick="limpar()"><i class="bi bi-arrow-counterclockwise"></i> Limpar</button>
+    <button class="btn btn-wpp" onclick="zap()"><i class="bi bi-whatsapp"></i> WhatsApp</button>
+    <button class="btn btn-am" onclick="window.print()"><i class="bi bi-file-earmark-arrow-down"></i> Salvar PDF</button>
+  </div>
+</header>
+<div class="lay">
+  <aside class="fp">
+    <div class="fs">
+      <div class="fst"><i class="bi bi-hash"></i> Identificacao</div>
+      <div class="fr">
+        <div class="fg"><label>Nr Orcamento</label><input id="numOrc" value="0001" oninput="up()"></div>
+        <div class="fg"><label>Data Emissao</label><input type="date" id="dataEm" oninput="up()"></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Validade (dias)</label><input type="number" id="valDias" value="15" min="1" max="90" oninput="up()"></div>
+        <div class="fg"><label>Tipo</label>
+          <select id="tipoDoc" onchange="up()">
+            <option>Proposta Comercial</option><option>Orcamento</option><option>Cotacao</option><option>Proposta Tecnica</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="fs">
+      <div class="fst"><i class="bi bi-person-fill"></i> Dados do Cliente</div>
+      <div class="fg"><label>Nome / Razao Social *</label><input id="cNome" placeholder="Ex: Joao da Silva / Fazenda Boa Vista" oninput="up()"></div>
+      <div class="fr">
+        <div class="fg"><label>CPF / CNPJ</label><input id="cDoc" placeholder="000.000.000-00" oninput="up()"></div>
+        <div class="fg"><label>Telefone / WhatsApp</label><input id="cTel" placeholder="(44) 99999-0000" oninput="up()"></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Cidade</label><input id="cCid" placeholder="Maringa" oninput="up()"></div>
+        <div class="fg"><label>UF</label>
+          <select id="cUF" onchange="up()"><option selected>PR</option><option>SP</option><option>MS</option><option>SC</option><option>RS</option><option>MT</option><option>GO</option><option>MG</option><option>Outro</option></select>
+        </div>
+      </div>
+      <div class="fg"><label>E-mail (opcional)</label><input type="email" id="cEmail" placeholder="cliente@email.com" oninput="up()"></div>
+      <div class="fg"><label>Origem do Contato</label>
+        <select id="cOrig" onchange="up()"><option value="">- Selecione -</option><option>Indicacao</option><option>WhatsApp</option><option>Site</option><option>OLX / Marketplace</option><option>Instagram</option><option>Visita Presencial</option><option>Retorno de Cliente</option></select>
+      </div>
+    </div>
+    <div class="fs">
+      <div class="fst"><i class="bi bi-building"></i> Especificacoes Tecnicas</div>
+      <div class="fg"><label>Descricao / Modelo da Estrutura *</label><input id="eDesc" placeholder="Ex: Galpao Industrial 15x30m" oninput="up()"></div>
+      <div class="fr3">
+        <div class="fg"><label>Largura (m)</label><input type="number" id="eLarg" step="0.5" min="0" placeholder="15" oninput="up()"></div>
+        <div class="fg"><label>Comprimento (m)</label><input type="number" id="eComp" step="0.5" min="0" placeholder="30" oninput="up()"></div>
+        <div class="fg"><label>Pe-Direito (m)</label><input type="number" id="ePD" step="0.1" min="0" placeholder="5" oninput="up()"></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label>Tipo de Tesoura</label>
+          <select id="eTes" onchange="up()"><option value="">- Selecione -</option><option>Duas Aguas</option><option>Uma Agua</option><option>Arco Abaulado</option><option>Tesoura Tradicional</option><option>Metalica Leve</option></select>
+        </div>
+        <div class="fg"><label>Tipo de Cobertura</label>
+          <select id="eCob" onchange="up()"><option value="">- Selecione -</option><option>Telha Trapezoidal 0,43mm</option><option>Telha Trapezoidal 0,50mm</option><option>Telha Sanduiche</option><option>Fibrocimento</option><option>Sem Cobertura</option></select>
+        </div>
+      </div>
+      <div class="fg"><label>Lateral / Fechamento</label>
+        <select id="eLat" onchange="up()"><option value="">- Sem Fechamento -</option><option>Telha Trapezoidal nas Laterais</option><option>Telha Trapezoidal Parcial</option><option>Tapume de Madeira</option></select>
+      </div>
+    </div>
+    <div class="fs">
+      <div class="fst"><i class="bi bi-list-check"></i> Composicao do Orcamento</div>
+      <div style="display:grid;grid-template-columns:1fr 56px 76px 22px;gap:.38rem;margin-bottom:.3rem">
+        <span style="font-size:.59rem;font-weight:700;color:#bbb;text-transform:uppercase">Descricao</span>
+        <span style="font-size:.59rem;font-weight:700;color:#bbb;text-transform:uppercase">Qtd</span>
+        <span style="font-size:.59rem;font-weight:700;color:#bbb;text-transform:uppercase">R$ Unit</span>
+        <span></span>
+      </div>
+      <div class="il" id="ilista"></div>
+      <button class="bai" onclick="addItem()"><i class="bi bi-plus-circle"></i> Adicionar Item</button>
+      <div style="margin-top:.9rem">
+        <div class="fr">
+          <div class="fg"><label>Desconto PIX (%)</label><input type="number" id="descPix" value="10" min="0" max="100" step="0.5" oninput="up()"></div>
+          <div class="fg"><label>Frete (R$)</label><input type="number" id="frete" value="0" min="0" step="10" oninput="up()"></div>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="rl"><span>Subtotal</span><span id="rSub">R$ 0,00</span></div>
+        <div class="rl"><span>Frete</span><span id="rFr">R$ 0,00</span></div>
+        <div class="rl"><span>Desconto PIX</span><span id="rDes" style="color:#22c55e">- R$ 0,00</span></div>
+        <div class="rl d"><span>Total a Vista PIX</span><span id="rTot">R$ 0,00</span></div>
+      </div>
+    </div>
+    <div class="fs">
+      <div class="fst"><i class="bi bi-calendar-check"></i> Prazo e Pagamento</div>
+      <div class="fg"><label>Prazo Entrega / Fabricacao</label><input id="prazo" placeholder="Ex: 25 a 35 dias uteis apos aprovacao" oninput="up()"></div>
+      <div class="fg"><label>Condicao de Pagamento</label><input id="condPag" placeholder="Ex: 50% sinal + 50% na entrega" oninput="up()"></div>
+      <div class="fg"><label>Forma de Pagamento</label>
+        <select id="formPag" onchange="up()"><option>PIX, Dinheiro, Transferencia</option><option>PIX / Boleto</option><option>Cheque a prazo</option><option>A combinar</option></select>
+      </div>
+    </div>
+    <div class="fs">
+      <div class="fst"><i class="bi bi-card-text"></i> Materiais e Observacoes</div>
+      <div class="fg"><label>Materiais Inclusos (um por linha)</label>
+        <textarea id="mats" rows="7" oninput="up()" placeholder="Tesoura Tipo Duas Aguas em Perfil U Enrijecido&#10;Colunas em Tubo Retangular 100x100mm&#10;Tercas Enrijecidas a 1,50m&#10;Telhas Trapezoidais 0,50mm&#10;Tirantes e Contraventamentos&#10;Pintura Anticorrosiva (2 demaos)&#10;Conjunto de Fixacoes Certificadas"></textarea>
+      </div>
+      <div class="fg"><label>Observacoes Adicionais</label>
+        <textarea id="obs" rows="3" oninput="up()" placeholder="Ex: Projeto nao inclui fundacao. Frete por conta do cliente..."></textarea>
+      </div>
+    </div>
+  </aside>
+  <main class="pp">
+    <div class="plbl"><span><i class="bi bi-eye"></i> Pre-visualizacao | clique em Salvar PDF para exportar</span></div>
+    <div class="a4">
+      <div class="stmp">METALURGICA OLIVEIRA</div>
+      <div class="dh">
+        <div class="dlb">
+          <img src="assets/imagens/logo_cabecalho_original.png" class="dli" alt="Logo" onerror="this.style.display='none'">
+          <div>
+            <div class="den">Metalurgica <span class="dc">Oliveira</span></div>
+            <div class="des">Fabricacao e Venda de Estruturas Metalicas para Galpoes<br>Engenheiro Beltrao - PR &nbsp;|&nbsp; <strong>(44) 99831-8534</strong><br>Atendemos Maringa, Campo Mourao e toda a Regiao</div>
+            <div class="dcnpj">CNPJ: 46.401.359/0001-71</div>
+          </div>
+        </div>
+        <div class="dib">
+          <span class="dbt" id="dTipo">Proposta Comercial</span>
+          <div class="dn" id="dNum">#0001</div>
+          <div class="ddv"><span id="dDat">Data: -</span><br><span id="dVal">Valido ate: -</span></div>
+        </div>
+      </div>
+      <div class="dst"><i class="bi bi-person-fill"></i>Dados do Cliente</div>
+      <div class="dig">
+        <div class="dii"><div class="lb">Cliente</div><div class="vl" id="dCN">-</div></div>
+        <div class="dii"><div class="lb">Telefone/WhatsApp</div><div class="vl" id="dCT">-</div></div>
+        <div class="dii"><div class="lb">Cidade/Estado</div><div class="vl" id="dCC">-</div></div>
+        <div class="dii" id="xiDoc" style="display:none"><div class="lb">CPF/CNPJ</div><div class="vl" id="dCD">-</div></div>
+        <div class="dii" id="xiEm" style="display:none"><div class="lb">E-mail</div><div class="vl" id="dCE">-</div></div>
+        <div class="dii" id="xiOr" style="display:none"><div class="lb">Origem</div><div class="vl" id="dCO">-</div></div>
+      </div>
+      <div class="dst"><i class="bi bi-building"></i>Especificacoes Tecnicas da Estrutura</div>
+      <div class="dig" style="margin-bottom:13px">
+        <div class="dii"><div class="lb">Modelo/Descricao</div><div class="vl" id="dED">-</div></div>
+        <div class="dii" id="xiLg" style="display:none"><div class="lb">Largura/Vao</div><div class="vl" id="dEL">-</div></div>
+        <div class="dii" id="xiCp" style="display:none"><div class="lb">Comprimento</div><div class="vl" id="dEC">-</div></div>
+        <div class="dii" id="xiPD" style="display:none"><div class="lb">Pe-Direito</div><div class="vl" id="dEP">-</div></div>
+        <div class="dii" id="xiAr" style="display:none"><div class="lb">Area Coberta</div><div class="vl" id="dEA">-</div></div>
+        <div class="dii" id="xiTe" style="display:none"><div class="lb">Tipo Tesoura</div><div class="vl" id="dETe">-</div></div>
+        <div class="dii" id="xiCo" style="display:none"><div class="lb">Cobertura</div><div class="vl" id="dECo">-</div></div>
+        <div class="dii" id="xiLa" style="display:none"><div class="lb">Lateral/Fechamento</div><div class="vl" id="dELa">-</div></div>
+      </div>
+      <div id="secMat" style="display:none">
+        <div style="font-size:.59rem;color:#bbb;text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:5px">Materiais e Componentes Inclusos no Orcamento</div>
+        <div class="dob" id="dMat"></div>
+      </div>
+      <div id="secIt" style="display:none">
+        <div class="dst"><i class="bi bi-list-check"></i>Composicao Detalhada</div>
+        <table class="dtab">
+          <thead><tr><th style="text-align:left">Descricao do Item</th><th style="text-align:center">Qtd</th><th style="text-align:right">R$ Unit.</th><th style="text-align:right">R$ Total</th></tr></thead>
+          <tbody id="dItB"></tbody>
+          <tfoot><tr><td colspan="3" style="text-align:right;color:#888;font-size:.77rem">Subtotal:</td><td style="text-align:right" id="dSub">R$ 0,00</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="dst"><i class="bi bi-cash-stack"></i>Investimento e Condicoes de Pagamento</div>
+      <div class="dpb">
+        <div class="dpr"><span class="pl">Valor da Estrutura <span id="dALb" style="color:#666"></span></span><span class="pv" id="dVT">R$ 0,00</span></div>
+        <div class="dpr" id="xFr" style="display:none"><span class="pl">Frete/Entrega</span><span class="pv" id="dVF">R$ 0,00</span></div>
+        <div class="dpr" id="xDes"><span class="pl">Desconto a Vista PIX (<span id="dPct">10</span>%)</span><span class="pv" style="color:#22c55e" id="dVD">- R$ 0,00</span></div>
+        <div class="dpr" id="xPar" style="display:none"><span class="pl">Pagamento Parcelado</span><span class="pv" id="dCP">Consulte condicoes</span></div>
+        <div class="dpd"><span class="pl">VALOR A VISTA (PIX):</span><span class="pv" id="dTPix">R$ 0,00</span></div>
+      </div>
+      <div id="secPz" style="margin-top:13px;display:none">
+        <div class="dpraz"><i class="bi bi-clock-history"></i><span><strong>Prazo Estimado:</strong> <span id="dPz">-</span></span></div>
+      </div>
+      <div style="margin-top:11px;font-size:.74rem;color:#777"><strong style="color:#333">Formas de pagamento aceitas:</strong> <span id="dFP">PIX, Dinheiro, Transferencia</span></div>
+      <div class="dst" style="margin-top:18px"><i class="bi bi-file-earmark-text"></i>Condicoes Gerais da Proposta</div>
+      <div class="dcb">
+        <div class="dci"><span class="dcn">1.</span><span><strong>Validade:</strong> Esta proposta e valida por <span id="dVD2">15</span> dias a contar da data de emissao. Apos esse prazo, pode haver reajuste conforme custo dos insumos.</span></div>
+        <div class="dci"><span class="dcn">2.</span><span><strong>Pagamento:</strong> <span id="dCPT">O cliente pode optar por pagamento de sinal + parcelas conforme o avanco da fabricacao. Condicoes negociaveis.</span></span></div>
+        <div class="dci"><span class="dcn">3.</span><span><strong>Liberacao/Entrega:</strong> A estrutura e liberada somente apos a <strong>quitacao integral do saldo devedor</strong>.</span></div>
+        <div class="dci"><span class="dcn">4.</span><span><strong>Garantia:</strong> Garantia estrutural de fabricacao e materiais com certificacao e rastreabilidade de origem.</span></div>
+        <div class="dci" id="xObs" style="display:none"><span class="dcn">5.</span><span><strong>Obs.:</strong> <span id="dObs"></span></span></div>
+      </div>
+      <div class="dass">
+        <div class="da"><div style="height:40px"></div><div class="dal"><strong>Metalurgica Oliveira</strong>Engenheiro Beltrao - PR | CNPJ 46.401.359/0001-71</div></div>
+        <div class="da"><div style="height:40px"></div><div class="dal"><strong id="dAssC">De Acordo - Cliente</strong>Assinatura de Aprovacao da Proposta</div></div>
+      </div>
+      <div class="df">
+        <div><div class="dfm">Metalurgica Oliveira</div><div>(44) 99831-8534 | Engenheiro Beltrao - PR | Maringa, Campo Mourao e Regiao</div></div>
+        <div style="text-align:right"><span id="dFN">Proposta #0001</span><br><span id="dFD">Emitido em -</span></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+let its=[{d:'',q:1,u:0}];
+function ri(){
+  const l=document.getElementById('ilista');l.innerHTML='';
+  its.forEach((it,i)=>{
+    const r=document.createElement('div');r.className='ir';
+    r.innerHTML='<input type="text" placeholder="Descricao" value="'+it.d+'" oninput="its['+i+'].d=this.value;up()">'
+      +'<input type="number" min="0" step="0.5" value="'+it.q+'" style="text-align:center" oninput="its['+i+'].q=parseFloat(this.value)||0;up()">'
+      +'<input type="number" min="0" step="0.01" value="'+(it.u>0?it.u:'')+'" placeholder="0,00" oninput="its['+i+'].u=parseFloat(this.value)||0;up()">'
+      +'<button class="bri" onclick="rm('+i+')"><i class="bi bi-x"></i></button>';
+    l.appendChild(r);
+  });
+}
+function addItem(){its.push({d:'',q:1,u:0});ri();up();}
+function rm(i){if(its.length===1){its[0]={d:'',q:1,u:0};ri();up();return;}its.splice(i,1);ri();up();}
+function fm(v){return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fd(s){if(!s)return'-';const[y,m,d]=s.split('-');return d+'/'+m+'/'+y;}
+function fv(s,dias){if(!s)return'-';const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+parseInt(dias||15));return d.toLocaleDateString('pt-BR');}
+function se(id,v){const e=document.getElementById(id);if(e)e.textContent=v||'-';}
+function sh(id,s){const e=document.getElementById(id);if(e)e.style.display=s?'':'none';}
+function g(id){return document.getElementById(id).value;}
+function gf(id){return parseFloat(document.getElementById(id).value)||0;}
+function up(){
+  const nOrc=g('numOrc')||'0001',dEm=g('dataEm'),vD=g('valDias'),tD=g('tipoDoc');
+  const cN=g('cNome').trim(),cDc=g('cDoc').trim(),cTl=g('cTel').trim();
+  const cCd=g('cCid').trim(),cUF=g('cUF'),cEm=g('cEmail').trim(),cOr=g('cOrig');
+  const eD=g('eDesc').trim(),eLg=gf('eLarg'),eCp=gf('eComp'),ePD=gf('ePD');
+  const eTe=g('eTes'),eCb=g('eCob'),eLa=g('eLat');
+  const mts=g('mats').trim(),obs=g('obs').trim();
+  const dPx=gf('descPix'),fr=gf('frete');
+  const pz=g('prazo').trim(),cP=g('condPag').trim(),fP=g('formPag');
+  const sub=its.reduce((s,it)=>s+(it.q*it.u),0);
+  const vBase=sub+fr,vDes=vBase*(dPx/100),vPix=vBase-vDes;
+  const area=eLg&&eCp?(eLg*eCp):0;
+  se('dTipo',tD);se('dNum','#'+nOrc.padStart(4,'0'));
+  se('dDat','Data: '+fd(dEm));se('dVal','Valido ate: '+fv(dEm,vD));
+  se('dCN',cN||'-');se('dCT',cTl||'-');se('dCC',cCd?cCd+' - '+cUF:'-');se('dAssC',cN||'De Acordo - Cliente');
+  sh('xiDoc',!!cDc);if(cDc)se('dCD',cDc);
+  sh('xiEm',!!cEm);if(cEm)se('dCE',cEm);
+  sh('xiOr',!!cOr);if(cOr)se('dCO',cOr);
+  se('dED',eD||'-');
+  sh('xiLg',!!eLg);if(eLg)se('dEL',eLg.toFixed(2).replace('.',',')+' m');
+  sh('xiCp',!!eCp);if(eCp)se('dEC',eCp.toFixed(2).replace('.',',')+' m');
+  sh('xiPD',!!ePD);if(ePD)se('dEP',ePD.toFixed(2).replace('.',',')+' m');
+  sh('xiAr',!!(eLg&&eCp));if(area)se('dEA',area.toFixed(0)+' m2');
+  sh('xiTe',!!eTe);if(eTe)se('dETe',eTe);
+  sh('xiCo',!!eCb);if(eCb)se('dECo',eCb);
+  sh('xiLa',!!eLa);if(eLa)se('dELa',eLa);
+  const sm=document.getElementById('secMat');
+  if(mts){sm.style.display='';document.getElementById('dMat').textContent=mts;}else sm.style.display='none';
+  const itV=its.filter(it=>it.d||it.u>0);
+  const si=document.getElementById('secIt');
+  if(itV.length>0&&sub>0){
+    si.style.display='';const tb=document.getElementById('dItB');tb.innerHTML='';
+    itV.forEach(it=>{const t=it.q*it.u;const tr=document.createElement('tr');
+      tr.innerHTML='<td>'+(it.d||'-')+'</td><td style="text-align:center;color:#666">'+(it.q%1===0?it.q:it.q.toFixed(1))+'</td><td style="text-align:right;color:#666">'+fm(it.u)+'</td><td>'+fm(t)+'</td>';
+      tb.appendChild(tr);});se('dSub',fm(sub));
+  }else si.style.display='none';
+  se('dVT',fm(vBase));se('dALb',area?' ('+area.toFixed(0)+' m2)':'');
+  se('dPct',dPx.toString());se('dVD','- '+fm(vDes));se('dTPix',fm(vPix));se('dCP',cP||'Consulte condicoes');
+  sh('xFr',fr>0);if(fr>0)se('dVF',fm(fr));
+  sh('xDes',dPx>0);sh('xPar',!!cP);
+  sh('secPz',!!pz);if(pz)se('dPz',pz);
+  se('dFP',fP);se('dVD2',vD||'15');
+  se('dCPT',cP?cP+'. Formas aceitas: '+fP+'.':'O cliente pode optar por pagamento de sinal + parcelas. Condicoes negociaveis.');
+  sh('xObs',!!obs);if(obs)se('dObs',obs);
+  se('dFN',tD+' #'+nOrc.padStart(4,'0'));se('dFD','Emitido em '+fd(dEm));
+  document.getElementById('rSub').textContent=fm(sub);
+  document.getElementById('rFr').textContent=fm(fr);
+  document.getElementById('rDes').textContent='- '+fm(vDes);
+  document.getElementById('rTot').textContent=fm(vPix);
+}
+function zap(){
+  const nome=g('cNome').trim()||'Cliente';
+  const tel=g('cTel').replace(/\D/g,'');
+  const desc=g('eDesc').trim()||'Estrutura Metalica';
+  const larg=g('eLarg'),comp=g('eComp'),pd=g('ePD');
+  const dPx=gf('descPix'),sub=its.reduce((s,it)=>s+(it.q*it.u),0),fr=gf('frete');
+  const vBase=sub+fr,vPix=vBase*(1-dPx/100);
+  const nOrc=g('numOrc').padStart(4,'0'),pz=g('prazo').trim();
+  const lines=[
+    'PROPOSTA COMERCIAL - Metalurgica Oliveira','Orcamento #'+nOrc,'',
+    'Ola '+nome+'! Segue nossa proposta:','',
+    'Estrutura: '+desc,
+    larg?'Largura: '+larg+' m':'',comp?'Comprimento: '+comp+' m':'',pd?'Pe-Direito: '+pd+' m':'',
+    larg&&comp?'Area: '+(parseFloat(larg)*parseFloat(comp)).toFixed(0)+' m2':'','',
+    'Valor Total: '+fm(vBase),
+    dPx>0?'A Vista PIX ('+dPx+'% OFF): '+fm(vPix):'',
+    pz?'Prazo: '+pz:'','',
+    'Posso reservar os materiais? Responda aqui!',
+    'Metalurgica Oliveira: (44) 99831-8534 - Engenheiro Beltrao PR'
+  ].filter(Boolean).join('\n');
+  const base=tel?'https://wa.me/55'+tel:'https://wa.me/';
+  window.open(base+'?text='+encodeURIComponent(lines),'_blank');
+}
+function limpar(){
+  if(!confirm('Deseja limpar todos os campos?'))return;
+  ['cNome','cDoc','cTel','cCid','cEmail','eDesc','eLarg','eComp','ePD','mats','obs','prazo','condPag'].forEach(id=>document.getElementById(id).value='');
+  ['cOrig','eTes','eCob','eLat'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('descPix').value='10';document.getElementById('frete').value='0';document.getElementById('numOrc').value='0001';
+  its=[{d:'',q:1,u:0}];ri();up();
+}
+document.getElementById('dataEm').value=new Date().toISOString().split('T')[0];ri();up();
+</script>
+</body>
+</html>
