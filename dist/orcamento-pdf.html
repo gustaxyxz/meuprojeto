@@ -3,644 +3,588 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de Proposta — Metalúrgica Oliveira</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* === VARIÁVEIS E BASE === */
-:root {
-  --primary: #1e293b; /* Dark Slate */
-  --text: #334155;
-  --text-light: #64748b;
-  --border: #e2e8f0;
-  --bg: #f8fafc;
-  --accent: #d97706; /* Muted Gold/Orange for subtle highlights */
-  --font: 'Inter', sans-serif;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; min-height: 100vh; }
+<title>Gerador de Proposta — Lovable Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/extenso@2.0.1/dist/extenso.min.js"></script>
 
-/* === UI GERADOR (NÃO IMPRIME) === */
-.ui-header { background: #0f172a; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; color: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-.ui-brand { font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 8px; }
-.ui-brand span { color: #f59e0b; }
-.ui-actions { display: flex; gap: 10px; }
-.btn { padding: 8px 16px; border-radius: 6px; border: none; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-.btn-primary { background: #f59e0b; color: #000; }
-.btn-primary:hover { background: #d97706; color: #fff; }
-.btn-whatsapp { background: #22c55e; color: #fff; }
-.btn-whatsapp:hover { background: #16a34a; }
-
-.layout { display: grid; grid-template-columns: 400px 1fr; height: calc(100vh - 56px); }
-
-/* === FORMULÁRIO LATERAL === */
-.sidebar { background: #fff; border-right: 1px solid var(--border); overflow-y: auto; padding: 0; }
-.form-section { padding: 20px; border-bottom: 1px solid var(--border); }
-.form-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
-.form-group { margin-bottom: 14px; }
-.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--primary); margin-bottom: 4px; }
-.form-control { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: var(--font); font-size: 13px; color: var(--primary); transition: 0.2s; background: #fff; }
-.form-control:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-textarea.form-control { resize: vertical; min-height: 80px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-
-/* Tabela de itens UI */
-.ui-items { margin-top: 10px; }
-.ui-item-row { display: grid; grid-template-columns: 1fr 60px 90px 30px; gap: 8px; margin-bottom: 8px; align-items: center; }
-.btn-icon { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 16px; padding: 4px; border-radius: 4px; }
-.btn-icon:hover { background: #fef2f2; }
-.btn-add { width: 100%; padding: 8px; background: #f1f5f9; border: 1px dashed #cbd5e1; color: var(--text-light); border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 4px; }
-.btn-add:hover { background: #e2e8f0; color: var(--primary); }
-
-/* Switch Toggle */
-.switch-wrapper { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; background: #f8fafc; padding: 10px 12px; border-radius: 6px; border: 1px solid var(--border); }
-.switch-label { font-size: 13px; font-weight: 600; color: var(--primary); }
-.switch-label span { display: block; font-size: 11px; color: var(--text-light); font-weight: 400; }
-.switch { position: relative; display: inline-block; width: 40px; height: 22px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 22px; }
-.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
-input:checked + .slider { background-color: #3b82f6; }
-input:checked + .slider:before { transform: translateX(18px); }
-
-/* === PREVIEW AREA === */
-.preview-area { background: #cbd5e1; padding: 40px 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
-.preview-notice { background: #1e293b; color: #fff; font-size: 12px; padding: 6px 16px; border-radius: 20px; margin-bottom: 20px; font-weight: 500; }
-
-/* === DOCUMENTO A4 (O PDF REAL) === */
-.a4-doc {
-  background: #ffffff;
-  width: 210mm;
-  min-height: 297mm;
-  margin: 0 auto;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  position: relative;
-  font-family: var(--font);
-  color: #1e293b;
+<style type="text/tailwindcss">
+@theme inline {
+  --color-doc-ink: oklch(0.18 0 0);
+  --color-doc-soft: oklch(0.55 0 0);
+  --color-doc-mute: oklch(0.68 0 0);
+  --color-doc-disabled: oklch(0.78 0 0);
+  --color-doc-line: oklch(0.9 0 0);
+  --color-doc-card: oklch(0.968 0.003 90);
+  --color-doc-zebra: oklch(0.984 0.003 90);
+  --color-doc-yellow: oklch(0.85 0.17 90);
+  --color-doc-canvas: oklch(0.94 0.004 90);
 }
 
-/* Margens internas do documento */
-.doc-inner { padding: 50px; }
+body { font-family: 'Inter', sans-serif; overflow: hidden; background: #f8fafc; }
+.doc-root { font-family: 'Nunito', sans-serif; font-variant-numeric: lining-nums tabular-nums; }
 
-/* Cabeçalho do PDF */
-.doc-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #e2e8f0; padding-bottom: 25px; margin-bottom: 25px; }
-.doc-logo-box { width: 180px; }
-.doc-logo { max-width: 100%; max-height: 55px; object-fit: contain; }
-
-.doc-company-info { text-align: right; }
-.doc-company-name { font-size: 16px; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
-.doc-company-details { font-size: 11px; color: #64748b; line-height: 1.5; }
-
-/* Info Proposta (Número, Data, Cliente) */
-.doc-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; background: #f8fafc; border: 1px solid #f1f5f9; padding: 20px; border-radius: 4px; }
-.meta-block { display: flex; flex-direction: column; gap: 12px; }
-.meta-item { display: flex; flex-direction: column; gap: 2px; }
-.meta-label { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
-.meta-value { font-size: 13px; font-weight: 600; color: #334155; }
-.meta-value.highlight { color: #0f172a; font-size: 14px; font-weight: 700; }
-
-/* Título de Seção */
-.doc-section-title { font-size: 12px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 15px; margin-top: 30px; }
-
-/* Grid de Especificações */
-.specs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 15px; }
-.spec-box { display: flex; flex-direction: column; gap: 4px; }
-.spec-label { font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600; }
-.spec-value { font-size: 13px; color: #1e293b; font-weight: 500; }
-
-/* Tabela de Itens */
-.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-.doc-table th { text-align: left; padding: 10px 12px; font-size: 10px; text-transform: uppercase; font-weight: 700; color: #64748b; border-bottom: 1px solid #cbd5e1; }
-.doc-table th:not(:first-child) { text-align: right; }
-.doc-table td { padding: 12px; font-size: 12px; color: #334155; border-bottom: 1px solid #f1f5f9; }
-.doc-table td:not(:first-child) { text-align: right; }
-.doc-table tbody tr:last-child td { border-bottom: 1px solid #e2e8f0; }
-
-/* Resumo de Valores */
-.totals-box { width: 320px; margin-left: auto; display: flex; flex-direction: column; gap: 8px; }
-.total-line { display: flex; justify-content: space-between; font-size: 12px; color: #475569; padding: 4px 0; }
-.total-line.discount { color: #16a34a; }
-.total-line.final { border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 4px; font-size: 16px; font-weight: 800; color: #0f172a; }
-
-/* Condições */
-.conditions-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.conditions-list li { font-size: 11px; color: #475569; line-height: 1.6; display: flex; gap: 8px; }
-.conditions-list li::before { content: "•"; color: #94a3b8; font-weight: bold; }
-.conditions-list strong { color: #1e293b; }
-
-/* Rodapé Documento */
-.doc-footer { position: absolute; bottom: 50px; left: 50px; right: 50px; border-top: 1px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8; }
-
-/* === IMPRESSÃO === */
 @media print {
-  body { background: #fff; }
-  .ui-header, .sidebar, .preview-notice { display: none !important; }
-  .layout { display: block; height: auto; }
-  .preview-area { padding: 0; background: transparent; overflow: visible; display: block; }
-  .a4-doc { box-shadow: none; margin: 0; width: 100%; min-height: auto; }
-  .doc-inner { padding: 0; }
-  .doc-footer { position: relative; bottom: auto; left: auto; right: auto; margin-top: 50px; }
+  @page { size: A4; margin: 0; }
+  body { overflow: visible !important; }
+  .no-print { display: none !important; }
+  .doc-page { box-shadow: none !important; margin: 0 !important; break-after: page; }
+  .doc-root { padding: 0 !important; background: white !important; gap: 0 !important; }
 }
+
+/* Scrollbars customizadas pro form */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 </style>
 </head>
-<body>
+<body class="flex h-screen text-slate-800">
 
-<!-- HEADER DA UI -->
-<header class="ui-header">
-  <div class="ui-brand">Metalúrgica <span>Oliveira</span> — Gerador de Proposta</div>
-  <div class="ui-actions">
-    <button class="btn" style="background:#334155;color:#fff;" onclick="limparFormulario()"><i class="bi bi-arrow-counterclockwise"></i> Limpar</button>
-    <button class="btn btn-whatsapp" onclick="enviarWhatsApp()"><i class="bi bi-whatsapp"></i> WhatsApp</button>
-    <button class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer"></i> Salvar PDF</button>
+<!-- SIDEBAR FORM -->
+<aside class="w-[450px] flex-shrink-0 bg-white border-r border-slate-200 shadow-lg flex flex-col h-full no-print z-10 relative">
+  <div class="bg-slate-900 text-white p-4 flex justify-between items-center shadow-md">
+    <div class="font-bold">Gerador de Proposta <span class="text-amber-500">PRO</span></div>
+    <div class="flex gap-2">
+      <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-black px-3 py-1.5 rounded text-xs font-bold transition flex items-center gap-1">
+        <i data-lucide="printer" class="w-4 h-4"></i> Imprimir PDF
+      </button>
+    </div>
   </div>
-</header>
 
-<div class="layout">
-  
-  <!-- SIDEBAR (FORMULÁRIO) -->
-  <aside class="sidebar">
+  <div class="overflow-y-auto p-5 flex flex-col gap-6 flex-1 pb-20">
     
-    <!-- Info Básica -->
-    <div class="form-section">
-      <div class="form-section-title"><i class="bi bi-file-earmark-text"></i> Dados da Proposta</div>
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Nº Documento</label>
-          <input type="text" id="fNum" class="form-control" value="1025/2026" oninput="atualizarPDF()">
-        </div>
-        <div class="form-group">
-          <label>Data de Emissão</label>
-          <input type="date" id="fData" class="form-control" oninput="atualizarPDF()">
+    <!-- Meta -->
+    <div>
+      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> Documento</h3>
+      <div class="grid grid-cols-2 gap-3 mb-3">
+        <div><label class="block text-xs font-bold mb-1">Nº Proposta</label><input type="text" id="fNum" class="w-full border rounded p-2 text-sm" value="0142 / 2026" oninput="up()"></div>
+        <div><label class="block text-xs font-bold mb-1">Data Emissão</label><input type="date" id="fData" class="w-full border rounded p-2 text-sm" oninput="up()"></div>
+      </div>
+      <div><label class="block text-xs font-bold mb-1">Validade (dias)</label><input type="number" id="fVal" class="w-full border rounded p-2 text-sm" value="15" oninput="up()"></div>
+    </div>
+
+    <!-- Cliente -->
+    <div class="border-t pt-5">
+      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i> Cliente e Obra</h3>
+      <div class="mb-3"><label class="block text-xs font-bold mb-1">Cliente / Construtora</label><input type="text" id="fCliente" class="w-full border rounded p-2 text-sm" value="Construtora Exemplo Ltda." oninput="up()"></div>
+      <div class="mb-3"><label class="block text-xs font-bold mb-1">Contato (Nome e Telefone)</label><input type="text" id="fContato" class="w-full border rounded p-2 text-sm" value="João da Silva · (00) 00000-0000" oninput="up()"></div>
+      <div><label class="block text-xs font-bold mb-1">Local da Obra</label><input type="text" id="fLocal" class="w-full border rounded p-2 text-sm" value="Rod. Exemplo, km 12 — Cidade/UF" oninput="up()"></div>
+    </div>
+
+    <!-- Valores -->
+    <div class="border-t pt-5">
+      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="circle-dollar-sign" class="w-4 h-4"></i> Valor Total</h3>
+      <div class="mb-3"><label class="block text-xs font-bold mb-1">Valor do Fornecimento (R$)</label><input type="number" id="fTotal" class="w-full border rounded p-2 text-sm" value="148500" step="100" oninput="up()"></div>
+    </div>
+
+    <!-- Escopo (Itens) -->
+    <div class="border-t pt-5">
+      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="list" class="w-4 h-4"></i> Escopo do Fornecimento</h3>
+      <div id="listaItens" class="flex flex-col gap-3"></div>
+      <button onclick="addItem()" class="mt-3 w-full bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-300 rounded p-2 text-sm font-bold transition flex justify-center items-center gap-2">
+        <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Item
+      </button>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="border-t pt-5">
+      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="layout-grid" class="w-4 h-4"></i> Condições Principais (Cards)</h3>
+      <div class="mb-3"><label class="block text-xs font-bold mb-1">Forma de Pagamento</label>
+        <div class="flex gap-2">
+          <input type="text" id="fPgto1" class="w-full border rounded p-2 text-sm" value="50% na assinatura" placeholder="Principal" oninput="up()">
+          <input type="text" id="fPgto2" class="w-full border rounded p-2 text-sm" value="50% na entrega" placeholder="Secundário" oninput="up()">
         </div>
       </div>
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Validade (Dias)</label>
-          <input type="number" id="fVal" class="form-control" value="15" oninput="atualizarPDF()">
+      <div class="mb-3"><label class="block text-xs font-bold mb-1">Prazo Estimado</label>
+        <div class="flex gap-2">
+          <input type="text" id="fPrazo1" class="w-full border rounded p-2 text-sm" value="35 dias corridos" placeholder="Principal" oninput="up()">
+          <input type="text" id="fPrazo2" class="w-full border rounded p-2 text-sm" value="após aprovação e sinal" placeholder="Secundário" oninput="up()">
         </div>
-        <div class="form-group">
-          <label>Status</label>
-          <select id="fStatus" class="form-control" onchange="atualizarPDF()">
-            <option>Proposta Comercial</option>
-            <option>Orçamento</option>
-          </select>
+      </div>
+      <div class="mb-3"><label class="block text-xs font-bold mb-1">Entrega e Frete</label>
+        <div class="flex gap-2">
+          <input type="text" id="fFrete1" class="w-full border rounded p-2 text-sm" value="Frete incluso" placeholder="Principal" oninput="up()">
+          <input type="text" id="fFrete2" class="w-full border rounded p-2 text-sm" value="até 80 km da fábrica" placeholder="Secundário" oninput="up()">
         </div>
+      </div>
+    </div>
+    
+    <!-- Inclui / Não Inclui -->
+    <div class="border-t pt-5">
+      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Incluso / Não Incluso</h3>
+      <div class="mb-3">
+        <label class="block text-xs font-bold mb-1 text-green-600">Incluso (Um por linha)</label>
+        <textarea id="fInc" class="w-full border rounded p-2 text-sm min-h-[100px]" oninput="up()">Projeto executivo e detalhamento
+Material conforme norma ABNT NBR 8800
+Fabricação em nosso galpão
+Transporte até a obra (até 80 km)
+Montagem com equipe própria
+Limpeza da área ao final do serviço</textarea>
+      </div>
+      <div class="mb-3">
+        <label class="block text-xs font-bold mb-1 text-red-500">Não Incluso (Um por linha)</label>
+        <textarea id="fNinc" class="w-full border rounded p-2 text-sm min-h-[100px]" oninput="up()">Obra civil, blocos e baldrames
+Cobertura em telha (orçada à parte)
+Fechamento lateral e calhas
+Energia e água no local da montagem
+Taxas, licenças e ART da obra civil</textarea>
+      </div>
+    </div>
+    
+    <!-- WhatsApp -->
+    <div class="border-t pt-5">
+      <button onclick="zap()" class="w-full bg-green-600 hover:bg-green-700 text-white rounded p-3 text-sm font-bold transition flex justify-center items-center gap-2">
+        <i data-lucide="message-circle" class="w-5 h-5"></i> Enviar Resumo no WhatsApp
+      </button>
+    </div>
+
+  </div>
+</aside>
+
+<!-- MAIN PREVIEW (2 A4 PAGES) -->
+<main class="flex-1 bg-doc-canvas overflow-y-auto flex flex-col items-center py-10 gap-10 doc-root text-doc-ink">
+  
+  <!-- ============================ PÁGINA 1 ============================ -->
+  <section id="page1" class="doc-page relative flex w-[210mm] min-h-[297mm] flex-col bg-white px-[16mm] py-[14mm] shadow-[0_10px_40px_rgba(0,0,0,0.12)] shrink-0">
+    
+    <!-- Header -->
+    <header class="flex items-start justify-between border-b-2 border-doc-ink pb-4 shrink-0">
+      <img src="assets/imagens/logo_mo.png" alt="Metalurgica Oliveira" class="h-11 w-auto object-contain" onerror="this.style.display='none'">
+      <div class="text-right">
+        <p class="text-[10.5px] font-extrabold tracking-wide text-doc-ink">METALÚRGICA OLIVEIRA</p>
+        <p class="mt-1 text-[8px] text-doc-soft">CNPJ 46.401.359/0001-71 · (44) 99767-1935</p>
+        <p class="text-[8px] text-doc-soft">Fabricação e Venda de Estruturas Metálicas · Engenheiro Beltrão / PR</p>
+      </div>
+    </header>
+
+    <!-- Titulo + Selo -->
+    <div class="mt-7 flex items-start justify-between gap-6 shrink-0">
+      <div>
+        <h1 class="text-[26px] font-extrabold leading-none tracking-tight">Proposta Comercial</h1>
+        <p class="mt-2 text-[9.5px] text-doc-soft">Fabricação e montagem de estruturas metálicas</p>
+      </div>
+      <div class="w-[62mm] rounded-2xl bg-doc-ink px-5 py-4 text-right">
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-mute">Proposta nº</span>
+        <p class="mt-1 text-[17px] font-extrabold text-white" id="dNum">0142 / 2026</p>
+        <p class="mt-1 text-[7.5px] text-doc-mute" id="dEmit">Emissão 12/08/2026</p>
+        <p class="text-[7.5px] font-bold text-doc-yellow" id="dVal">Válida por 15 dias</p>
       </div>
     </div>
 
     <!-- Cliente -->
-    <div class="form-section">
-      <div class="form-section-title"><i class="bi bi-person"></i> Dados do Cliente</div>
-      <div class="form-group">
-        <label>Nome do Cliente / Empresa</label>
-        <input type="text" id="fCliente" class="form-control" placeholder="Ex: João da Silva / Fazenda Progresso" oninput="atualizarPDF()">
+    <div class="mt-6 grid grid-cols-3 gap-6 rounded-xl bg-doc-card px-5 py-4 shrink-0">
+      <div>
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Cliente</span>
+        <p class="mt-1.5 text-[9.5px] font-semibold leading-snug" id="dCliente">Construtora Exemplo Ltda.</p>
       </div>
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Telefone / WhatsApp</label>
-          <input type="text" id="fTel" class="form-control" placeholder="(44) 99999-9999" oninput="atualizarPDF()">
-        </div>
-        <div class="form-group">
-          <label>Cidade - UF</label>
-          <input type="text" id="fCid" class="form-control" placeholder="Maringá - PR" oninput="atualizarPDF()">
-        </div>
+      <div>
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Contato</span>
+        <p class="mt-1.5 text-[9.5px] font-semibold leading-snug" id="dContato">João da Silva · (00) 00000-0000</p>
+      </div>
+      <div>
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Local da Obra</span>
+        <p class="mt-1.5 text-[9.5px] font-semibold leading-snug" id="dLocal">Rod. Exemplo, km 12 — Cidade/UF</p>
       </div>
     </div>
 
-    <!-- Estrutura -->
-    <div class="form-section">
-      <div class="form-section-title"><i class="bi bi-building"></i> Especificações da Estrutura</div>
-      <div class="form-group">
-        <label>Descrição Principal</label>
-        <input type="text" id="fDesc" class="form-control" placeholder="Ex: Barracão Metálico 12x30m (360m²)" value="Galpão Metálico" oninput="atualizarPDF()">
+    <!-- Escopo -->
+    <div class="mt-7">
+      <div class="mb-4 border-b border-doc-line pb-2">
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Escopo do fornecimento</span>
       </div>
-      <div class="grid-3">
-        <div class="form-group">
-          <label>Largura (m)</label>
-          <input type="number" id="fLarg" class="form-control" step="0.5" placeholder="12" oninput="atualizarPDF()">
-        </div>
-        <div class="form-group">
-          <label>Compr. (m)</label>
-          <input type="number" id="fComp" class="form-control" step="0.5" placeholder="30" oninput="atualizarPDF()">
-        </div>
-        <div class="form-group">
-          <label>Pé-Dir. (m)</label>
-          <input type="number" id="fPD" class="form-control" step="0.5" placeholder="5" oninput="atualizarPDF()">
-        </div>
+      <ul id="dItensList">
+        <!-- JS injeta os itens aqui -->
+      </ul>
+    </div>
+
+    <!-- Spacer para empurrar o resto pro final da pag se der -->
+    <div class="flex-1"></div>
+
+    <!-- Valor Total -->
+    <div class="mt-6 flex items-center justify-between gap-6 rounded-2xl bg-doc-ink px-6 py-5 shrink-0">
+      <div>
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-mute">Valor total do fornecimento</span>
+        <p class="mt-2 text-[28px] font-extrabold leading-none text-doc-yellow" id="dTotalValor">R$ 148.500,00</p>
       </div>
-      <div class="grid-2">
-        <div class="form-group">
-          <label>Tesoura</label>
-          <select id="fTes" class="form-control" onchange="atualizarPDF()">
-            <option value="">(Não informar)</option>
-            <option value="Duas Águas - Treliçada">Duas Águas (Treliçada)</option>
-            <option value="Duas Águas - Perfil U">Duas Águas (Perfil U)</option>
-            <option value="Uma Água">Uma Água</option>
-            <option value="Arco Abaulado">Arco</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Cobertura</label>
-          <select id="fCob" class="form-control" onchange="atualizarPDF()">
-            <option value="">(Não informar)</option>
-            <option value="Telha Trapezoidal">Telha Trapezoidal</option>
-            <option value="Telha Sanduíche">Telha Sanduíche</option>
-            <option value="Sem Cobertura">Sem Cobertura</option>
-          </select>
-        </div>
+      <div class="text-right">
+        <p class="text-[8.3px] font-semibold leading-snug text-doc-line">Preço fechado — material, fabricação,<br/>transporte e montagem inclusos.</p>
+        <p class="mt-2 text-[7.4px] leading-snug text-doc-mute" id="dTotalExtenso">Cento e quarenta e oito mil e quinhentos reais</p>
       </div>
     </div>
 
-    <!-- Tabela de Preços -->
-    <div class="form-section">
-      <div class="form-section-title"><i class="bi bi-list-check"></i> Composição de Preços</div>
+    <!-- Cards Info -->
+    <div class="mt-5 grid grid-cols-3 gap-3 shrink-0">
       
-      <div class="switch-wrapper">
-        <div class="switch-label">
-          Mostrar itens detalhados no PDF
-          <span>Se inativo, mostra apenas o Valor Total.</span>
+      <div class="rounded-xl border border-doc-line px-4 py-3">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="circle-dollar-sign" class="w-[18px] h-[18px] shrink-0" stroke-width="1.6"></i>
+          <div>
+            <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Pagamento</span>
+            <p class="mt-0.5 text-[9.4px] font-bold leading-tight" id="dPgto1">50% na assinatura</p>
+          </div>
         </div>
-        <label class="switch">
-          <input type="checkbox" id="toggleTabela" checked onchange="atualizarPDF()">
-          <span class="slider"></span>
-        </label>
+        <p class="mt-2 text-[8px] text-doc-soft" id="dPgto2">50% na entrega da obra</p>
       </div>
 
-      <!-- Lista Dinâmica de Itens -->
-      <div class="ui-items" id="listaItensForm">
-        <!-- Renderizado via JS -->
-      </div>
-      <button class="btn-add" onclick="adicionarItem()"><i class="bi bi-plus-lg"></i> Adicionar Item</button>
-      
-      <!-- Box de desconto -->
-      <div class="grid-2" style="margin-top:16px;">
-        <div class="form-group">
-          <label>Adicional / Frete (R$)</label>
-          <input type="number" id="fFrete" class="form-control" step="50" value="0" oninput="atualizarPDF()">
+      <div class="rounded-xl border border-doc-line px-4 py-3">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="calendar-days" class="w-[18px] h-[18px] shrink-0" stroke-width="1.6"></i>
+          <div>
+            <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Prazo</span>
+            <p class="mt-0.5 text-[9.4px] font-bold leading-tight" id="dPrazo1">35 dias corridos</p>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Desconto PIX (%)</label>
-          <input type="number" id="fPix" class="form-control" step="1" value="10" max="100" min="0" oninput="atualizarPDF()">
-        </div>
+        <p class="mt-2 text-[8px] text-doc-soft" id="dPrazo2">após aprovação e sinal</p>
       </div>
+
+      <div class="rounded-xl border border-doc-line px-4 py-3">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="truck" class="w-[18px] h-[18px] shrink-0" stroke-width="1.6"></i>
+          <div>
+            <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Entrega e Frete</span>
+            <p class="mt-0.5 text-[9.4px] font-bold leading-tight" id="dFrete1">Frete incluso</p>
+          </div>
+        </div>
+        <p class="mt-2 text-[8px] text-doc-soft" id="dFrete2">até 80 km da fábrica</p>
+      </div>
+
     </div>
 
-    <!-- Pagamento e Condições -->
-    <div class="form-section">
-      <div class="form-section-title"><i class="bi bi-shield-check"></i> Prazos e Condições</div>
-      <div class="form-group">
-        <label>Prazo de Fabricação/Entrega</label>
-        <input type="text" id="fPrazo" class="form-control" placeholder="Ex: 20 dias úteis após assinatura" oninput="atualizarPDF()">
+    <!-- Observacoes -->
+    <div class="mt-6 shrink-0">
+      <div class="mb-4 border-b border-doc-line pb-2">
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Observações</span>
       </div>
-      <div class="form-group">
-        <label>Forma de Pagamento</label>
-        <input type="text" id="fPgto" class="form-control" placeholder="Ex: 50% de entrada + 50% na finalização" oninput="atualizarPDF()">
-      </div>
-      <div class="form-group">
-        <label>O que não está incluso (Opcional)</label>
-        <textarea id="fNinc" class="form-control" placeholder="Ex: Projetos civil, fundação, frete..."></textarea>
-      </div>
+      <ul class="space-y-2">
+        <li class="flex items-start gap-2.5">
+          <span class="mt-[5px] w-[5px] h-[5px] shrink-0 rounded-full bg-doc-yellow"></span>
+          <p class="text-[8.8px] leading-snug">O valor apresentado é fechado para o conjunto descrito acima; não trabalhamos com venda de peças avulsas nesta proposta.</p>
+        </li>
+        <li class="flex items-start gap-2.5">
+          <span class="mt-[5px] w-[5px] h-[5px] shrink-0 rounded-full bg-doc-yellow"></span>
+          <p class="text-[8.8px] leading-snug">As condições completas, o que está incluso e o que não está, e o campo de assinatura estão na página 2.</p>
+        </li>
+      </ul>
     </div>
-  </aside>
 
-  <!-- ÁREA DE PREVIEW (PDF) -->
-  <main class="preview-area">
-    <div class="preview-notice"><i class="bi bi-info-circle"></i> O layout impresso não terá as bordas cinzas. Use papéis A4.</div>
+    <!-- Footer Pág 1 -->
+    <div class="mt-auto pt-6 shrink-0 flex items-center gap-3 rounded-xl bg-doc-card px-5 py-4">
+      <i data-lucide="file-signature" class="w-[18px] h-[18px] shrink-0" stroke-width="1.6"></i>
+      <div class="flex-1">
+        <p class="text-[9px] font-bold">Para aprovar, basta responder este documento ou assinar na página 2.</p>
+        <p class="text-[8.2px] text-doc-soft">Dúvidas? Fale direto com a gente pelo telefone ou WhatsApp acima.</p>
+      </div>
+      <span class="text-[8px] font-bold text-doc-soft">1 / 2</span>
+    </div>
+
+  </section>
+
+  <!-- ============================ PÁGINA 2 ============================ -->
+  <section id="page2" class="doc-page relative flex w-[210mm] min-h-[297mm] flex-col bg-white px-[16mm] py-[14mm] shadow-[0_10px_40px_rgba(0,0,0,0.12)] shrink-0">
     
-    <div class="a4-doc">
-      <div class="doc-inner">
-        
-        <!-- HEADER DO PDF -->
-        <header class="doc-header">
-          <div class="doc-logo-box">
-            <!-- Apenas inserindo a logo que ele pediu, mas com max-height 55px (bem sutil e organizada) -->
-            <img src="assets/imagens/logo_mo.png" class="doc-logo" alt="Metalúrgica Oliveira" onerror="this.style.display='none'">
-          </div>
-          <div class="doc-company-info">
-            <div class="doc-company-name">METALÚRGICA OLIVEIRA</div>
-            <div class="doc-company-details">
-              CNPJ: 46.401.359/0001-71<br>
-              (44) 99767-1935 | Engenheiro Beltrão - PR<br>
-              Fabricação e Venda de Estruturas Metálicas
-            </div>
-          </div>
-        </header>
+    <!-- Header repetido -->
+    <header class="flex items-start justify-between border-b-2 border-doc-ink pb-4 shrink-0">
+      <img src="assets/imagens/logo_mo.png" alt="Metalurgica Oliveira" class="h-11 w-auto object-contain" onerror="this.style.display='none'">
+      <div class="text-right">
+        <p class="text-[10.5px] font-extrabold tracking-wide text-doc-ink">METALÚRGICA OLIVEIRA</p>
+        <p class="mt-1 text-[8px] text-doc-soft">CNPJ 46.401.359/0001-71 · (44) 99767-1935</p>
+        <p class="text-[8px] text-doc-soft">Fabricação e Venda de Estruturas Metálicas · Engenheiro Beltrão / PR</p>
+      </div>
+    </header>
 
-        <!-- META INFO (PROPOSTA + CLIENTE) -->
-        <div class="doc-meta">
-          <div class="meta-block">
-            <div class="meta-item">
-              <span class="meta-label" id="dTipoLabel">Proposta Comercial</span>
-              <span class="meta-value highlight" id="dNum">Nº 1025/2026</span>
-            </div>
-            <div class="meta-item" style="margin-top:10px;">
-              <span class="meta-label">Data de Emissão</span>
-              <span class="meta-value" id="dData">—</span>
-            </div>
-            <div class="meta-item" style="margin-top:10px;">
-              <span class="meta-label">Validade da Proposta</span>
-              <span class="meta-value" id="dVal">—</span>
-            </div>
-          </div>
-          
-          <div class="meta-block">
-            <div class="meta-item">
-              <span class="meta-label">Cliente / Solicitante</span>
-              <span class="meta-value highlight" id="dCliente">—</span>
-            </div>
-            <div class="meta-item" style="margin-top:10px;">
-              <span class="meta-label">Contato</span>
-              <span class="meta-value" id="dTel">—</span>
-            </div>
-            <div class="meta-item" style="margin-top:10px;">
-              <span class="meta-label">Local da Obra / Cidade</span>
-              <span class="meta-value" id="dCid">—</span>
-            </div>
-          </div>
-        </div>
+    <div class="mt-7 shrink-0">
+      <h2 class="text-[20px] font-extrabold leading-none tracking-tight">Condições e informações</h2>
+      <p class="mt-2 text-[9px] text-doc-soft" id="dSubtitPg2">Proposta 0142 / 2026 · METALÚRGICA OLIVEIRA</p>
+    </div>
 
-        <!-- ESPECIFICAÇÕES -->
-        <div class="doc-section-title">Especificações do Projeto</div>
-        
-        <div style="margin-bottom: 15px;">
-          <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Descrição Principal</span><br>
-          <span style="font-size: 14px; font-weight: 600; color: #0f172a;" id="dDesc">—</span>
-        </div>
-
-        <div class="specs-grid" id="dSpecsGrid">
-          <!-- Renderizado via JS -->
-        </div>
-
-        <!-- TABELA DE INVESTIMENTO -->
-        <div class="doc-section-title">Investimento</div>
-        
-        <table class="doc-table" id="dTabelaPrincipal">
-          <thead>
-            <tr>
-              <th>Descrição do Item</th>
-              <th>Qtd</th>
-              <th>V. Unitário</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody id="dTbodyItens">
-            <!-- Renderizado via JS -->
-          </tbody>
-        </table>
-
-        <!-- TOTAIS -->
-        <div class="totals-box">
-          <div class="total-line" id="dLinhaSubtotal" style="display:none;">
-            <span>Subtotal:</span>
-            <span id="dSubtotal">R$ 0,00</span>
-          </div>
-          <div class="total-line" id="dLinhaFrete" style="display:none;">
-            <span>Adicionais / Frete:</span>
-            <span id="dFrete">R$ 0,00</span>
-          </div>
-          <div class="total-line">
-            <span>Valor Total Base:</span>
-            <span id="dTotalBase" style="font-weight:600; color:#0f172a;">R$ 0,00</span>
-          </div>
-          <div class="total-line discount" id="dLinhaDesc">
-            <span>Desconto Pagamento à Vista (<span id="dPercDesc">10</span>%):</span>
-            <span id="dValorDesc">- R$ 0,00</span>
-          </div>
-          <div class="total-line final">
-            <span>Valor Total à Vista (PIX):</span>
-            <span id="dTotalPix">R$ 0,00</span>
-          </div>
-        </div>
-
-        <!-- CONDIÇÕES -->
-        <div class="doc-section-title" style="margin-top: 40px;">Condições e Prazos</div>
-        <ul class="conditions-list">
-          <li><strong>Condições de Pagamento:</strong> <span id="dPgto">A combinar conforme negociação.</span></li>
-          <li id="dPrazoLi"><strong>Prazo Estimado:</strong> <span id="dPrazo">A combinar.</span></li>
-          <li><strong>Validade:</strong> Os valores expressos nesta proposta são válidos até <strong id="dValidadeTexto">—</strong>. Após esta data, sujeitos a reajuste devido à variação do aço.</li>
-          <li><strong>Garantia:</strong> Garantia estrutural contra defeitos de fabricação, utilizando materiais devidamente certificados.</li>
-          <li id="dNincLi" style="display:none;"><strong>Não incluso no orçamento:</strong> <span id="dNincTexto">—</span></li>
+    <!-- Inc / Não Inc -->
+    <div class="mt-6 grid grid-cols-2 gap-4 shrink-0">
+      <div class="rounded-xl bg-doc-card px-5 py-4">
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Incluso na proposta</span>
+        <ul class="mt-3 space-y-2" id="dIncList">
+          <!-- JS injeta inclusos -->
         </ul>
+      </div>
+      <div class="rounded-xl border border-doc-line px-5 py-4">
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Não incluso</span>
+        <ul class="mt-3 space-y-2" id="dNincList">
+          <!-- JS injeta nao inclusos -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- Condições gerais -->
+    <div class="mt-7 shrink-0">
+      <div class="mb-4 border-b border-doc-line pb-2">
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Condições gerais</span>
+      </div>
+      <dl class="space-y-3">
+        <div class="flex gap-4">
+          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Validade</dt>
+          <dd class="text-[8.6px] leading-snug text-doc-soft">Esta proposta é válida por <span id="dCondVal">15</span> dias a partir da data de emissão. Após esse prazo os valores podem ser revistos conforme o preço do aço.</dd>
+        </div>
+        <div class="flex gap-4">
+          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Garantia</dt>
+          <dd class="text-[8.6px] leading-snug text-doc-soft">12 meses sobre a estrutura e a solda, contra defeitos de fabricação e montagem, conforme o Código de Defesa do Consumidor.</dd>
+        </div>
+        <div class="flex gap-4">
+          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Execução</dt>
+          <dd class="text-[8.6px] leading-snug text-doc-soft">O prazo começa a contar após a aprovação da proposta, o pagamento do sinal e a liberação da obra civil (blocos curados e nivelados).</dd>
+        </div>
+        <div class="flex gap-4">
+          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Alterações</dt>
+          <dd class="text-[8.6px] leading-snug text-doc-soft">Qualquer mudança de medidas, cargas ou acabamento após a aprovação será orçada em aditivo, por escrito.</dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Garantia -->
+    <div class="mt-6 flex items-center gap-4 rounded-xl bg-doc-card px-5 py-4 shrink-0">
+      <i data-lucide="shield-check" class="w-5 h-5 shrink-0" stroke-width="1.6"></i>
+      <div>
+        <p class="text-[9.4px] font-bold">12 meses de garantia · estrutura calculada e padronizada</p>
+        <p class="mt-0.5 text-[8.3px] text-doc-soft">Trabalhamos com garantia estrutural e materiais com certificação de origem.</p>
+      </div>
+    </div>
+
+    <!-- Próximos passos -->
+    <div class="mt-7 shrink-0">
+      <div class="mb-4 border-b border-doc-line pb-2">
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Próximos passos</span>
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        
+        <div class="rounded-xl bg-doc-card px-4 py-4">
+          <div class="flex items-center gap-2.5">
+            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">1</span>
+            <p class="text-[9.2px] font-bold leading-tight">Você aprova</p>
+          </div>
+          <p class="mt-2 text-[8px] leading-snug text-doc-soft">Assine abaixo ou confirme por mensagem.</p>
+        </div>
+        
+        <div class="rounded-xl bg-doc-card px-4 py-4">
+          <div class="flex items-center gap-2.5">
+            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">2</span>
+            <p class="text-[9.2px] font-bold leading-tight">Sinal e Contrato</p>
+          </div>
+          <p class="mt-2 text-[8px] leading-snug text-doc-soft">Confirmamos os detalhes e agendamos a obra.</p>
+        </div>
+
+        <div class="rounded-xl bg-doc-card px-4 py-4">
+          <div class="flex items-center gap-2.5">
+            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">3</span>
+            <p class="text-[9.2px] font-bold leading-tight">Fabricação e montagem</p>
+          </div>
+          <p class="mt-2 text-[8px] leading-snug text-doc-soft" id="dPrazoStep">Prazo definido em contrato para a entrega.</p>
+        </div>
 
       </div>
-      
-      <!-- FOOTER PDF -->
-      <footer class="doc-footer">
-        <div>Gerado por Metalúrgica Oliveira - Sistemas</div>
-        <div>Página 1 de 1</div>
-      </footer>
     </div>
-  </main>
-</div>
+
+    <div class="flex-1"></div>
+
+    <!-- Aprovação -->
+    <div class="mt-7 shrink-0">
+      <div class="mb-4 border-b border-doc-line pb-2">
+        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Aprovação</span>
+      </div>
+      <div class="mt-12 grid grid-cols-2 gap-14">
+        <div>
+          <div class="border-t border-doc-ink"></div>
+          <p class="mt-2 text-[9.2px] font-bold" id="dAssCliente">Cliente</p>
+          <p class="text-[8px] text-doc-soft">Nome / CNPJ · Data</p>
+        </div>
+        <div>
+          <div class="border-t border-doc-ink"></div>
+          <p class="mt-2 text-[9.2px] font-bold">Metalúrgica Oliveira</p>
+          <p class="text-[8px] text-doc-soft">Responsável · Data</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Pág 2 -->
+    <div class="mt-auto pt-4 flex items-center justify-between border-t border-doc-line shrink-0">
+      <p class="flex items-center gap-1.5 text-[7.6px] text-doc-soft">
+        <i data-lucide="badge-check" class="w-3 h-3" stroke-width="1.8"></i>
+        METALÚRGICA OLIVEIRA · CNPJ 46.401.359/0001-71 · (44) 99767-1935
+      </p>
+      <span class="text-[7.6px] font-bold text-doc-soft">2 / 2</span>
+    </div>
+
+  </section>
+</main>
 
 <script>
-// --- ESTADO INICIAL DOS ITENS ---
-let itens = [
-  { desc: 'Estrutura Metálica Conforme Especificações', qtd: 1, val: 0 },
+// --- EXTENSO PARA REAIS ---
+// Depende do library extenso, importado via CDN.
+// extenso(148500, { mode: 'currency' }) -> "cento e quarenta e oito mil e quinhentos reais"
+
+// ESTADO DOS ITENS
+let items = [
+  { t: "Barracão em estrutura metálica", d: "Área total de 240 m². Pé-direito de 5,00 m, vão livre sem pilar central.", q: "1 un" },
+  { t: "Tesouras treliçadas", d: "Vão de 12 m em perfil metálico, espaçamento de 5 m entre eixos.", q: "5 un" },
+  { t: "Terças e travamentos", d: "Perfil U enrijecido 150 × 60 × 20 × #2,25 mm, com correntes.", q: "conj." },
+  { t: "Tratamento e pintura", d: "Limpeza mecânica, fundo anticorrosivo e acabamento esmalte.", q: "240 m²" },
+  { t: "Montagem no local", d: "Mão de obra especializada, equipamentos e içamento inclusos.", q: "serviço" }
 ];
 
-// Funções Auxiliares
-const g = id => document.getElementById(id).value;
-const gf = id => parseFloat(document.getElementById(id).value) || 0;
-const s = (id, val) => { const el = document.getElementById(id); if(el) el.innerHTML = val || '—'; };
-const sh = (id, bool) => { const el = document.getElementById(id); if(el) el.style.display = bool ? '' : 'none'; };
-const money = num => 'R$ ' + (num || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const formataData = str => {
-  if(!str) return '—';
-  const [y, m, d] = str.split('-');
-  return `${d}/${m}/${y}`;
-};
-const somaDias = (str, dias) => {
-  if(!str) return '—';
-  const data = new Date(str + 'T12:00:00');
-  data.setDate(data.getDate() + parseInt(dias || 15));
-  return data.toLocaleDateString('pt-BR');
-};
+function addItem() {
+  items.push({ t: "", d: "", q: "" });
+  renderItemsForm();
+  up();
+}
 
-// Renderizar Formulário de Itens
-function renderItensUI() {
-  const container = document.getElementById('listaItensForm');
-  container.innerHTML = `
-    <div style="display:grid; grid-template-columns: 1fr 60px 90px 30px; gap:8px; margin-bottom:4px;">
-      <span style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase;">Item</span>
-      <span style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase;">Qtd</span>
-      <span style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase;">Unitário</span>
-      <span></span>
-    </div>
-  `;
-  itens.forEach((item, index) => {
-    const div = document.createElement('div');
-    div.className = 'ui-item-row';
+function rmItem(i) {
+  items.splice(i, 1);
+  if(items.length===0) addItem();
+  else { renderItemsForm(); up(); }
+}
+
+function renderItemsForm() {
+  const container = document.getElementById("listaItens");
+  container.innerHTML = "";
+  items.forEach((it, i) => {
+    const div = document.createElement("div");
+    div.className = "bg-slate-50 border border-slate-200 rounded p-3 relative";
     div.innerHTML = `
-      <input type="text" class="form-control" placeholder="Ex: Tesouras" value="${item.desc}" oninput="itens[${index}].desc=this.value; atualizarPDF();">
-      <input type="number" class="form-control" step="0.5" min="0" value="${item.qtd}" oninput="itens[${index}].qtd=parseFloat(this.value)||0; atualizarPDF();">
-      <input type="number" class="form-control" step="50" min="0" value="${item.val}" oninput="itens[${index}].val=parseFloat(this.value)||0; atualizarPDF();">
-      <button class="btn-icon" onclick="removerItem(${index})"><i class="bi bi-trash"></i></button>
+      <button onclick="rmItem(${i})" class="absolute top-2 right-2 text-red-500 hover:text-red-700 bg-white rounded p-1 shadow-sm"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+      <div class="mb-2 pr-6">
+        <label class="block text-[10px] font-bold mb-1 text-slate-500">Título / Item</label>
+        <input type="text" class="w-full border rounded p-1.5 text-xs bg-white" value="${it.t}" oninput="items[${i}].t=this.value; up()">
+      </div>
+      <div class="mb-2">
+        <label class="block text-[10px] font-bold mb-1 text-slate-500">Descrição detalhada</label>
+        <textarea class="w-full border rounded p-1.5 text-xs bg-white min-h-[40px]" oninput="items[${i}].d=this.value; up()">${it.d}</textarea>
+      </div>
+      <div>
+        <label class="block text-[10px] font-bold mb-1 text-slate-500">Qtd / Und</label>
+        <input type="text" class="w-24 border rounded p-1.5 text-xs bg-white" placeholder="Ex: 5 un" value="${it.q}" oninput="items[${i}].q=this.value; up()">
+      </div>
     `;
     container.appendChild(div);
   });
+  lucide.createIcons();
 }
 
-function adicionarItem() {
-  itens.push({ desc: '', qtd: 1, val: 0 });
-  renderItensUI();
-  atualizarPDF();
+const g = (id) => document.getElementById(id).value;
+const s = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+const fd = (dateStr) => {
+  if(!dateStr) return "—";
+  const [y,m,d] = dateStr.split("-");
+  return `${d}/${m}/${y}`;
+};
+const money = (val) => "R$ " + parseFloat(val).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function removerItem(index) {
-  if (itens.length <= 1) {
-    itens[0] = { desc: 'Estrutura Completa', qtd: 1, val: 0 };
-  } else {
-    itens.splice(index, 1);
+function up() {
+  const num = g("fNum") || "—";
+  const data = g("fData");
+  const val = g("fVal") || "15";
+  
+  // Header Info
+  s("dNum", num);
+  s("dEmit", "Emissão " + fd(data));
+  s("dVal", "Válida por " + val + " dias");
+  s("dCondVal", val);
+  
+  s("dSubtitPg2", `Proposta ${num} · METALÚRGICA OLIVEIRA`);
+
+  // Cliente
+  s("dCliente", g("fCliente") || "—");
+  s("dAssCliente", g("fCliente") || "Cliente");
+  s("dContato", g("fContato") || "—");
+  s("dLocal", g("fLocal") || "—");
+
+  // Valor Total
+  const total = parseFloat(g("fTotal")) || 0;
+  s("dTotalValor", money(total));
+  
+  // Valor por extenso
+  try {
+    if(window.extenso && total > 0) {
+       // Extenso requires string or number. Let's pass it cleanly.
+       const extensoText = extenso(total.toString(), { mode: 'currency' });
+       s("dTotalExtenso", capitalizeFirstLetter(extensoText));
+    } else {
+       s("dTotalExtenso", "Preço global acordado");
+    }
+  } catch(e) {
+    s("dTotalExtenso", "Preço global acordado");
   }
-  renderItensUI();
-  atualizarPDF();
-}
 
-// Atualizar o Visual do PDF
-function atualizarPDF() {
-  // META
-  s('dTipoLabel', g('fStatus'));
-  s('dNum', g('fNum') || '—');
-  const data = g('fData');
-  const validadeDias = g('fVal') || 15;
-  s('dData', formataData(data));
-  const dataFim = somaDias(data, validadeDias);
-  s('dVal', dataFim);
-  s('dValidadeTexto', dataFim);
+  // Cards
+  s("dPgto1", g("fPgto1")); s("dPgto2", g("fPgto2"));
+  s("dPrazo1", g("fPrazo1")); s("dPrazo2", g("fPrazo2"));
+  s("dPrazoStep", g("fPrazo1") + " " + g("fPrazo2"));
+  s("dFrete1", g("fFrete1")); s("dFrete2", g("fFrete2"));
 
-  // CLIENTE
-  s('dCliente', g('fCliente'));
-  s('dTel', g('fTel'));
-  s('dCid', g('fCid'));
+  // Itens (Escopo)
+  const itensList = document.getElementById("dItensList");
+  itensList.innerHTML = "";
+  items.forEach((it, i) => {
+    if(it.t || it.d) {
+      const bg = i % 2 === 0 ? "bg-doc-zebra" : "";
+      itensList.innerHTML += `
+        <li class="flex items-start gap-3 rounded-md px-3 py-2 ${bg}">
+          <span class="mt-[5px] w-[5px] h-[5px] shrink-0 rounded-full bg-doc-yellow"></span>
+          <div class="min-w-0 flex-1">
+            <p class="text-[9.6px] font-bold leading-tight">${it.t}</p>
+            <p class="mt-0.5 text-[8.3px] leading-snug text-doc-soft">${it.d}</p>
+          </div>
+          <span class="shrink-0 text-[9px] font-semibold text-doc-soft">${it.q}</span>
+        </li>
+      `;
+    }
+  });
 
-  // ESPECIFICAÇÕES
-  s('dDesc', g('fDesc'));
-  
-  const larg = gf('fLarg');
-  const comp = gf('fComp');
-  const pd = gf('fPD');
-  const tes = g('fTes');
-  const cob = g('fCob');
-  
-  let gridHtml = '';
-  const makeBox = (lbl, val) => `<div class="spec-box"><span class="spec-label">${lbl}</span><span class="spec-value">${val}</span></div>`;
-  
-  if(larg) gridHtml += makeBox('Largura', larg.toFixed(2) + ' m');
-  if(comp) gridHtml += makeBox('Comprimento', comp.toFixed(2) + ' m');
-  if(pd) gridHtml += makeBox('Pé-Direito', pd.toFixed(2) + ' m');
-  if(larg && comp) gridHtml += makeBox('Área Total', (larg * comp).toFixed(1) + ' m²');
-  if(tes) gridHtml += makeBox('Tipo de Tesoura', tes);
-  if(cob) gridHtml += makeBox('Cobertura', cob);
-  
-  s('dSpecsGrid', gridHtml || '<i style="color:#94a3b8; font-size:12px;">Especificações não detalhadas</i>');
-
-  // ITENS & CÁLCULOS
-  const modoTabela = document.getElementById('toggleTabela').checked;
-  const tbody = document.getElementById('dTbodyItens');
-  tbody.innerHTML = '';
-  
-  let subtotal = 0;
-  
-  if (modoTabela) {
-    itens.forEach(it => {
-      const totalItem = it.qtd * it.val;
-      subtotal += totalItem;
-      if(it.desc || it.val > 0) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${it.desc || 'Item sem descrição'}</td>
-          <td>${it.qtd}</td>
-          <td>${money(it.val)}</td>
-          <td><strong>${money(totalItem)}</strong></td>
-        `;
-        tbody.appendChild(tr);
-      }
-    });
-  } else {
-    // Modo pacote único
-    let descGeral = [];
-    itens.forEach(it => {
-      if(it.desc) descGeral.push(`${it.qtd}x ${it.desc}`);
-      subtotal += (it.qtd * it.val);
-    });
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${descGeral.join('<br>') || 'Fornecimento de Estrutura Conforme Projeto'}</td>
-      <td>1</td>
-      <td>${money(subtotal)}</td>
-      <td><strong>${money(subtotal)}</strong></td>
+  // Incluso / Não Incluso
+  const incList = document.getElementById("dIncList");
+  incList.innerHTML = "";
+  g("fInc").split('\n').filter(l=>l.trim()).forEach(l => {
+    incList.innerHTML += `
+      <li class="flex items-start gap-2.5 text-[8.6px] leading-snug">
+        <i data-lucide="check-circle-2" class="mt-[1px] w-3 h-3 shrink-0" stroke-width="1.8"></i>
+        ${l}
+      </li>
     `;
-    tbody.appendChild(tr);
-  }
+  });
 
-  // TOTAIS
-  const frete = gf('fFrete');
-  const totalBase = subtotal + frete;
-  const percPix = gf('fPix');
-  const valorDesc = totalBase * (percPix / 100);
-  const totalPix = totalBase - valorDesc;
+  const nincList = document.getElementById("dNincList");
+  nincList.innerHTML = "";
+  g("fNinc").split('\n').filter(l=>l.trim()).forEach(l => {
+    nincList.innerHTML += `
+      <li class="flex items-start gap-2.5 text-[8.6px] leading-snug text-doc-soft">
+        <i data-lucide="x-circle" class="mt-[1px] w-3 h-3 shrink-0 text-doc-disabled" stroke-width="1.8"></i>
+        ${l}
+      </li>
+    `;
+  });
 
-  sh('dLinhaSubtotal', frete > 0);
-  sh('dLinhaFrete', frete > 0);
-  
-  s('dSubtotal', money(subtotal));
-  s('dFrete', money(frete));
-  s('dTotalBase', money(totalBase));
-  
-  s('dPercDesc', percPix);
-  s('dValorDesc', '- ' + money(valorDesc));
-  sh('dLinhaDesc', percPix > 0);
-  
-  s('dTotalPix', money(totalPix));
-
-  // PRAZOS E CONDIÇÕES
-  const prazo = g('fPrazo');
-  sh('dPrazoLi', !!prazo);
-  s('dPrazo', prazo);
-  
-  s('dPgto', g('fPgto') || 'A combinar conforme negociação.');
-
-  const ninc = g('fNinc');
-  sh('dNincLi', !!ninc);
-  s('dNincTexto', ninc);
+  lucide.createIcons();
 }
 
-function limparFormulario() {
-  if(confirm("Deseja apagar todos os dados informados?")) {
-    document.querySelectorAll('.form-control').forEach(el => {
-      if(el.tagName === 'SELECT') el.selectedIndex = 0;
-      else el.value = '';
-    });
-    // Restaurar padrões
-    document.getElementById('fNum').value = '1025/2026';
-    document.getElementById('fData').value = new Date().toISOString().split('T')[0];
-    document.getElementById('fVal').value = '15';
-    document.getElementById('fFrete').value = '0';
-    document.getElementById('fPix').value = '10';
-    document.getElementById('fDesc').value = 'Galpão Metálico';
-    itens = [{ desc: 'Estrutura Metálica Completa', qtd: 1, val: 0 }];
-    renderItensUI();
-    atualizarPDF();
-  }
-}
-
-function enviarWhatsApp() {
-  const tel = g('fTel').replace(/\D/g,'');
-  const nome = g('fCliente') || 'Cliente';
-  const total = document.getElementById('dTotalPix').innerText;
+function zap() {
+  const fTel = g("fContato") || "";
+  let telOnly = fTel.match(/\d+/g);
+  telOnly = telOnly ? telOnly.join('') : "";
+  if(telOnly.length < 10) telOnly = ""; // fallback se nao achar tel
   
-  const msg = `Olá, ${nome}! Tudo bem?\n\nSegue o resumo da nossa proposta (Doc ${g('fNum')}):\n\n*Projeto:* ${g('fDesc')}\n*Valor à vista (PIX):* ${total}\n\nO arquivo em PDF oficial, com o detalhamento técnico completo e prazos, pode ser impresso ou enviado em anexo.\n\nQualquer dúvida, estamos à disposição!\nMetalúrgica Oliveira`;
+  const msg = `Olá! Tudo bem?\n\nSegue o resumo da nossa Proposta Comercial (Nº ${g("fNum")}):\n\n*Valor Total:* ${money(g("fTotal"))}\n*Prazo:* ${g("fPrazo1")} ${g("fPrazo2")}\n\nO PDF completo com os detalhes de projeto e materiais pode ser gerado e enviado.\n\nFico no aguardo, Metalúrgica Oliveira.`;
   
-  const url = `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`;
+  const url = `https://wa.me/${telOnly ? '55'+telOnly : ''}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 }
 
-// INICIALIZAÇÃO
-document.getElementById('fData').value = new Date().toISOString().split('T')[0];
-renderItensUI();
-atualizarPDF();
+// INICIALIZAR
+document.getElementById("fData").value = new Date().toISOString().split('T')[0];
+lucide.createIcons();
+renderItemsForm();
+up();
 </script>
 </body>
 </html>
