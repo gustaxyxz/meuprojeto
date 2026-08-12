@@ -54,6 +54,7 @@
     <div class="border-t pt-5">
       <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i> Cliente e Obra</h3>
       <div class="mb-3"><label class="block text-xs font-bold mb-1">Cliente / Construtora</label><input type="text" id="fCliente" class="w-full border rounded p-2 text-sm" value="Construtora Exemplo Ltda." oninput="up()"></div>
+      <div class="mb-3"><label class="block text-xs font-bold mb-1">CPF / CNPJ</label><input type="text" id="fDocCliente" class="w-full border rounded p-2 text-sm" value="00.000.000/0001-00" oninput="up()"></div>
       <div class="mb-3"><label class="block text-xs font-bold mb-1">Contato (Nome e Telefone)</label><input type="text" id="fContato" class="w-full border rounded p-2 text-sm" value="João da Silva · (00) 00000-0000" oninput="up()"></div>
       <div><label class="block text-xs font-bold mb-1">Local da Obra</label><input type="text" id="fLocal" class="w-full border rounded p-2 text-sm" value="Rod. Exemplo, km 12 — Cidade/UF" oninput="up()"></div>
     </div>
@@ -152,7 +153,7 @@ Taxas, licenças e ART da obra civil</textarea>
     
     <!-- Header -->
     <header class="flex items-start justify-between border-b-2 border-doc-ink pb-4 shrink-0">
-      <img src="assets/imagens/logo_mo.png" alt="Metalurgica Oliveira" class="h-16 w-auto object-contain" onerror="this.style.display='none'">
+      <img src="assets/imagens/logo_mo.png" alt="Metalurgica Oliveira" style="height: 85px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
       <div class="text-right">
         <p class="text-[12px] font-extrabold tracking-wide text-doc-ink">METALÚRGICA OLIVEIRA</p>
         <p class="mt-0.5 text-[9.5px] text-doc-soft">CNPJ 46.401.359/0001-71 · (44) 99767-1935</p>
@@ -287,7 +288,7 @@ Taxas, licenças e ART da obra civil</textarea>
     
     <!-- Header repetido -->
     <header class="flex items-start justify-between border-b-2 border-doc-ink pb-4 shrink-0">
-      <img src="assets/imagens/logo_mo.png" alt="Metalurgica Oliveira" class="h-16 w-auto object-contain" onerror="this.style.display='none'">
+      <img src="assets/imagens/logo_mo.png" alt="Metalurgica Oliveira" style="height: 85px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
       <div class="text-right">
         <p class="text-[12px] font-extrabold tracking-wide text-doc-ink">METALÚRGICA OLIVEIRA</p>
         <p class="mt-0.5 text-[9.5px] text-doc-soft">CNPJ 46.401.359/0001-71 · (44) 99767-1935</p>
@@ -498,6 +499,7 @@ function up() {
   // Cliente
   s("dCliente", g("fCliente") || "—");
   s("dAssCliente", g("fCliente") || "Cliente");
+  s("dDocCliente", (g("fDocCliente") || "CNPJ") + " · Data: ___/___/202___");
   s("dContato", g("fContato") || "—");
   s("dLocal", g("fLocal") || "—");
   s("dItemPrincipal", g("fItemPrincipal") || "Escopo do fornecimento");
