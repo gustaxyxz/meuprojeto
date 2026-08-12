@@ -5,152 +5,178 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Proposta Comercial — Metalurgica Oliveira</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* === VARIAVEIS === */
 :root{
-  --am:#ffc107;--ame:#d4930a;--amc:#fffbea;
-  --pr:#0f0f0f;--pr2:#1a1a1a;--cin:#f0f1f3;
-  --fn:'Inter',sans-serif;--fh:'Barlow Condensed',var(--fn);
+  --am:#c8920a;--aml:rgba(200,146,10,.09);
+  --pr:#111;--bg:#f2f3f5;--fn:'Inter',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:var(--fn);background:var(--cin);min-height:100vh;}
+body{font-family:var(--fn);background:var(--bg);min-height:100vh;font-size:14px;}
 
-/* === TOPBAR === */
-.topbar{background:var(--pr);padding:.7rem 1.8rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:200;border-bottom:2px solid #ffc10722;}
-.tbrand{display:flex;align-items:center;gap:.7rem;}
-.tbrand img{height:34px;width:34px;object-fit:contain;border-radius:50%;background:#fff;padding:2px;}
-.tb-nome{font-weight:800;font-size:.9rem;color:var(--am);letter-spacing:.01em;}
-.tb-sub{font-size:.65rem;color:#666;margin-top:1px;}
-.tactions{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
-.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem 1rem;border-radius:7px;border:none;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .18s;font-family:var(--fn);}
-.btn-am{background:var(--am);color:#000;} .btn-am:hover{background:var(--ame);transform:translateY(-1px);}
-.btn-wpp{background:#22c55e;color:#fff;} .btn-wpp:hover{background:#16a34a;transform:translateY(-1px);}
-.btn-cl{background:#262626;color:#888;border:1px solid #333;} .btn-cl:hover{color:#fff;background:#333;}
+/* ── TOPBAR ── */
+.topbar{background:#111;padding:.65rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:200;}
+.tbrand{display:flex;align-items:center;gap:.6rem;}
+.tbrand img{height:28px;object-fit:contain;flex-shrink:0;}
+.tb-n{font-weight:700;font-size:.85rem;color:#e5c46a;letter-spacing:.01em;}
+.tb-s{font-size:.62rem;color:#555;margin-top:1px;}
+.tacts{display:flex;gap:.45rem;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:.3rem;padding:.44rem .9rem;border-radius:6px;border:none;font-weight:600;font-size:.78rem;cursor:pointer;transition:background .15s;font-family:var(--fn);}
+.btn-am{background:#e5c46a;color:#111;} .btn-am:hover{background:#d4b055;}
+.btn-wpp{background:#22c55e;color:#fff;} .btn-wpp:hover{background:#16a34a;}
+.btn-cl{background:#222;color:#777;border:1px solid #333;} .btn-cl:hover{color:#ccc;}
 
-/* === LAYOUT === */
-.lay{display:grid;grid-template-columns:380px 1fr;min-height:calc(100vh - 58px);}
+/* ── LAYOUT ── */
+.lay{display:grid;grid-template-columns:370px 1fr;min-height:calc(100vh - 54px);}
 
-/* === FORMULARIO === */
-.fp{background:#fff;border-right:1px solid #e8e8e8;overflow-y:auto;height:calc(100vh - 58px);position:sticky;top:58px;}
-.fs{padding:1.1rem 1.4rem;border-bottom:1px solid #f3f3f3;}
+/* ── FORMULARIO ── */
+.fp{background:#fff;border-right:1px solid #e5e5e5;overflow-y:auto;height:calc(100vh - 54px);position:sticky;top:54px;}
+.fs{padding:1rem 1.3rem;border-bottom:1px solid #f2f2f2;}
 .fs:last-child{border:none;}
-.fst{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#bbb;margin-bottom:.85rem;display:flex;align-items:center;gap:.4rem;}
-.fst i{color:var(--ame);font-size:.8rem;}
-.fst::after{content:"";flex:1;height:1px;background:#f3f3f3;}
-.fg{margin-bottom:.7rem;}
-.fg label{display:block;font-size:.68rem;font-weight:700;color:#777;margin-bottom:.25rem;text-transform:uppercase;letter-spacing:.04em;}
-.fg input,.fg select,.fg textarea{width:100%;padding:.44rem .65rem;border:1.5px solid #eaeaea;border-radius:7px;font-size:.83rem;font-family:var(--fn);color:#111;background:#fafafa;transition:border-color .2s,box-shadow .2s;outline:none;}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--am);box-shadow:0 0 0 3px rgba(255,193,7,.13);background:#fff;}
-.fg textarea{resize:vertical;min-height:90px;line-height:1.7;}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
-.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;}
-.hint{font-size:.65rem;color:#bbb;margin-top:.2rem;}
+.fst{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#bbb;margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem;}
+.fst i{color:var(--am);}
+.fst::after{content:"";flex:1;height:1px;background:#f2f2f2;}
+.fg{margin-bottom:.65rem;}
+.fg label{display:block;font-size:.65rem;font-weight:600;color:#888;margin-bottom:.22rem;text-transform:uppercase;letter-spacing:.04em;}
+.fg input,.fg select,.fg textarea{width:100%;padding:.4rem .6rem;border:1.5px solid #e8e8e8;border-radius:6px;font-size:.82rem;font-family:var(--fn);color:#111;background:#fafafa;transition:border-color .18s;outline:none;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--am);background:#fff;}
+.fg textarea{resize:vertical;min-height:84px;line-height:1.65;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.45rem;}
+.hint{font-size:.6rem;color:#bbb;margin-top:.18rem;line-height:1.4;}
 
-/* Resumo valores */
-.rv{background:var(--pr);border-radius:9px;padding:.8rem .95rem;margin-top:.6rem;}
-.rl{display:flex;justify-content:space-between;font-size:.78rem;padding:.15rem 0;color:#777;}
-.rl.d{font-weight:900;font-size:.95rem;border-top:1px solid #ffc10722;margin-top:.35rem;padding-top:.35rem;color:var(--am);}
-.rl span:last-child{font-weight:700;color:#ccc;}
-.rl.d span:last-child{color:var(--am);}
+/* toggle switch */
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem 0;}
+.tog-label{font-size:.73rem;font-weight:600;color:#555;}
+.tog-label small{display:block;font-size:.6rem;color:#aaa;font-weight:400;}
+.tog{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0;}
+.tog input{opacity:0;width:0;height:0;}
+.tog-sl{position:absolute;inset:0;background:#ddd;border-radius:20px;cursor:pointer;transition:.2s;}
+.tog-sl::before{content:"";position:absolute;height:14px;width:14px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+.tog input:checked + .tog-sl{background:var(--am);}
+.tog input:checked + .tog-sl::before{transform:translateX(16px);}
 
-/* === PREVIEW === */
-.pp{background:var(--cin);overflow-y:auto;padding:1.6rem 1.2rem 4rem;}
-.plbl{text-align:center;margin-bottom:.9rem;}
-.plbl span{background:#1a1a1a;color:#666;border-radius:20px;padding:.25rem .8rem;font-size:.68rem;font-weight:700;letter-spacing:.06em;}
+/* Itens */
+.il{display:flex;flex-direction:column;gap:.38rem;}
+.ir{background:#fafafa;border:1px solid #eee;border-radius:6px;padding:.5rem .6rem;display:grid;grid-template-columns:1fr 52px 72px 20px;gap:.35rem;align-items:center;}
+.ir input{padding:.25rem .4rem;font-size:.78rem;border:1px solid #e0e0e0;border-radius:5px;background:#fff;outline:none;}
+.ir input:focus{border-color:var(--am);}
+.bri{background:none;border:none;color:#ccc;cursor:pointer;font-size:.88rem;padding:.15rem;} .bri:hover{color:#e55;}
+.bai{display:flex;align-items:center;gap:.35rem;padding:.42rem .8rem;background:#fafafa;color:#aaa;border:1.5px dashed #ddd;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;width:100%;justify-content:center;margin-top:.4rem;transition:all .15s;}
+.bai:hover{border-color:var(--am);color:var(--am);background:var(--aml);}
 
-/* === DOCUMENTO A4 === */
-.a4{background:#fff;max-width:794px;margin:0 auto;box-shadow:0 6px 40px rgba(0,0,0,.14);border-radius:3px;font-family:var(--fn);position:relative;overflow:hidden;}
+/* Resumo */
+.rv{background:#111;border-radius:8px;padding:.75rem .9rem;margin-top:.55rem;}
+.rl{display:flex;justify-content:space-between;font-size:.76rem;padding:.14rem 0;color:#666;}
+.rl.d{font-weight:700;font-size:.9rem;border-top:1px solid #222;margin-top:.3rem;padding-top:.3rem;color:#e5c46a;}
+.rl span:last-child{font-weight:600;color:#bbb;}
+.rl.d span:last-child{color:#e5c46a;}
 
-/* Faixa topo */
-.a4-topo{height:8px;background:linear-gradient(90deg,#0f0f0f 0%,#ffc107 40%,#d4930a 60%,#0f0f0f 100%);}
+/* ── PREVIEW ── */
+.pp{background:var(--bg);overflow-y:auto;padding:1.4rem 1rem 4rem;}
+.plbl{text-align:center;margin-bottom:.8rem;}
+.plbl span{background:#1c1c1c;color:#555;border-radius:20px;padding:.22rem .75rem;font-size:.65rem;font-weight:600;letter-spacing:.05em;}
 
-/* Conteudo interno */
-.a4-inner{padding:36px 48px 40px;}
+/* ── DOCUMENTO A4 ── */
+.a4{background:#fff;max-width:790px;margin:0 auto;box-shadow:0 4px 28px rgba(0,0,0,.1);font-family:var(--fn);position:relative;}
+/* Linha topo — muito discreta */
+.a4::before{content:"";display:block;height:1px;background:#111;width:100%;}
+.a4-inner{padding:32px 44px 36px;}
 
-/* --- Cabecalho --- */
-.cab{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:18px;margin-bottom:18px;border-bottom:2px solid #0f0f0f;}
-.cab-esq{display:flex;align-items:center;gap:14px;}
-.cab-logo{width:64px;height:64px;object-fit:contain;border-radius:50%;background:#0f0f0f;padding:4px;flex-shrink:0;}
-.cab-emp-nome{font-family:var(--fh);font-size:1.4rem;font-weight:800;color:#0f0f0f;line-height:1;letter-spacing:.01em;}
-.cab-emp-nome .dc{color:var(--ame);}
-.cab-emp-info{font-size:.63rem;color:#888;line-height:1.65;margin-top:.3rem;}
-.cab-emp-cnpj{font-size:.58rem;color:#bbb;margin-top:.25rem;}
+/* ─ Cabecalho ─ */
+.cab{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid #e8e8e8;}
+.cab-esq{display:flex;align-items:center;gap:11px;}
+.cab-logo{height:34px;max-width:120px;object-fit:contain;flex-shrink:0;}
+.cab-emp-nome{font-size:1.05rem;font-weight:800;color:#111;letter-spacing:.02em;line-height:1;}
+.cab-emp-info{font-size:.6rem;color:#888;line-height:1.6;margin-top:.25rem;}
 .cab-dir{text-align:right;}
-.cab-badge{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#999;background:#f5f5f5;padding:.2rem .6rem;border-radius:3px;display:inline-block;}
-.cab-num{font-family:var(--fh);font-size:2.1rem;font-weight:900;color:#0f0f0f;line-height:1;margin-top:.2rem;}
-.cab-datas{font-size:.65rem;color:#aaa;margin-top:.3rem;line-height:1.65;}
+.cab-tipo{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bbb;display:block;margin-bottom:.2rem;}
+.cab-ref{font-size:.78rem;font-weight:600;color:#666;letter-spacing:.02em;}
+.cab-datas{font-size:.6rem;color:#aaa;margin-top:.25rem;line-height:1.6;}
 
-/* --- Secao --- */
-.sec{font-size:.58rem;font-weight:800;text-transform:uppercase;letter-spacing:.13em;color:#ccc;margin:18px 0 8px;display:flex;align-items:center;gap:.45rem;}
+/* ─ Divisores de secao ─ */
+.sec{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#ccc;margin:16px 0 7px;display:flex;align-items:center;gap:.4rem;}
 .sec::after{content:"";flex:1;height:1px;background:#f0f0f0;}
-.sec i{color:var(--ame);}
 
-/* --- Grid info --- */
-.ig{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px 16px;}
-.ig-item .lb{font-size:.57rem;color:#ccc;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1px;}
-.ig-item .vl{font-size:.84rem;color:#111;font-weight:700;}
+/* ─ Grid de info ─ */
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px;}
+.dii .lb{font-size:.56rem;color:#bbb;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1px;}
+.dii .vl{font-size:.82rem;color:#222;font-weight:600;}
 
-/* --- Box tecnico (tipo cartao) --- */
-.tec-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
-.tec-card{background:#fafafa;border:1px solid #f0f0f0;border-radius:6px;padding:8px 10px;text-align:center;}
-.tec-card .tc-val{font-family:var(--fh);font-size:1.3rem;font-weight:800;color:#111;line-height:1;}
-.tec-card .tc-lbl{font-size:.57rem;color:#bbb;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
-.tec-card.area{border-left:3px solid var(--am);}
+/* ─ Cards de medidas ─ */
+.medidas{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.med-card{border:1px solid #ebebeb;border-radius:5px;padding:5px 10px;text-align:center;min-width:70px;}
+.med-card .mv{font-size:1rem;font-weight:700;color:#111;line-height:1;}
+.med-card .ml{font-size:.54rem;color:#bbb;text-transform:uppercase;letter-spacing:.06em;margin-top:1px;}
+.med-card.dest{border-color:#e5c46a33;background:#fffdf5;}
+.med-card.dest .mv{color:var(--am);}
 
-/* --- O que esta incluso --- */
-.incluso-box{background:#fafafa;border-left:3px solid var(--am);border-radius:0 7px 7px 0;padding:10px 14px;font-size:.78rem;color:#444;line-height:1.85;white-space:pre-line;}
+/* ─ Tabela itens ─ */
+.tabela{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px;}
+.tabela thead tr{background:#f9f9f9;border-bottom:2px solid #eee;}
+.tabela thead th{padding:.45rem .65rem;font-size:.57rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.07em;}
+.tabela thead th:not(:first-child){text-align:right;}
+.tabela tbody tr{border-bottom:1px solid #f5f5f5;}
+.tabela tbody td{padding:.45rem .65rem;color:#444;}
+.tabela tbody td:not(:first-child){text-align:right;font-weight:500;color:#222;}
+.tabela tfoot{border-top:1.5px solid #e0e0e0;}
+.tabela tfoot td{padding:.4rem .65rem;font-weight:600;font-size:.78rem;}
+.tabela tfoot td:last-child{text-align:right;font-weight:700;}
 
-/* --- Box de preco --- */
-.preco-box{background:#0f0f0f;border-radius:9px;padding:16px 20px;margin-top:14px;}
-.preco-row{display:flex;justify-content:space-between;padding:.3rem 0;font-size:.8rem;border-bottom:1px solid rgba(255,255,255,.06);}
-.preco-row:last-child{border:none;}
-.preco-row .pl{color:#888;}
-.preco-row .pv{font-weight:700;color:#ddd;}
-.preco-pix{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:2px solid var(--am);}
-.preco-pix .pl{font-weight:800;font-size:.95rem;color:#fff;}
-.preco-pix .pv{font-family:var(--fh);font-size:2rem;font-weight:900;color:var(--am);}
+/* ─ Box incluso ─ */
+.inc-box{border-left:2px solid #e0e0e0;padding:8px 12px;font-size:.75rem;color:#555;line-height:1.8;white-space:pre-line;background:#fafafa;border-radius:0 5px 5px 0;}
 
-/* --- Prazo destaque --- */
-.prazo-box{display:inline-flex;align-items:center;gap:.5rem;background:var(--amc);border:1.5px solid #ffc10755;border-radius:7px;padding:.5rem .9rem;font-size:.78rem;font-weight:700;color:#7a5800;margin-top:10px;}
+/* ─ Valores ─ */
+.val-table{width:100%;border-collapse:collapse;margin-top:10px;}
+.val-table td{padding:.4rem .5rem;font-size:.78rem;}
+.val-table td:last-child{text-align:right;font-weight:600;}
+.val-table tr.sep td{border-top:1px solid #eee;}
+.val-total-row td{border-top:1px solid #ccc;padding-top:.5rem;font-weight:700;font-size:.88rem;color:#111;}
+.val-pix{background:#fcfcfc;border:1px solid #eee;border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.val-pix .vp-lbl{font-size:.7rem;font-weight:600;color:#555;}
+.val-pix .vp-val{font-size:1.1rem;font-weight:700;color:#111;}
+.val-pix .vp-des{font-size:.62rem;color:#22c55e;font-weight:600;}
 
-/* --- Condicoes --- */
-.cond-box{background:#fafafa;border:1px solid #ebebeb;border-radius:7px;padding:10px 14px;font-size:.68rem;color:#777;line-height:1.85;margin-top:4px;}
-.cond-box strong{color:#333;}
-.cond-item{display:flex;gap:.5rem;padding:.15rem 0;align-items:flex-start;}
-.cond-n{color:var(--ame);font-weight:800;min-width:16px;flex-shrink:0;}
+/* ─ Prazo ─ */
+.prazo-line{display:flex;align-items:center;gap:.5rem;font-size:.74rem;color:#555;margin-top:9px;padding:6px 10px;background:#fafafa;border:1px solid #ebebeb;border-radius:5px;}
+.prazo-line i{color:var(--am);}
 
-/* --- Assinaturas --- */
-.assinaturas{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:36px;}
+/* ─ Obs nao incluso ─ */
+.ninc-box{margin-top:6px;padding:6px 10px;border:1px solid #ebebeb;border-radius:5px;font-size:.7rem;color:#aaa;background:#fafafa;}
+.ninc-box strong{color:#888;}
+
+/* ─ Condicoes ─ */
+.conds{background:#fafafa;border:1px solid #ebebeb;border-radius:6px;padding:9px 12px;font-size:.68rem;color:#777;line-height:1.8;margin-top:4px;}
+.conds strong{color:#444;}
+.cond-item{display:flex;gap:.45rem;padding:.12rem 0;}
+.cond-n{color:var(--am);font-weight:700;min-width:14px;flex-shrink:0;}
+
+/* ─ Assinaturas ─ */
+.assinaturas{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:32px;}
 .ass{text-align:center;}
-.ass-linha{border-top:1px solid #d0d0d0;padding-top:7px;font-size:.68rem;color:#999;}
-.ass-linha strong{display:block;color:#333;font-size:.75rem;margin-bottom:.15rem;}
+.ass-linha{border-top:1px solid #ccc;padding-top:6px;font-size:.65rem;color:#aaa;}
+.ass-linha strong{display:block;color:#444;font-size:.7rem;margin-bottom:.12rem;}
 
-/* --- Rodape --- */
-.rodape{margin-top:24px;padding-top:10px;border-top:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;font-size:.58rem;color:#ccc;}
-.rodape .rm{font-weight:800;color:#bbb;font-size:.63rem;}
+/* ─ Rodape ─ */
+.rodape{margin-top:20px;padding-top:9px;border-top:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;}
+.rodape-txt{font-size:.57rem;color:#ccc;}
+.rodape-txt b{color:#bbb;}
+.rodape-ref{font-size:.57rem;color:#ccc;text-align:right;}
 
-/* Faixa lateral amarela sutil */
-.a4::after{content:"";position:absolute;right:0;top:8px;bottom:0;width:3px;background:linear-gradient(180deg,var(--am) 0%,transparent 100%);opacity:.3;}
-
-/* Marca d'agua */
-.marca-dagua{position:absolute;bottom:60px;right:40px;font-family:var(--fh);font-size:4rem;font-weight:900;color:rgba(255,193,7,.04);pointer-events:none;letter-spacing:.05em;transform:rotate(-25deg);white-space:nowrap;}
-
-/* === PRINT === */
+/* ── PRINT ── */
 @media print{
   .topbar,.fp,.plbl{display:none!important;}
-  .lay,.pp{display:block!important;}
+  .lay{display:block!important;}
   .pp{padding:0!important;background:#fff!important;overflow:visible!important;}
   body{background:#fff!important;}
-  .a4{box-shadow:none!important;border-radius:0!important;max-width:100%!important;}
-  .a4-inner{padding:16mm 18mm 14mm!important;}
-  .marca-dagua,.a4::after{display:none;}
+  .a4{box-shadow:none!important;max-width:100%!important;}
+  .a4-inner{padding:14mm 17mm 12mm!important;}
 }
 @media(max-width:860px){
   .lay{grid-template-columns:1fr;}
   .fp{height:auto;position:relative;top:0;}
-  .tec-cards,.ig{grid-template-columns:1fr 1fr;}
-  .assinaturas{grid-template-columns:1fr;gap:20px;}
+  .ig{grid-template-columns:1fr 1fr;}
+  .assinaturas{grid-template-columns:1fr;gap:18px;}
 }
 </style>
 </head>
@@ -160,24 +186,24 @@ body{font-family:var(--fn);background:var(--cin);min-height:100vh;}
 <header class="topbar">
   <div class="tbrand">
     <img src="assets/imagens/logo_mo.png" alt="MO" onerror="this.style.display='none'">
-    <div><div class="tb-nome">Metalurgica Oliveira</div><div class="tb-sub">Gerador de Proposta Comercial</div></div>
+    <div><div class="tb-n">Metalurgica Oliveira</div><div class="tb-s">Gerador de Proposta</div></div>
   </div>
-  <div class="tactions">
+  <div class="tacts">
     <button class="btn btn-cl" onclick="limpar()"><i class="bi bi-arrow-counterclockwise"></i> Limpar</button>
     <button class="btn btn-wpp" onclick="zap()"><i class="bi bi-whatsapp"></i> WhatsApp</button>
-    <button class="btn btn-am" onclick="window.print()"><i class="bi bi-file-earmark-arrow-down"></i> Salvar PDF</button>
+    <button class="btn btn-am" onclick="window.print()"><i class="bi bi-file-earmark-pdf"></i> Salvar PDF</button>
   </div>
 </header>
 
 <div class="lay">
-  <!-- FORMULARIO -->
+  <!-- ====== FORMULARIO ====== -->
   <aside class="fp">
 
     <!-- Identificacao -->
     <div class="fs">
       <div class="fst"><i class="bi bi-hash"></i> Proposta</div>
       <div class="fr">
-        <div class="fg"><label>Numero</label><input id="fNum" value="0001" oninput="up()" maxlength="8"></div>
+        <div class="fg"><label>Numero</label><input id="fNum" value="1024" oninput="up()" maxlength="6"></div>
         <div class="fg"><label>Data</label><input type="date" id="fData" oninput="up()"></div>
       </div>
       <div class="fr">
@@ -195,7 +221,7 @@ body{font-family:var(--fn);background:var(--cin);min-height:100vh;}
     <!-- Cliente -->
     <div class="fs">
       <div class="fst"><i class="bi bi-person"></i> Cliente</div>
-      <div class="fg"><label>Nome / Apelido *</label><input id="fNome" placeholder="Ex: Joao Carlos / Fazenda Boa Vista" oninput="up()"></div>
+      <div class="fg"><label>Nome *</label><input id="fNome" placeholder="Ex: Joao Carlos / Fazenda Boa Vista" oninput="up()"></div>
       <div class="fr">
         <div class="fg"><label>WhatsApp</label><input id="fTel" placeholder="(44) 9 9999-0000" oninput="up()"></div>
         <div class="fg"><label>Cidade - UF</label><input id="fCid" placeholder="Maringa - PR" oninput="up()"></div>
@@ -206,9 +232,9 @@ body{font-family:var(--fn);background:var(--cin);min-height:100vh;}
     <div class="fs">
       <div class="fst"><i class="bi bi-building"></i> Estrutura</div>
       <div class="fg">
-        <label>Descricao da Estrutura *</label>
+        <label>Modelo</label>
         <select id="fDescSel" onchange="aplicarDesc()">
-          <option value="">— Escolher modelo padrao —</option>
+          <option value="">— Selecionar modelo —</option>
           <option value="Barracao Metalico">Barracao Metalico</option>
           <option value="Galpao Agricola">Galpao Agricola</option>
           <option value="Galpao Industrial">Galpao Industrial</option>
@@ -216,9 +242,9 @@ body{font-family:var(--fn);background:var(--cin);min-height:100vh;}
           <option value="Estrutura para Aviario">Estrutura para Aviario</option>
           <option value="Cobertura Metalica">Cobertura Metalica</option>
           <option value="Shed / Telhado Metalico">Shed / Telhado Metalico</option>
+          <option value="outro">Outro (digitar abaixo)</option>
         </select>
-        <input id="fDesc" placeholder="Ou escreva livremente..." oninput="up()" style="margin-top:.4rem">
-        <div class="hint">O campo de texto sera usado no PDF. A selecao acima so preenche automaticamente.</div>
+        <input id="fDesc" placeholder="Descricao livre..." oninput="up()" style="margin-top:.4rem">
       </div>
       <div class="fr3">
         <div class="fg"><label>Largura (m)</label><input type="number" id="fLarg" step="0.5" min="0" placeholder="12" oninput="up()"></div>
@@ -228,7 +254,7 @@ body{font-family:var(--fn);background:var(--cin);min-height:100vh;}
       <div class="fr">
         <div class="fg"><label>Tipo de Tesoura</label>
           <select id="fTes" onchange="up()">
-            <option value="">— Nao especificado —</option>
+            <option value="">—</option>
             <option>Duas Aguas - Trelicada</option>
             <option>Duas Aguas - Perfil U</option>
             <option>Uma Agua</option>
@@ -238,7 +264,7 @@ body{font-family:var(--fn);background:var(--cin);min-height:100vh;}
         </div>
         <div class="fg"><label>Cobertura</label>
           <select id="fCob" onchange="up()">
-            <option value="">— Nao especificado —</option>
+            <option value="">—</option>
             <option>Telha Trapezoidal 0,43mm</option>
             <option>Telha Trapezoidal 0,50mm</option>
             <option>Telha Sanduiche</option>
@@ -250,43 +276,68 @@ body{font-family:var(--fn);background:var(--cin);min-height:100vh;}
       <div class="fg"><label>Fechamento Lateral</label>
         <select id="fLat" onchange="up()">
           <option value="">— Sem fechamento —</option>
-          <option>Telha nas Laterais (todas)</option>
+          <option>Telha nas Laterais</option>
           <option>Telha Lateral Parcial</option>
-          <option>Frente e Fundo em Telha</option>
+          <option>Frente e Fundo</option>
         </select>
       </div>
     </div>
 
-    <!-- O que esta incluso -->
+    <!-- Modo de precificacao -->
     <div class="fs">
-      <div class="fst"><i class="bi bi-card-checklist"></i> O que esta incluso</div>
-      <div class="fg">
-        <label>Liste os itens inclusos (um por linha)</label>
-        <textarea id="fInc" rows="8" oninput="up()" placeholder="Tesouras trelicadas em Viga U 40
-Colunas em tubo retangular 100x100mm (e=3mm)
-Tercas enrijecidas espaçadas a 1,50m
-Telha trapezoidal 0,50mm - cobertura
-Rufo e espigao de acabamento
-Tirantes e contraventamentos de aco
-Pintura anticorrosiva (2 demaos)
-Parafusos e fixacoes galvanizadas"></textarea>
-        <div class="hint">Esses itens aparecem como diferenciais no PDF — sem precos individuais</div>
+      <div class="fst"><i class="bi bi-list-check"></i> Itens e Valores</div>
+
+      <!-- Toggle modo -->
+      <div class="tog-row">
+        <div class="tog-label">
+          Detalhar itens com precos unitarios
+          <small>Se desligado, mostra apenas lista geral + preco final</small>
+        </div>
+        <label class="tog"><input type="checkbox" id="togItens" checked onchange="alternarModo()"><span class="tog-sl"></span></label>
       </div>
-      <div class="fg">
-        <label>O que NAO esta incluso (opcional)</label>
-        <textarea id="fNinc" rows="2" oninput="up()" placeholder="Ex: Fundacao e chumbadores. Montagem. Frete."></textarea>
+
+      <!-- MODO SIMPLES: lista de inclusos -->
+      <div id="modoSimples" style="display:none">
+        <div class="fg" style="margin-top:.5rem">
+          <label>O que esta incluso (um por linha)</label>
+          <textarea id="fInc" rows="7" oninput="up()" placeholder="Tesouras trelicadas em Viga U 40&#10;Colunas tubo retangular 100x100mm (e=3mm)&#10;Tercas enrijecidas a 1,50m&#10;Telha trapezoidal 0,50mm&#10;Rufo e espigao de acabamento&#10;Tirantes e contraventamentos&#10;Pintura anticorrosiva (2 demaos)&#10;Parafusos e fixacoes galvanizadas"></textarea>
+          <div class="hint">Aparece como lista de beneficios — sem precos por item</div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label>Valor Total (R$) *</label><input type="number" id="fValorS" step="100" min="0" placeholder="48000" oninput="up()"></div>
+          <div class="fg"><label>Desconto PIX (%)</label><input type="number" id="fPixS" value="10" min="0" max="50" step="0.5" oninput="up()"></div>
+        </div>
+      </div>
+
+      <!-- MODO DETALHADO: tabela com unidades -->
+      <div id="modoDetalhado">
+        <div style="display:grid;grid-template-columns:1fr 50px 70px 20px;gap:.35rem;margin:.5rem 0 .25rem;padding:0 .1rem">
+          <span style="font-size:.58rem;font-weight:700;color:#bbb;text-transform:uppercase">Descricao</span>
+          <span style="font-size:.58rem;font-weight:700;color:#bbb;text-transform:uppercase">Qtd</span>
+          <span style="font-size:.58rem;font-weight:700;color:#bbb;text-transform:uppercase">R$ Unit</span>
+          <span></span>
+        </div>
+        <div class="il" id="ilista"></div>
+        <button class="bai" onclick="addItem()"><i class="bi bi-plus-circle"></i> Adicionar item</button>
+        <div class="fr" style="margin-top:.7rem">
+          <div class="fg"><label>Desconto PIX (%)</label><input type="number" id="fPixD" value="10" min="0" max="50" step="0.5" oninput="up()"></div>
+          <div class="fg"><label>Frete / Outros (R$)</label><input type="number" id="fFreteD" value="0" min="0" step="50" oninput="up()"></div>
+        </div>
+      </div>
+
+      <div class="rv" style="margin-top:.6rem">
+        <div class="rl"><span>Valor de tabela</span><span id="rVT">R$ 0,00</span></div>
+        <div class="rl" id="rLinhaFrete" style="display:none"><span>Frete / Adicional</span><span id="rFrete">R$ 0,00</span></div>
+        <div class="rl"><span>Desconto PIX</span><span id="rDes" style="color:#22c55e">- R$ 0,00</span></div>
+        <div class="rl d"><span>Total a vista PIX</span><span id="rPix">R$ 0,00</span></div>
       </div>
     </div>
 
-    <!-- Valor e pagamento -->
+    <!-- Pagamento e Prazo -->
     <div class="fs">
-      <div class="fst"><i class="bi bi-cash-stack"></i> Valor e Pagamento</div>
-      <div class="fr">
-        <div class="fg"><label>Valor Total (R$)</label><input type="number" id="fValor" step="100" min="0" placeholder="48000" oninput="up()"></div>
-        <div class="fg"><label>Desconto PIX (%)</label><input type="number" id="fPix" value="10" min="0" max="50" step="0.5" oninput="up()"></div>
-      </div>
+      <div class="fst"><i class="bi bi-calendar-check"></i> Pagamento e Prazo</div>
       <div class="fg"><label>Condicao de Pagamento</label>
-        <input id="fCond" placeholder="Ex: 50% de entrada + 50% na entrega" oninput="up()">
+        <input id="fCond" placeholder="Ex: 50% entrada + 50% antes da entrega" oninput="up()">
       </div>
       <div class="fg"><label>Formas aceitas</label>
         <select id="fForma" onchange="up()">
@@ -296,34 +347,36 @@ Parafusos e fixacoes galvanizadas"></textarea>
           <option>A combinar</option>
         </select>
       </div>
-      <div class="rv">
-        <div class="rl"><span>Valor tabela</span><span id="rVT">R$ 0,00</span></div>
-        <div class="rl"><span>Desconto PIX</span><span id="rDes" style="color:#22c55e">- R$ 0,00</span></div>
-        <div class="rl d"><span>Total a vista PIX</span><span id="rPix">R$ 0,00</span></div>
+      <div class="fg"><label>Prazo de Fabricacao e Entrega</label>
+        <input id="fPrazo" placeholder="Ex: 20 a 30 dias uteis apos aprovacao e sinal" oninput="up()">
       </div>
     </div>
 
-    <!-- Prazo e obs -->
+    <!-- Extra -->
     <div class="fs">
-      <div class="fst"><i class="bi bi-clock"></i> Prazo e Observacoes</div>
-      <div class="fg"><label>Prazo de Entrega / Fabricacao</label>
-        <input id="fPrazo" placeholder="Ex: 20 a 30 dias uteis apos aprovacao e sinal" oninput="up()">
+      <div class="fst"><i class="bi bi-chat-text"></i> Extras</div>
+      <div class="fg"><label>Nao esta incluso (opcional)</label>
+        <textarea id="fNinc" rows="2" oninput="up()" placeholder="Ex: Fundacao. Montagem. Frete."></textarea>
       </div>
-      <div class="fg"><label>Observacoes (aparece no PDF)</label>
-        <textarea id="fObs" rows="2" oninput="up()" placeholder="Ex: Frete nao incluso. Montagem disponivel por valor adicional..."></textarea>
+      <div class="fg"><label>Observacoes adicionais (opcional)</label>
+        <textarea id="fObs" rows="2" oninput="up()" placeholder="Ex: Projeto sujeito a alteracao de precos apos validade."></textarea>
+      </div>
+      <div class="tog-row">
+        <div class="tog-label">
+          Exibir campos de assinatura
+          <small>Inclui linha de assinatura no final do PDF</small>
+        </div>
+        <label class="tog"><input type="checkbox" id="togAss" onchange="up()"><span class="tog-sl"></span></label>
       </div>
     </div>
 
   </aside>
 
-  <!-- PREVIEW -->
+  <!-- ====== PREVIEW ====== -->
   <main class="pp">
     <div class="plbl"><span><i class="bi bi-eye"></i> Pre-visualizacao — clique Salvar PDF para exportar</span></div>
 
     <div class="a4">
-      <div class="a4-topo"></div>
-      <div class="marca-dagua">METALURGICA OLIVEIRA</div>
-
       <div class="a4-inner">
 
         <!-- CABECALHO -->
@@ -331,123 +384,132 @@ Parafusos e fixacoes galvanizadas"></textarea>
           <div class="cab-esq">
             <img src="assets/imagens/logo_mo.png" class="cab-logo" alt="MO" onerror="this.style.display='none'">
             <div>
-              <div class="cab-emp-nome">METALURGICA <span class="dc">OLIVEIRA</span></div>
+              <div class="cab-emp-nome">METALURGICA OLIVEIRA</div>
               <div class="cab-emp-info">
                 Fabricacao e Venda de Estruturas Metalicas para Galpoes<br>
-                Engenheiro Beltrao - PR &nbsp;|&nbsp; <strong>(44) 99831-8534</strong>
+                Engenheiro Beltrao - PR &nbsp;·&nbsp; (44) 99767-1935 &nbsp;·&nbsp; CNPJ 46.401.359/0001-71
               </div>
-              <div class="cab-emp-cnpj">CNPJ: 46.401.359/0001-71</div>
             </div>
           </div>
           <div class="cab-dir">
-            <span class="cab-badge" id="dTipo">Proposta Comercial</span>
-            <div class="cab-num" id="dNum">#0001</div>
+            <span class="cab-tipo" id="dTipo">Proposta Comercial</span>
+            <div class="cab-ref" id="dRef">Nº 1024</div>
             <div class="cab-datas">
-              <span id="dData">Data: —</span><br>
-              <span id="dValidade">Valida ate: —</span>
+              <span id="dData">Emitido: —</span><br>
+              <span id="dVal">Validade: —</span>
             </div>
           </div>
         </div>
 
         <!-- CLIENTE -->
-        <div class="sec"><i class="bi bi-person"></i>Destinatario</div>
+        <div class="sec">Destinatario</div>
         <div class="ig" style="grid-template-columns:1fr 1fr 1fr">
-          <div class="ig-item"><div class="lb">Cliente</div><div class="vl" id="dNome">—</div></div>
-          <div class="ig-item"><div class="lb">WhatsApp</div><div class="vl" id="dTel">—</div></div>
-          <div class="ig-item"><div class="lb">Cidade</div><div class="vl" id="dCid">—</div></div>
+          <div class="dii"><div class="lb">Cliente</div><div class="vl" id="dNome">—</div></div>
+          <div class="dii"><div class="lb">WhatsApp</div><div class="vl" id="dTel">—</div></div>
+          <div class="dii"><div class="lb">Cidade / UF</div><div class="vl" id="dCid">—</div></div>
         </div>
 
-        <!-- ESTRUTURA -->
-        <div class="sec"><i class="bi bi-building"></i>Especificacoes da Estrutura</div>
-        <div class="ig" style="margin-bottom:10px">
-          <div class="ig-item" style="grid-column:1/-1"><div class="lb">Modelo</div><div class="vl" id="dDesc">—</div></div>
+        <!-- ESPECIFICACOES -->
+        <div class="sec">Especificacoes Tecnicas</div>
+        <div style="margin-bottom:8px">
+          <div class="dii"><div class="lb">Modelo / Descricao</div><div class="vl" id="dDesc">—</div></div>
+        </div>
+        <div class="medidas" id="dMedidas"></div>
+        <div class="ig" id="dTecGrid" style="display:none;margin-top:4px">
+          <div class="dii" id="dTesBox" style="display:none"><div class="lb">Tipo de Tesoura</div><div class="vl" id="dTes">—</div></div>
+          <div class="dii" id="dCobBox" style="display:none"><div class="lb">Cobertura</div><div class="vl" id="dCob">—</div></div>
+          <div class="dii" id="dLatBox" style="display:none"><div class="lb">Fechamento Lateral</div><div class="vl" id="dLat">—</div></div>
         </div>
 
-        <!-- Cards tecnicas -->
-        <div class="tec-cards" id="dTecCards">
-          <div class="tec-card" id="cLarg" style="display:none"><div class="tc-val" id="dLarg">—</div><div class="tc-lbl">Largura / Vao</div></div>
-          <div class="tec-card" id="cComp" style="display:none"><div class="tc-val" id="dComp">—</div><div class="tc-lbl">Comprimento</div></div>
-          <div class="tec-card" id="cPD" style="display:none"><div class="tc-val" id="dPD">—</div><div class="tc-lbl">Pe-Direito</div></div>
-          <div class="tec-card area" id="cArea" style="display:none"><div class="tc-val" id="dArea">—</div><div class="tc-lbl">Area Total</div></div>
-          <div class="tec-card" id="cTes" style="display:none"><div class="tc-val" style="font-size:.85rem" id="dTes">—</div><div class="tc-lbl">Tipo Tesoura</div></div>
-          <div class="tec-card" id="cCob" style="display:none"><div class="tc-val" style="font-size:.85rem" id="dCob">—</div><div class="tc-lbl">Cobertura</div></div>
-          <div class="tec-card" id="cLat" style="display:none"><div class="tc-val" style="font-size:.85rem" id="dLat">—</div><div class="tc-lbl">Fechamento Lateral</div></div>
+        <!-- ITENS / INCLUSO -->
+        <!-- Modo simples: lista de inclusos -->
+        <div id="dSecInc" style="display:none">
+          <div class="sec">Itens Inclusos na Proposta</div>
+          <div class="inc-box" id="dInc"></div>
+        </div>
+        <!-- Modo detalhado: tabela -->
+        <div id="dSecTabela" style="display:none">
+          <div class="sec">Composicao Detalhada</div>
+          <table class="tabela">
+            <thead><tr><th style="text-align:left">Descricao</th><th>Qtd</th><th>Unit.</th><th>Total</th></tr></thead>
+            <tbody id="dItensBody"></tbody>
+            <tfoot>
+              <tr id="dRowFrete" style="display:none"><td colspan="3" style="text-align:right;color:#888;font-weight:400">Frete / Adicional</td><td style="text-align:right" id="dFreteVal">R$ 0,00</td></tr>
+              <tr class="val-total-row"><td colspan="3" style="text-align:right;color:#555;font-weight:500">Valor de Tabela</td><td style="text-align:right" id="dSubtotal">R$ 0,00</td></tr>
+            </tfoot>
+          </table>
         </div>
 
-        <!-- Incluso -->
-        <div id="secInc" style="display:none">
-          <div style="font-size:.57rem;color:#ccc;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px">Itens Inclusos na Proposta</div>
-          <div class="incluso-box" id="dInc"></div>
-        </div>
+        <!-- VALORES -->
+        <div class="sec">Investimento</div>
 
-        <!-- Nao incluso -->
-        <div id="secNinc" style="display:none;margin-top:8px">
-          <div style="font-size:.57rem;color:#ccc;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:3px">Nao esta incluso</div>
-          <div style="font-size:.73rem;color:#999;line-height:1.7;padding:6px 10px;background:#fafafa;border-radius:5px;border:1px solid #eee" id="dNinc"></div>
-        </div>
-
-        <!-- INVESTIMENTO -->
-        <div class="sec"><i class="bi bi-cash-stack"></i>Investimento</div>
-        <div class="preco-box">
-          <div class="preco-row">
-            <span class="pl">Valor da Estrutura <span id="dAreaLbl" style="color:#555"></span></span>
-            <span class="pv" id="dVT">R$ 0,00</span>
+        <!-- Tabela de valores -->
+        <table class="val-table">
+          <tr id="dRowValTabela"><td style="color:#555">Valor da estrutura <span id="dAreaLbl" style="color:#bbb;font-weight:400"></span></td><td id="dVT">R$ 0,00</td></tr>
+          <tr class="sep" id="dRowDes"><td style="color:#555">Desconto a vista no PIX (<span id="dPct">10</span>%)</td><td style="color:#22c55e" id="dDes">- R$ 0,00</td></tr>
+          <tr class="sep" id="dRowCond" style="display:none"><td style="color:#555">Condicao de pagamento</td><td id="dCondVal" style="font-size:.75rem;color:#777">—</td></tr>
+        </table>
+        <!-- Total PIX destacado de forma discreta -->
+        <div class="val-pix" id="dBoxPix">
+          <div>
+            <div class="vp-lbl">Total a vista (PIX)</div>
+            <div class="vp-des" id="dDesLbl">Economia de R$ 0,00 no PIX</div>
           </div>
-          <div class="preco-row" id="dRowDes">
-            <span class="pl">Desconto a Vista no PIX (<span id="dPct">10</span>%)</span>
-            <span class="pv" style="color:#22c55e" id="dDes">- R$ 0,00</span>
-          </div>
-          <div class="preco-row" id="dRowCond" style="display:none">
-            <span class="pl">Condicao de Pagamento</span>
-            <span class="pv" id="dCond">—</span>
-          </div>
-          <div class="preco-pix">
-            <span class="pl">VALOR A VISTA (PIX):</span>
-            <span class="pv" id="dPix">R$ 0,00</span>
-          </div>
+          <div class="vp-val" id="dPix">R$ 0,00</div>
         </div>
 
         <!-- Prazo -->
-        <div id="secPrazo" style="display:none;margin-top:10px">
-          <div class="prazo-box"><i class="bi bi-clock-history"></i> <strong>Prazo:</strong>&nbsp;<span id="dPrazo">—</span></div>
+        <div id="dSecPrazo" style="display:none">
+          <div class="prazo-line"><i class="bi bi-clock"></i><span><strong>Prazo estimado:</strong> <span id="dPrazo">—</span></span></div>
         </div>
 
-        <div style="margin-top:8px;font-size:.7rem;color:#aaa"><strong style="color:#555">Formas de pagamento:</strong> <span id="dForma">—</span></div>
+        <!-- Forma de pagamento -->
+        <div style="font-size:.68rem;color:#aaa;margin-top:7px"><strong style="color:#777">Formas de pagamento aceitas:</strong> <span id="dForma">—</span></div>
 
-        <!-- CONDICOES -->
-        <div class="sec" style="margin-top:16px"><i class="bi bi-file-text"></i>Condicoes Gerais</div>
-        <div class="cond-box">
-          <div class="cond-item"><span class="cond-n">1.</span><span><strong>Validade:</strong> Esta proposta e valida por <span id="dValDias">15</span> dias a partir da data de emissao.</span></div>
+        <!-- Nao incluso -->
+        <div id="dSecNinc" style="display:none">
+          <div class="ninc-box"><strong>Nao esta incluso:</strong> <span id="dNinc">—</span></div>
+        </div>
+
+        <!-- CONDICOES GERAIS -->
+        <div class="sec" style="margin-top:14px">Condicoes Gerais</div>
+        <div class="conds">
+          <div class="cond-item"><span class="cond-n">1.</span><span><strong>Validade:</strong> Esta proposta e valida por <span id="dValDias">15</span> dias corridos a partir da data de emissao.</span></div>
           <div class="cond-item"><span class="cond-n">2.</span><span><strong>Pagamento:</strong> <span id="dCondTexto">A combinar conforme negociacao.</span></span></div>
-          <div class="cond-item"><span class="cond-n">3.</span><span><strong>Liberacao:</strong> A estrutura e liberada para retirada ou entrega somente apos <strong>quitacao integral</strong> do saldo.</span></div>
-          <div class="cond-item"><span class="cond-n">4.</span><span><strong>Garantia:</strong> Garantia de fabricacao e materiais certificados com rastreabilidade de origem.</span></div>
-          <div class="cond-item" id="dObsRow" style="display:none"><span class="cond-n">5.</span><span><strong>Obs.:</strong> <span id="dObs">—</span></span></div>
+          <div class="cond-item"><span class="cond-n">3.</span><span><strong>Liberacao:</strong> A estrutura e liberada somente apos <strong>quitacao integral do saldo</strong>.</span></div>
+          <div class="cond-item"><span class="cond-n">4.</span><span><strong>Garantia:</strong> Garantia de fabricacao. Materiais com certificacao e rastreabilidade de origem.</span></div>
+          <div class="cond-item" id="dObsRow" style="display:none"><span class="cond-n">5.</span><span id="dObs"></span></div>
         </div>
 
         <!-- ASSINATURAS -->
-        <div class="assinaturas">
+        <div class="assinaturas" id="dSecAss" style="display:none">
           <div class="ass">
-            <div style="height:36px"></div>
-            <div class="ass-linha"><strong>Metalurgica Oliveira</strong>Engenheiro Beltrao - PR | CNPJ 46.401.359/0001-71</div>
+            <div style="height:32px"></div>
+            <div class="ass-linha"><strong>Metalurgica Oliveira</strong>Engenheiro Beltrao - PR</div>
           </div>
           <div class="ass">
-            <div style="height:36px"></div>
-            <div class="ass-linha"><strong id="dAssNome">Cliente</strong>De Acordo — Assinatura e Aprovacao</div>
+            <div style="height:32px"></div>
+            <div class="ass-linha"><strong id="dAssNome">Cliente</strong>Aprovacao / Aceite da Proposta</div>
           </div>
         </div>
 
         <!-- RODAPE -->
         <div class="rodape">
-          <div><div class="rm">Metalurgica Oliveira</div>(44) 99831-8534 | Engenheiro Beltrao - PR | Atendemos Maringa, Campo Mourao e Regiao</div>
-          <div style="text-align:right"><span id="dRodNum">Proposta #0001</span><br><span id="dRodData">—</span></div>
+          <div class="rodape-txt"><b>Metalurgica Oliveira</b> &nbsp;·&nbsp; (44) 99767-1935 &nbsp;·&nbsp; Engenheiro Beltrao - PR</div>
+          <div class="rodape-ref"><span id="dRodRef">Ref. —</span> &nbsp;·&nbsp; <span id="dRodData">—</span></div>
         </div>
 
-      </div><!-- fim a4-inner -->
-    </div><!-- fim .a4 -->
+      </div><!-- /a4-inner -->
+    </div><!-- /a4 -->
   </main>
 </div>
 
 <script>
+// ─── Estado dos itens ───
+let its=[{d:'',q:1,u:0}];
+let modoDetalhe=true;
+
+// ─── Helpers ───
 function g(id){return document.getElementById(id).value;}
 function gf(id){return parseFloat(document.getElementById(id).value)||0;}
 function se(id,v){const e=document.getElementById(id);if(e)e.textContent=v||'—';}
@@ -455,17 +517,43 @@ function sh(id,v){const e=document.getElementById(id);if(e)e.style.display=v?'':
 function fm(v){return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function fd(s){if(!s)return'—';const[y,m,d]=s.split('-');return d+'/'+m+'/'+y;}
 function fv(s,dias){if(!s)return'—';const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+parseInt(dias||15));return d.toLocaleDateString('pt-BR');}
+function fano(){return new Date().getFullYear();}
 
-function aplicarDesc(){
-  const v=g('fDescSel');
-  if(v)document.getElementById('fDesc').value=v;
+// ─── Itens ───
+function ri(){
+  const l=document.getElementById('ilista');l.innerHTML='';
+  its.forEach((it,i)=>{
+    const r=document.createElement('div');r.className='ir';
+    r.innerHTML='<input type="text" placeholder="Descricao do item" value="'+it.d+'" oninput="its['+i+'].d=this.value;up()">'
+      +'<input type="number" min="0" step="0.5" value="'+it.q+'" style="text-align:center" oninput="its['+i+'].q=parseFloat(this.value)||0;up()">'
+      +'<input type="number" min="0" step="0.01" value="'+(it.u>0?it.u:'')+'" placeholder="0,00" oninput="its['+i+'].u=parseFloat(this.value)||0;up()">'
+      +'<button class="bri" onclick="rmItem('+i+')"><i class="bi bi-x"></i></button>';
+    l.appendChild(r);
+  });
+}
+function addItem(){its.push({d:'',q:1,u:0});ri();up();}
+function rmItem(i){if(its.length===1){its[0]={d:'',q:1,u:0};ri();up();return;}its.splice(i,1);ri();up();}
+
+// ─── Toggle modo ───
+function alternarModo(){
+  modoDetalhe=document.getElementById('togItens').checked;
+  sh('modoSimples',!modoDetalhe);
+  sh('modoDetalhado',modoDetalhe);
   up();
 }
 
+// ─── Selecionar modelo ───
+function aplicarDesc(){
+  const v=g('fDescSel');
+  if(v&&v!=='outro')document.getElementById('fDesc').value=v;
+  up();
+}
+
+// ─── Atualizar documento ───
 function up(){
-  const num=g('fNum')||'0001';
+  const num=g('fNum')||'1024';
   const data=g('fData');
-  const val=g('fVal');
+  const valDias=g('fVal');
   const tipo=g('fTipo');
   const nome=g('fNome').trim();
   const tel=g('fTel').trim();
@@ -479,120 +567,169 @@ function up(){
   const lat=g('fLat');
   const inc=g('fInc').trim();
   const ninc=g('fNinc').trim();
-  const valor=gf('fValor');
-  const pix=gf('fPix');
   const cond=g('fCond').trim();
   const forma=g('fForma');
   const prazo=g('fPrazo').trim();
   const obs=g('fObs').trim();
+  const mostrarAss=document.getElementById('togAss').checked;
 
   const area=larg&&comp?larg*comp:0;
-  const vDes=valor*(pix/100);
-  const vPix=valor-vDes;
+
+  // Calculos conforme modo
+  let valorBase=0,pix=0,frete=0;
+  if(!modoDetalhe){
+    valorBase=gf('fValorS');
+    pix=gf('fPixS');
+    frete=0;
+  } else {
+    const sub=its.reduce((s,it)=>s+(it.q*it.u),0);
+    frete=gf('fFreteD');
+    valorBase=sub+frete;
+    pix=gf('fPixD');
+  }
+  const vDes=valorBase*(pix/100);
+  const vPix=valorBase-vDes;
 
   // Cabecalho
   se('dTipo',tipo);
-  se('dNum','#'+num.padStart(4,'0'));
-  se('dData','Emitido em '+fd(data));
-  se('dValidade','Valida ate '+fv(data,val));
+  se('dRef','Nº '+num);
+  se('dData','Emitido: '+fd(data));
+  se('dVal','Validade: '+fv(data,valDias));
 
   // Cliente
-  se('dNome',nome||'—');
-  se('dTel',tel||'—');
-  se('dCid',cid||'—');
+  se('dNome',nome||'—');se('dTel',tel||'—');se('dCid',cid||'—');
   se('dAssNome',nome||'Cliente');
 
   // Descricao
   se('dDesc',desc||'—');
 
-  // Cards tecnicas
-  sh('cLarg',!!larg);if(larg)se('dLarg',larg.toFixed(1)+' m');
-  sh('cComp',!!comp);if(comp)se('dComp',comp.toFixed(1)+' m');
-  sh('cPD',!!pd);if(pd)se('dPD',pd.toFixed(1)+' m');
-  sh('cArea',!!(larg&&comp));if(area)se('dArea',area.toFixed(0)+' m²');
-  sh('cTes',!!tes);if(tes)se('dTes',tes);
-  sh('cCob',!!cob);if(cob)se('dCob',cob);
-  sh('cLat',!!lat);if(lat)se('dLat',lat);
+  // Cards medidas
+  const mc=document.getElementById('dMedidas');mc.innerHTML='';
+  const cards=[
+    larg?{v:larg.toFixed(1)+' m',l:'Largura',d:false}:null,
+    comp?{v:comp.toFixed(1)+' m',l:'Comprimento',d:false}:null,
+    pd?{v:pd.toFixed(1)+' m',l:'Pe-Direito',d:false}:null,
+    area?{v:area.toFixed(0)+' m\u00b2',l:'Area Total',d:true}:null,
+  ].filter(Boolean);
+  cards.forEach(c=>{const d=document.createElement('div');d.className='med-card'+(c.d?' dest':'');d.innerHTML='<div class="mv">'+c.v+'</div><div class="ml">'+c.l+'</div>';mc.appendChild(d);});
 
-  // Incluso
-  const siInc=document.getElementById('secInc');
-  if(inc){siInc.style.display='';document.getElementById('dInc').textContent=inc;}
-  else siInc.style.display='none';
-  sh('secNinc',!!ninc);if(ninc)se('dNinc',ninc);
+  // Tecnicos
+  const hasTec=tes||cob||lat;
+  sh('dTecGrid',!!hasTec);
+  sh('dTesBox',!!tes);if(tes)se('dTes',tes);
+  sh('dCobBox',!!cob);if(cob)se('dCob',cob);
+  sh('dLatBox',!!lat);if(lat)se('dLat',lat);
+
+  // Conteudo
+  if(!modoDetalhe){
+    // Modo simples
+    sh('dSecInc',!!inc);if(inc)document.getElementById('dInc').textContent=inc;
+    sh('dSecTabela',false);
+  } else {
+    // Modo detalhado
+    sh('dSecInc',false);
+    const itV=its.filter(it=>it.d||it.u>0);
+    if(itV.length>0){
+      sh('dSecTabela',true);
+      const tb=document.getElementById('dItensBody');tb.innerHTML='';
+      itV.forEach(it=>{
+        const t=it.q*it.u;const tr=document.createElement('tr');
+        tr.innerHTML='<td>'+( it.d||'—')+'</td>'
+          +'<td>'+( it.q%1===0?it.q:it.q.toFixed(1))+'</td>'
+          +'<td>'+fm(it.u)+'</td>'
+          +'<td>'+fm(t)+'</td>';
+        tb.appendChild(tr);
+      });
+      sh('dRowFrete',frete>0);
+      if(frete>0)se('dFreteVal',fm(frete));
+      const sub=its.reduce((s,it)=>s+(it.q*it.u),0);
+      se('dSubtotal',fm(valorBase));
+    } else {
+      sh('dSecTabela',false);
+    }
+  }
 
   // Valores
-  se('dVT',fm(valor));
-  se('dAreaLbl',area?'('+area.toFixed(0)+' m²)':'');
+  se('dVT',fm(valorBase));
+  se('dAreaLbl',area?'('+area.toFixed(0)+' m\u00b2)':'');
   se('dPct',pix.toString());
   se('dDes','- '+fm(vDes));
   se('dPix',fm(vPix));
+  se('dDesLbl','Economia de '+fm(vDes)+' no PIX');
   sh('dRowDes',pix>0);
-  sh('dRowCond',!!cond);if(cond)se('dCond',cond);
-  se('dForma',forma);
+  sh('dRowCond',!!cond);if(cond)se('dCondVal',cond);
 
   // Prazo
-  sh('secPrazo',!!prazo);if(prazo)se('dPrazo',prazo);
+  sh('dSecPrazo',!!prazo);if(prazo)se('dPrazo',prazo);
+  se('dForma',forma);
+
+  // Nao incluso
+  sh('dSecNinc',!!ninc);if(ninc)se('dNinc',ninc);
 
   // Condicoes
-  se('dValDias',val||'15');
-  se('dCondTexto',cond?cond+'. Formas aceitas: '+forma+'.':'A combinar conforme negociacao. Formas aceitas: '+forma+'.');
-  sh('dObsRow',!!obs);if(obs)se('dObs',obs);
+  se('dValDias',valDias||'15');
+  se('dCondTexto',cond?cond+'. Aceito via '+forma+'.':'A combinar conforme negociacao. Aceito via '+forma+'.');
+  sh('dObsRow',!!obs);
+  if(obs)document.getElementById('dObs').textContent=obs;
+
+  // Assinaturas
+  sh('dSecAss',mostrarAss);
 
   // Rodape
-  se('dRodNum',tipo+' #'+num.padStart(4,'0'));
-  se('dRodData','Emitido em '+fd(data));
+  se('dRodRef','Nº '+num);
+  se('dRodData',fd(data));
 
   // Resumo form
-  document.getElementById('rVT').textContent=fm(valor);
+  document.getElementById('rVT').textContent=fm(valorBase);
+  sh('rLinhaFrete',!modoDetalhe?false:frete>0);
+  if(!modoDetalhe?false:frete>0)document.getElementById('rFrete').textContent=fm(frete);
   document.getElementById('rDes').textContent='- '+fm(vDes);
   document.getElementById('rPix').textContent=fm(vPix);
 }
 
+// ─── WhatsApp ───
 function zap(){
   const nome=g('fNome').trim()||'Cliente';
   const tel=g('fTel').replace(/\D/g,'');
   const desc=g('fDesc').trim()||'Estrutura Metalica';
   const larg=g('fLarg');const comp=g('fComp');const pd=g('fPD');
-  const valor=gf('fValor');const pix=gf('fPix');
-  const vPix=valor*(1-pix/100);
-  const num=g('fNum').padStart(4,'0');
+  let valorBase=0,pix=0;
+  if(!modoDetalhe){valorBase=gf('fValorS');pix=gf('fPixS');}
+  else{valorBase=its.reduce((s,it)=>s+(it.q*it.u),0)+gf('fFreteD');pix=gf('fPixD');}
+  const vPix=valorBase*(1-pix/100);
+  const num=g('fNum');
   const prazo=g('fPrazo').trim();
   const cond=g('fCond').trim();
   const area=larg&&comp?(parseFloat(larg)*parseFloat(comp)).toFixed(0):'';
-
   const linhas=[
-    'PROPOSTA COMERCIAL - Metalurgica Oliveira',
-    'Proposta #'+num,'',
-    'Ola '+nome+'! Segue nossa proposta:','',
+    'PROPOSTA COMERCIAL — Metalurgica Oliveira','Ref. '+num,'',
+    'Ola, '+nome+'! Segue nossa proposta:','',
     'Estrutura: '+desc,
-    larg?'Largura: '+larg+' m':'',
-    comp?'Comprimento: '+comp+' m':'',
-    pd?'Pe-Direito: '+pd+' m':'',
-    area?'Area: '+area+' m2':'','',
-    'Valor Total: '+fm(valor),
-    pix>0?'A Vista PIX ('+pix+'% OFF): '+fm(vPix):'',
-    cond?'Pagamento: '+cond:'',
-    prazo?'Prazo: '+prazo:'','',
-    'Fechamos? Qualquer duvida estou a disposicao!',
-    'Metalurgica Oliveira — (44) 99831-8534'
+    larg?'Largura: '+larg+' m':'',comp?'Comprimento: '+comp+' m':'',
+    pd?'Pe-Direito: '+pd+' m':'',area?'Area: '+area+' m2':'','',
+    'Valor total: '+fm(valorBase),
+    pix>0?'A vista PIX ('+pix+'% OFF): '+fm(vPix):'',
+    cond?'Pagamento: '+cond:'',prazo?'Prazo: '+prazo:'','',
+    'Posso fechar para voce? Qualquer duvida estou disponivel!',
+    'Metalurgica Oliveira — (44) 99767-1935 — Engenheiro Beltrao PR'
   ].filter(Boolean).join('\n');
-
-  const base=tel?'https://wa.me/55'+tel:'https://wa.me/';
-  window.open(base+'?text='+encodeURIComponent(linhas),'_blank');
+  const url=(tel?'https://wa.me/55'+tel:'https://wa.me/')+'?text='+encodeURIComponent(linhas);
+  window.open(url,'_blank');
 }
 
+// ─── Limpar ───
 function limpar(){
   if(!confirm('Limpar todos os campos?'))return;
-  ['fNome','fTel','fCid','fDesc','fLarg','fComp','fPD','fInc','fNinc','fValor','fPrazo','fCond','fObs'].forEach(id=>document.getElementById(id).value='');
+  ['fNome','fTel','fCid','fDesc','fLarg','fComp','fPD','fInc','fNinc','fValorS','fPrazo','fCond','fObs'].forEach(id=>document.getElementById(id).value='');
   ['fDescSel','fTes','fCob','fLat'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('fNum').value='0001';
-  document.getElementById('fPix').value='10';
-  up();
+  document.getElementById('fNum').value='1024';
+  document.getElementById('fPixS').value='10';document.getElementById('fPixD').value='10';document.getElementById('fFreteD').value='0';
+  its=[{d:'',q:1,u:0}];ri();up();
 }
 
-// Init
+// ─── Init ───
 document.getElementById('fData').value=new Date().toISOString().split('T')[0];
-up();
+ri();up();
 </script>
 </body>
 </html>
