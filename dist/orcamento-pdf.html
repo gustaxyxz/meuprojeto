@@ -63,6 +63,10 @@
     <div class="border-t pt-5">
       <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="star" class="w-4 h-4 text-amber-500"></i> Solução Contratada (Título)</h3>
       <div class="mb-3"><label class="block text-xs font-bold mb-1">Nome Principal da Estrutura</label><input type="text" id="fItemPrincipal" class="w-full border rounded p-2 text-sm" value="Estrutura para cobertura de galpão 15x25" oninput="up()"></div>
+      <div class="flex items-center gap-2 mt-4 bg-slate-50 border border-slate-200 p-2 rounded">
+        <input type="checkbox" id="fMostrarPrecos" onchange="up()" class="w-4 h-4 cursor-pointer">
+        <label for="fMostrarPrecos" class="text-xs font-bold text-slate-600 cursor-pointer">Mostrar Preços Unitários no PDF</label>
+      </div>
     </div>
 
     <!-- Valores -->
@@ -197,9 +201,9 @@ Taxas, licenças e ART da obra civil</textarea>
       <div class="mb-4 border-b border-doc-line pb-2">
         <span class="block text-[11px] font-extrabold uppercase tracking-[0.1em] text-doc-ink" id="dItemPrincipal">Escopo do fornecimento</span>
       </div>
-      <ul id="dItensList">
+      <div id="dItensList">
         <!-- JS injeta os itens aqui -->
-      </ul>
+      </div>
     </div>
 
     <!-- Spacer para empurrar o resto pro final da pag se der -->
