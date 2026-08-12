@@ -12,6 +12,11 @@ $pages = [
     'orcamento.php' => 'orcamento.html'
 ];
 
+// Arquivos HTML puros (copia direto, sem processamento PHP)
+$staticPages = [
+    'orcamento-pdf.html'
+];
+
 $ctx = stream_context_create([
     'http' => ['timeout' => 10]
 ]);
@@ -30,6 +35,18 @@ foreach ($pages as $src => $dest) {
         echo "Gerado: $dest (" . strlen($content) . " bytes)\n";
     } else {
         echo "Erro ao ler: $url\n";
+    }
+}
+
+// Copia arquivos HTML puros diretamente
+foreach ($staticPages as $file) {
+    $src = __DIR__ . '/' . $file;
+    $dest = $distDir . '/' . $file;
+    if (file_exists($src)) {
+        copy($src, $dest);
+        echo "Copiado: $file (" . filesize($dest) . " bytes)\n";
+    } else {
+        echo "Nao encontrado: $file\n";
     }
 }
 ?>
