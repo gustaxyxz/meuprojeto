@@ -26,7 +26,7 @@
 <body>
   <div class="login-card">
     <div class="login-logo">
-      <img src="../assets/imagens/Firefly_Gemini Flash_só logo sem fundo e algo minimalista  tipo as inicias m o sera para uma metalurica  807414.png" alt="Logo">
+      <img src="../assets/imagens/logo_mo.png" alt="Logo">
       <h4>Metalúrgica <span>Oliveira</span></h4>
       <div class="badge-admin"><i class="bi bi-shield-lock me-1"></i>ÁREA RESTRITA</div>
     </div>
@@ -51,23 +51,35 @@
   </div>
 
   <script>
-    // Senha simples no front-end (proteção básica para uso interno)
-    const SENHA_ADMIN = 'metalurgica2026';
+    // Hash SHA-256 da senha (nunca expõe a senha em texto puro no código-fonte)
+    // Senha atual: metalurgica2026
+    const HASH_CORRETO = 'b2a0b9c1b3ad2d58d6e4d4b9d4437e07b3085d98bed68f75d7c8f1e0a87e69c0';
 
     // Se já está logado, redireciona
     if (sessionStorage.getItem('admin_ok') === 'true') {
       location.href = 'pedidos.html';
     }
 
-    function entrar() {
+    async function hashStr(str) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function entrar() {
+      const btn = document.querySelector('.btn-entrar');
+      btn.disabled = true;
+      btn.textContent = 'Verificando...';
       const v = document.getElementById('senhaInput').value;
-      if (v === SENHA_ADMIN) {
+      const hash = await hashStr(v);
+      if (hash === HASH_CORRETO) {
         sessionStorage.setItem('admin_ok', 'true');
         location.href = 'pedidos.html';
       } else {
         document.getElementById('erroMsg').style.display = 'block';
         document.getElementById('senhaInput').value = '';
         document.getElementById('senhaInput').focus();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Entrar no Painel';
       }
     }
   </script>

@@ -118,6 +118,9 @@
   <a href="pedidos.html" style="color:#888;text-decoration:none;font-size:.85rem;margin-right:.5rem"><i class="bi bi-arrow-left me-1"></i>Voltar</a>
   <button class="btn-pdf" onclick="window.print()"><i class="bi bi-printer"></i>Imprimir / Salvar PDF</button>
   <button class="btn-wpp" id="btnWpp" onclick="enviarWhatsapp()"><i class="bi bi-whatsapp"></i>Enviar Proposta no WhatsApp</button>
+  <label style="display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:#555;cursor:pointer;margin-left:.5rem">
+    <input type="checkbox" id="chkDescPix" onchange="renderProposta(dadosPedido)" style="width:16px;height:16px;"> Mostrar desconto Pix (10%)
+  </label>
   <a id="btnExtrato" href="#" class="btn btn-outline-dark btn-sm ms-auto fw-bold"><i class="bi bi-receipt me-1"></i>Ver Extrato de Pagamento</a>
 </div>
 
@@ -161,9 +164,11 @@
   }
 
   function renderProposta(d) {
+    if (!d) return;
     const cliente = d.clientes || {};
     const hoje = new Date().toLocaleDateString('pt-BR');
     const validade = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR');
+    const mostrarDescPix = document.getElementById('chkDescPix')?.checked;
     const valorPix = d.valor_total * 0.90;
     const descontoPix = d.valor_total * 0.10;
     const materiais = d.materiais_especificacoes || '• Estrutura Metálica Fabricada com Perfis e Aço Certificado\n• Tratamento Anticorrosivo e Pintura de Proteção Industrial\n• Conjunto Completo de Fixações e Chumbadores';
@@ -172,7 +177,7 @@
       <!-- CABEÇALHO -->
       <div class="doc-header">
         <div class="logo-box">
-          <img src="../assets/imagens/Firefly_Gemini Flash_só logo sem fundo e algo minimalista  tipo as inicias m o sera para uma metalurica  807414.png" class="logo-img" alt="Logo" onerror="this.style.display='none'">
+          <img src="../assets/imagens/logo_mo.png" class="logo-img" alt="Logo" onerror="this.style.display='none'">
           <div>
             <div class="emp-nome">🔨 Metalúrgica <span>Oliveira</span></div>
             <div class="emp-sub">
@@ -215,12 +220,14 @@
       <!-- VALOR E CONDIÇÕES DE PAGAMENTO -->
       <div class="sec-title"><i class="bi bi-currency-dollar"></i>Investimento & Condições de Pagamento</div>
       <div class="preco-box">
-        <div class="preco-row"><span class="pl">Valor de Tabela da Estrutura</span><span class="pv">${fmt(d.valor_total)}</span></div>
+        <div class="preco-row"><span class="pl">Valor Total da Estrutura</span><span class="pv">${fmt(d.valor_total)}</span></div>
+        ${mostrarDescPix ? `
         <div class="preco-row"><span class="pl">Desconto Especial à Vista no Pix (10%)</span><span class="pv" style="color:#22c55e">- ${fmt(descontoPix)}</span></div>
+        ` : ''}
         <div class="preco-row"><span class="pl">Opção Parcelada (Entrada + Parcelas a combinar)</span><span class="pv">Consulte condições</span></div>
         <div class="preco-destaque">
-          <span class="pl">VALOR À VISTA (PIX):</span>
-          <span class="pv">${fmt(valorPix)}</span>
+          <span class="pl">${mostrarDescPix ? 'VALOR À VISTA (PIX):' : 'VALOR TOTAL:'}</span>
+          <span class="pv">${mostrarDescPix ? fmt(valorPix) : fmt(d.valor_total)}</span>
         </div>
       </div>
 

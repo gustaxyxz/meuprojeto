@@ -3,7 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Metalúrgica Oliveira</title>
+        <title>Solicitar Orçamento — Metalúrgica Oliveira</title>
+  <link rel="icon" href="assets/imagens/logo_mo.png" type="image/png">
+    <meta property="og:site_name" content="Metalúrgica Oliveira">
+  <meta property="og:image" content="assets/imagens/logo_mo.png">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Solicitar Orçamento — Metalúrgica Oliveira">
+  <meta property="og:description" content="Solicite um orçamento gratuito de estrutura metálica para galpão. Modelos prontos ou projeto sob medida. Metalúrgica Oliveira — Engenheiro Beltrão - PR.">
+  <meta name="description" content="Solicite um orçamento gratuito de estrutura metálica para galpão. Modelos prontos ou projeto sob medida. Metalúrgica Oliveira — Engenheiro Beltrão - PR.">
         
 
 
@@ -19,7 +26,7 @@
     <div class="container">
         
         <a class="navbar-brand" href="index.html">
-            <img src="assets/imagens/Firefly_Gemini Flash_só logo sem fundo e algo minimalista  tipo as inicias m o sera para uma metalurica  807414.png" alt="Metalúrgica Oliveira" height="35" class="rounded-circle" style="filter: brightness(0) invert(1);">
+            <img src="assets/imagens/logo_mo.png" alt="Metalúrgica Oliveira" height="35" class="rounded-circle" style="filter: brightness(0) invert(1);">
         </a>
 
         <div class="navbar-nav mx-auto gap-3 fs-10">
@@ -50,46 +57,81 @@
 <main class="container mt-5">
     <h1 class="mb-3">Solicitar Orçamento</h1>
 
-    <p class="lead">Selecione um de nossos galpões a pronta entrega ou a opção de projeto sob medida.</p>
+    <p class="lead">Preencha o formulário abaixo e entraremos em contato pelo WhatsApp com a proposta completa.</p>
 
-    
-    
     <section class="card shadow-sm mb-4">
         <div class="card-body">
             <h5 class="card-title">Solicitar orçamento</h5>
-            <form method="POST" action="orcamento.php" class="row g-3">
+            <form id="formOrcamento" class="row g-3">
                 <div class="col-md-6">
-                    <label class="form-label">Nome completo</label>
-                    <input type="text" name="nome" class="form-control" value="">
+                    <label class="form-label">Nome completo *</label>
+                    <input type="text" id="nome" class="form-control" placeholder="Seu nome" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Telefone</label>
-                    <input type="text" name="telefone" class="form-control" value="">
+                    <label class="form-label">Telefone / WhatsApp *</label>
+                    <input type="text" id="telefone" class="form-control" placeholder="(44) 99999-9999" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">E-mail</label>
-                    <input type="email" name="email" class="form-control" value="">
+                    <input type="email" id="email" class="form-control" placeholder="opcional">
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Produto / Orçamento</label>
-                    <select name="produto" class="form-select">
+                    <label class="form-label">Produto / Orçamento *</label>
+                    <select id="produto" class="form-select" required>
                         <option value="" disabled selected>Selecione o que deseja cotar</option>
-                                                    <option value="1" >Estrutura De GalpÃ£o 8x15 120mÂ²</option>
-                                                    <option value="2" >Estrutura De GalpÃ£o 12x20 240mÂ²</option>
-                                                    <option value="3" >Estrutura De GalpÃ£o 15x45 675mÂ²</option>
-                                                    <option value="4" >Projeto Sob Medida (Valor a definir)</option>
-                                            </select>
+                        <option value="Estrutura de Galpão 8x15 (120m²)">Estrutura de Galpão 8x15 (120m²)</option>
+                        <option value="Estrutura de Galpão 12x20 (240m²)">Estrutura de Galpão 12x20 (240m²)</option>
+                        <option value="Estrutura de Galpão 15x45 (675m²)">Estrutura de Galpão 15x45 (675m²)</option>
+                        <option value="Projeto Sob Medida">Projeto Sob Medida (Valor a definir)</option>
+                    </select>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Quantidade</label>
-                    <input type="number" name="quantidade" class="form-control" step="1" min="1" value="">
+                    <input type="number" id="quantidade" class="form-control" step="1" min="1" value="1">
                 </div>
-                <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-warning">Enviar orçamento</button>
+                <div class="col-12">
+                    <label class="form-label">Mensagem / Observações</label>
+                    <textarea id="mensagem" class="form-control" rows="3" placeholder="Informe o local da obra, uso previsto, se tem projeto, etc."></textarea>
+                </div>
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-warning fw-bold">
+                        <i class="bi bi-whatsapp me-1"></i>Enviar pelo WhatsApp
+                    </button>
                 </div>
             </form>
         </div>
     </section>
+
+    <script>
+    document.getElementById('formOrcamento').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const nome = document.getElementById('nome').value.trim();
+        const tel = document.getElementById('telefone').value.trim();
+        const produto = document.getElementById('produto').value;
+        const qtd = document.getElementById('quantidade').value;
+        const msg = document.getElementById('mensagem').value.trim();
+        
+        if (!nome || !tel || !produto) {
+            alert('Preencha nome, telefone e o produto desejado.');
+            return;
+        }
+
+        const texto = [
+            `🔨 *ORÇAMENTO — Metalúrgica Oliveira*`,
+            ``,
+            `*Nome:* ${nome}`,
+            `*Telefone:* ${tel}`,
+            `*Produto:* ${produto}`,
+            qtd > 1 ? `*Quantidade:* ${qtd}` : null,
+            msg ? `*Obs:* ${msg}` : null,
+            ``,
+            `_Aguardo retorno com a proposta completa._`
+        ].filter(Boolean).join('\n');
+
+        const url = `https://wa.me/5544998318534?text=${encodeURIComponent(texto)}`;
+        window.open(url, '_blank');
+    });
+    </script>
 
     </main>
 

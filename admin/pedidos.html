@@ -88,10 +88,17 @@
         <div class="filtro-bar">
           <input type="text" id="busca" placeholder="Buscar cliente..." oninput="filtrar()">
           <select id="filtroStatus" onchange="filtrar()">
-            <option value="">Todos os status</option>
+            <option value="">Todos os pagamentos</option>
             <option value="Pendente">Pagamento Pendente</option>
             <option value="Parcial">Pagamento Parcial</option>
             <option value="Quitado">Quitado</option>
+          </select>
+          <select id="filtroFab" onchange="filtrar()">
+            <option value="">Toda fabricação</option>
+            <option value="Em Fabricação">Em Fabricação</option>
+            <option value="No Pátio">No Pátio</option>
+            <option value="Pronto para Retirada">Pronto para Retirada</option>
+            <option value="Entregue">Entregue</option>
           </select>
         </div>
         <a href="novo-pedido.html" class="btn-novo"><i class="bi bi-plus-lg"></i>Novo Pedido</a>
@@ -146,11 +153,13 @@
   function filtrar() {
     const busca = document.getElementById('busca').value.toLowerCase();
     const status = document.getElementById('filtroStatus').value;
+    const fab = document.getElementById('filtroFab').value;
     const filtrados = todosPedidos.filter(p => {
       const nome = (p.clientes?.nome || '').toLowerCase();
       const matchBusca = !busca || nome.includes(busca) || p.descricao_galpao.toLowerCase().includes(busca);
       const matchStatus = !status || p.status_pagamento === status;
-      return matchBusca && matchStatus;
+      const matchFab = !fab || p.status_fabricacao === fab;
+      return matchBusca && matchStatus && matchFab;
     });
     renderTabela(filtrados);
   }

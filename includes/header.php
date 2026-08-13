@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="navbar-brand" href="index.php">
-            <img src="assets/imagens/Firefly_Gemini Flash_só logo sem fundo e algo minimalista  tipo as inicias m o sera para uma metalurica  807414.png" alt="Metalúrgica Oliveira" height="35" class="rounded-circle" style="filter: brightness(0) invert(1);">
+            <img src="assets/imagens/logo_mo.png" alt="Metalúrgica Oliveira" height="35" class="rounded-circle" style="filter: brightness(0) invert(1);">
         </a>
 
         <div class="navbar-nav mx-auto gap-3 fs-10">
