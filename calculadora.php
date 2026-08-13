@@ -1,4 +1,4 @@
-<?php include "includes/header.php"; ?>
+﻿<?php include "includes/header.php"; ?>
 
 <style>
 /* ── Variáveis do site ─────────────────── */
@@ -721,7 +721,7 @@ function buildResult(){
     `_Gerado pela calculadora – Metalúrgica Oliveira_`
   ].filter(l=>l!=='').join('\n');
 
-  document.getElementById('btn-whatsapp').href='https://wa.me/5544998318534?text='+encodeURIComponent(msg);
+  document.getElementById('btn-whatsapp').href='https://wa.me/5544997671935?text='+encodeURIComponent(msg);
 }
 </script>
 

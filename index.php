@@ -1,4 +1,4 @@
-<?php include "includes/header.php"; ?>
+﻿<?php include "includes/header.php"; ?>
 <?php include "includes/conexao.php"; ?>
 
 <?php
@@ -17,7 +17,7 @@ $resultadoServicos = $pdo->query($sqlServicos);
                     <p class="lead mt-3">Projetos sob medida, fabricação com alta precisão e entregas em todo o Paraná.</p>
                     <div class="mt-4 d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
                         <a href="calculadora.php" class="btn btn-warning btn-lg fw-bold shadow"><i class="bi bi-calculator-fill me-2"></i>Simular Orçamento Agora</a>
-                        <a href="https://wa.me/5544998318534?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20de%20galp%C3%A3o." target="_blank" class="btn btn-outline-light btn-lg botao-orcamento"><i class="bi bi-whatsapp me-2"></i>Falar com Vendedor</a>
+                        <a href="https://wa.me/5544997671935?text=Ol%C3%A1!%20Quero%20um%20or%C3%A7amento%20de%20galp%C3%A3o." target="_blank" class="btn btn-outline-light btn-lg botao-orcamento"><i class="bi bi-whatsapp me-2"></i>Falar com Vendedor</a>
                     </div>
                 </div>
             </div>

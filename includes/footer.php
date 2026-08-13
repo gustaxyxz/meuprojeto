@@ -1,4 +1,4 @@
-<footer class="bg-black text-white py-4 mt-5 border-top border-secondary">
+﻿<footer class="bg-black text-white py-4 mt-5 border-top border-secondary">
     <div class="container">
         <div class="row gy-4 align-items-center">
             <div class="col-md-5 text-center text-md-start">
@@ -15,8 +15,8 @@
                 </div>
             </div>
             <div class="col-md-3 text-center text-md-end">
-                <a href="https://wa.me/5544998318534?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Metal%C3%Bargica%20Oliveira%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
-                    <i class="bi bi-whatsapp me-1"></i> (44) 99831-8534
+                <a href="https://wa.me/5544997671935?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Metal%C3%Bargica%20Oliveira%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" class="btn btn-outline-warning btn-sm fw-bold">
+                    <i class="bi bi-whatsapp me-1"></i> (44) 99767-1935
                 </a>
             </div>
         </div>
@@ -28,7 +28,7 @@
 </footer>
 
 <!-- Botão Flutuante de WhatsApp para Conversão Direta -->
-<a href="https://wa.me/5544998318534?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20or%C3%A7amento%20de%20estrutura%20met%C3%A1lica%20para%20galp%C3%A3o." 
+<a href="https://wa.me/5544997671935?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20or%C3%A7amento%20de%20estrutura%20met%C3%A1lica%20para%20galp%C3%A3o." 
    target="_blank" 
    class="btn-whatsapp-flutuante shadow-lg" 
    title="Fale conosco no WhatsApp">
