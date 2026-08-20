@@ -24,6 +24,32 @@
 <style type="text/tailwindcss">
 /* Tailwind for Sidebar */
 </style>
+
+<style>
+  @media print {
+    body, html { height: 100%; overflow: hidden !important; margin: 0; padding: 0; }
+    main { overflow: visible !important; height: auto !important; padding: 0 !important; }
+    .doc-page { 
+      min-height: 297mm !important; 
+      max-height: 297mm !important; 
+      overflow: hidden !important; 
+      box-shadow: none !important;
+      margin: 0 !important;
+    }
+    .no-print { display: none !important; }
+  }
+  @media screen and (max-width: 768px) {
+    .doc-page {
+      transform: scale(0.8);
+      transform-origin: top center;
+    }
+  }
+</style>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#f59e0b">
+<link rel="apple-touch-icon" href="assets/imagens/logo_mo.png">
 </head>
 <body class="flex h-screen text-slate-800">
 
@@ -84,6 +110,37 @@
       </button>
     </div>
 
+    <!-- Configurações Opcionais -->
+    <div class="border-t pt-5">
+      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="toggle-right" class="w-4 h-4"></i> Exibir / Ocultar</h3>
+      
+      <div class="flex items-center gap-2 mb-2">
+        <input type="checkbox" id="fMostrarObs" onchange="up()" class="w-4 h-4 cursor-pointer accent-amber-500">
+        <label for="fMostrarObs" class="text-xs font-bold cursor-pointer">Observações Iniciais</label>
+      </div>
+      <textarea id="fObs" class="w-full border rounded p-2 text-sm mb-3 text-slate-600" oninput="up()">O valor apresentado é fechado para o conjunto descrito acima; não trabalhamos com venda de peças avulsas nesta proposta.</textarea>
+      
+      <div class="flex items-center gap-2 mb-3">
+        <input type="checkbox" id="fMostrarCondicoes" onchange="up()" class="w-4 h-4 cursor-pointer accent-amber-500" checked>
+        <label for="fMostrarCondicoes" class="text-xs font-bold cursor-pointer">Condições Gerais (Validade, Execução, etc)</label>
+      </div>
+
+      <div class="flex items-center gap-2 mb-3">
+        <input type="checkbox" id="fMostrarGarantia" onchange="up()" class="w-4 h-4 cursor-pointer accent-amber-500" checked>
+        <label for="fMostrarGarantia" class="text-xs font-bold cursor-pointer">Faixa de Garantia Destacada</label>
+      </div>
+
+      <div class="flex items-center gap-2 mb-3">
+        <input type="checkbox" id="fMostrarPassos" onchange="up()" class="w-4 h-4 cursor-pointer accent-amber-500">
+        <label for="fMostrarPassos" class="text-xs font-bold cursor-pointer">Próximos Passos</label>
+      </div>
+
+      <div class="flex items-center gap-2 mb-3">
+        <input type="checkbox" id="fMostrarAssinatura" onchange="up()" class="w-4 h-4 cursor-pointer accent-amber-500">
+        <label for="fMostrarAssinatura" class="text-xs font-bold cursor-pointer">Campos de Assinatura</label>
+      </div>
+    </div>
+    
     <!-- Info Cards -->
     <div class="border-t pt-5">
       <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="layout-grid" class="w-4 h-4"></i> Condições Principais (Cards)</h3>
@@ -155,64 +212,62 @@ Taxas, licenças e ART da obra civil</textarea>
   <!-- ============================ PÁGINA ÚNICA (FLUIDA) ============================ -->
   <section id="doc-container" class="doc-page relative flex w-[210mm] min-h-[297mm] flex-col bg-white px-[16mm] py-[14mm] shadow-[0_10px_40px_rgba(0,0,0,0.12)] shrink-0">
     
-    <!-- Header -->
-    <header class="flex flex-col items-center justify-center border-b-2 border-doc-ink pb-5 shrink-0 text-center">
-      <img src="assets/imagens/logo_mo.png" alt="Metalurgica Oliveira" style="height: 80px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
-      <div class="mt-3">
-        <p class="text-[17px] font-extrabold tracking-wide text-doc-ink leading-none">METALÚRGICA OLIVEIRA</p>
-        <p class="mt-[6px] text-[11px] text-doc-soft font-semibold">CNPJ 46.401.359/0001-71</p>
-        <p class="mt-[3px] text-[11px] text-doc-soft font-semibold">(44) 99767-1935 · aaoliveirametalurgica@gmail.com</p>
-        <p class="mt-[3px] text-[10px] text-doc-soft">Fabricação e Venda de Estruturas Metálicas · Engenheiro Beltrão / PR</p>
+    <!-- Header Integrado -->
+    <header class="flex items-start justify-between border-b-[3px] border-doc-ink pb-6 shrink-0">
+      <div class="flex items-center gap-4">
+        <img src="assets/imagens/logo_mo.png" alt="Metalurgica Oliveira" style="height: 75px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
+        <div>
+          <h1 class="text-xl font-black uppercase tracking-wide text-doc-ink leading-none">Metalúrgica Oliveira</h1>
+          <p class="text-xs font-bold text-doc-soft mt-1.5">Fabricação e Venda de Estruturas Metálicas</p>
+          <div class="mt-2 text-[13px] text-doc-soft leading-tight font-medium space-y-0.5">
+            <p>CNPJ 46.401.359/0001-71</p>
+            <p>(44) 99767-1935 &middot; aaoliveirametalurgica@gmail.com</p>
+            <p>Engenheiro Beltrão / PR</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="w-[68mm] rounded-2xl bg-doc-ink px-5 py-4 text-right shadow-sm">
+        <span class="block text-[12px] font-bold uppercase tracking-widest text-doc-mute">Orçamento Técnico</span>
+        <p class="mt-1.5 text-2xl font-extrabold text-white" id="dNum">0142 / 2026</p>
+        <p class="mt-1.5 text-[12px] text-doc-mute font-medium" id="dEmit">Emissão 12/08/2026</p>
+        <p class="mt-1 text-[12px] font-bold text-doc-yellow" id="dVal">Válida por 15 dias</p>
       </div>
     </header>
-
-    <!-- Titulo + Selo -->
-    <div class="mt-7 flex items-start justify-between gap-6 shrink-0">
-      <div>
-        <h1 class="text-[26px] font-extrabold leading-none tracking-tight">Orçamento</h1>
-        <p class="mt-2 text-[9.5px] text-doc-soft">Fabricação e montagem de estruturas metálicas</p>
-      </div>
-      <div class="w-[62mm] rounded-2xl bg-doc-ink px-5 py-4 text-right">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-mute">Orçamento nº</span>
-        <p class="mt-1 text-[17px] font-extrabold text-white" id="dNum">0142 / 2026</p>
-        <p class="mt-1 text-[7.5px] text-doc-mute" id="dEmit">Emissão 12/08/2026</p>
-        <p class="text-[7.5px] font-bold text-doc-yellow" id="dVal">Válida por 15 dias</p>
-      </div>
-    </div>
 
     <!-- Cliente -->
     <div class="mt-6 flex flex-wrap gap-x-8 gap-y-4 rounded-xl bg-doc-card px-5 py-4 shrink-0">
       <div id="rowCliente">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Cliente</span>
-        <p class="mt-1.5 text-[9.5px] font-semibold leading-snug" id="dCliente">Construtora Exemplo Ltda.</p>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Cliente</span>
+        <p class="mt-1.5 text-[12.5px] font-semibold leading-snug" id="dCliente">Construtora Exemplo Ltda.</p>
       </div>
       <div id="rowDocCliente">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">CPF / CNPJ</span>
-        <p class="mt-1.5 text-[9.5px] font-semibold leading-snug" id="dDocClienteView">00.000.000/0001-00</p>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">CPF / CNPJ</span>
+        <p class="mt-1.5 text-[12.5px] font-semibold leading-snug" id="dDocClienteView">00.000.000/0001-00</p>
       </div>
       <div id="rowContato">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Contato</span>
-        <p class="mt-1.5 text-[9.5px] font-semibold leading-snug" id="dContato">João da Silva · (00) 00000-0000</p>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Contato</span>
+        <p class="mt-1.5 text-[12.5px] font-semibold leading-snug" id="dContato">João da Silva · (00) 00000-0000</p>
       </div>
       <div id="rowLocal">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Local da Obra</span>
-        <p class="mt-1.5 text-[9.5px] font-semibold leading-snug" id="dLocal">Rod. Exemplo, km 12 — Cidade/UF</p>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Local da Obra</span>
+        <p class="mt-1.5 text-[12.5px] font-semibold leading-snug" id="dLocal">Rod. Exemplo, km 12 — Cidade/UF</p>
       </div>
     </div>
 
     <!-- Escopo -->
     <div class="mt-7">
       <div class="mb-4 border-b border-doc-line pb-2">
-        <span class="block text-[11px] font-extrabold uppercase tracking-[0.1em] text-doc-ink" id="dItemPrincipal">Escopo do fornecimento</span>
+        <span class="block text-[14px] font-extrabold uppercase tracking-[0.1em] text-doc-ink" id="dItemPrincipal">Escopo do fornecimento</span>
       </div>
       <table class="w-full text-left border-collapse mt-4">
         <thead>
           <tr class="border-b-2 border-doc-ink" id="dItensHeader">
-            <th class="py-2 px-2 text-center text-[8.5px] uppercase tracking-widest text-doc-soft w-10">Item</th>
-            <th class="py-2 px-2 text-[8.5px] uppercase tracking-widest text-doc-soft">Descrição Técnica / Material</th>
-            <th class="py-2 px-2 text-center text-[8.5px] uppercase tracking-widest text-doc-soft w-20">Qtd</th>
-            <th class="py-2 px-2 text-right text-[8.5px] uppercase tracking-widest text-doc-soft w-28 dVUnitHeader" style="display:none">V. Unit. (R$)</th>
-            <th class="py-2 px-2 text-right text-[8.5px] uppercase tracking-widest text-doc-ink w-28 font-bold dTotalHeader" style="display:none">Total (R$)</th>
+            <th class="py-2 px-2 text-center text-[11.5px] uppercase tracking-widest text-doc-soft w-10">Item</th>
+            <th class="py-2 px-2 text-[11.5px] uppercase tracking-widest text-doc-soft">Descrição Técnica / Material</th>
+            <th class="py-2 px-2 text-center text-[11.5px] uppercase tracking-widest text-doc-soft w-20">Qtd</th>
+            <th class="py-2 px-2 text-right text-[11.5px] uppercase tracking-widest text-doc-soft w-28 dVUnitHeader" style="display:none">V. Unit. (R$)</th>
+            <th class="py-2 px-2 text-right text-[11.5px] uppercase tracking-widest text-doc-ink w-28 font-bold dTotalHeader" style="display:none">Total (R$)</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-doc-line" id="dItensList">
@@ -225,12 +280,14 @@ Taxas, licenças e ART da obra civil</textarea>
     <div class="flex-1"></div>
 
     <!-- Valor Total -->
-    <div class="mt-6 flex items-center justify-between gap-6 rounded-2xl bg-doc-ink px-6 py-5 shrink-0">
-      <div class="text-center w-full">
-        <span class="block text-[8px] font-bold uppercase tracking-[0.18em] text-doc-mute">Valor total do fornecimento</span>
-        <p class="mt-2 text-[32px] font-extrabold leading-none text-doc-yellow" id="dTotalValor">R$ 148.500,00</p>
-        <span class="block mt-3 text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-mute">Por Extenso</span>
-        <p class="mt-1 text-[9px] font-bold leading-snug text-white uppercase tracking-wide" id="dTotalExtenso">CENTO E QUARENTA E OITO MIL E QUINHENTOS REAIS</p>
+    <div class="mt-6 flex items-center justify-between gap-4 rounded-xl bg-doc-ink px-6 py-4 shrink-0 shadow-md">
+      <div class="flex-1">
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-mute mb-1">Por Extenso</span>
+        <p class="text-[11.5px] font-bold leading-tight text-white uppercase" id="dTotalExtenso">CENTO E QUARENTA E OITO MIL E QUINHENTOS REAIS</p>
+      </div>
+      <div class="text-right">
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-mute mb-1">Valor do Fornecimento</span>
+        <p class="text-[25px] font-extrabold leading-none text-doc-yellow tracking-tight" id="dTotalValor">R$ 148.500,00</p>
       </div>
     </div>
 
@@ -240,55 +297,55 @@ Taxas, licenças e ART da obra civil</textarea>
       <div class="rounded-xl border border-doc-line px-4 py-4 flex flex-col items-center justify-center" id="cardPgto">
         <div class="flex flex-col items-center gap-1.5 mb-2">
           <i data-lucide="circle-dollar-sign" class="w-[18px] h-[18px] shrink-0 text-doc-soft" stroke-width="1.6"></i>
-          <span class="text-[8px] font-bold uppercase tracking-[0.18em] text-doc-soft">Pagamento</span>
+          <span class="text-[11px] font-bold uppercase tracking-[0.18em] text-doc-soft">Pagamento</span>
         </div>
-        <p class="text-[10px] font-bold leading-snug text-doc-ink" id="dPgto1">50% na assinatura</p>
-        <p class="mt-1 text-[9px] text-doc-soft leading-snug" id="dPgto2">50% na entrega da obra</p>
+        <p class="text-[13px] font-bold leading-snug text-doc-ink" id="dPgto1">50% na assinatura</p>
+        <p class="mt-1 text-[12px] text-doc-soft leading-snug" id="dPgto2">50% na entrega da obra</p>
       </div>
 
       <div class="rounded-xl border border-doc-line px-4 py-4 flex flex-col items-center justify-center" id="cardPrazo">
         <div class="flex flex-col items-center gap-1.5 mb-2">
           <i data-lucide="calendar-days" class="w-[18px] h-[18px] shrink-0 text-doc-soft" stroke-width="1.6"></i>
-          <span class="text-[8px] font-bold uppercase tracking-[0.18em] text-doc-soft">Prazo</span>
+          <span class="text-[11px] font-bold uppercase tracking-[0.18em] text-doc-soft">Prazo</span>
         </div>
-        <p class="text-[10px] font-bold leading-snug text-doc-ink" id="dPrazo1">35 dias corridos</p>
-        <p class="mt-1 text-[9px] text-doc-soft leading-snug" id="dPrazo2">após aprovação e sinal</p>
+        <p class="text-[13px] font-bold leading-snug text-doc-ink" id="dPrazo1">35 dias corridos</p>
+        <p class="mt-1 text-[12px] text-doc-soft leading-snug" id="dPrazo2">após aprovação e sinal</p>
       </div>
 
       <div class="rounded-xl border border-doc-line px-4 py-4 flex flex-col items-center justify-center" id="cardFrete">
         <div class="flex flex-col items-center gap-1.5 mb-2">
           <i data-lucide="truck" class="w-[18px] h-[18px] shrink-0 text-doc-soft" stroke-width="1.6"></i>
-          <span class="text-[8px] font-bold uppercase tracking-[0.18em] text-doc-soft">Entrega e Frete</span>
+          <span class="text-[11px] font-bold uppercase tracking-[0.18em] text-doc-soft">Entrega e Frete</span>
         </div>
-        <p class="text-[10px] font-bold leading-snug text-doc-ink" id="dFrete1">Frete incluso</p>
-        <p class="mt-1 text-[9px] text-doc-soft leading-snug" id="dFrete2">até 80 km da fábrica</p>
+        <p class="text-[13px] font-bold leading-snug text-doc-ink" id="dFrete1">Frete incluso</p>
+        <p class="mt-1 text-[12px] text-doc-soft leading-snug" id="dFrete2">até 80 km da fábrica</p>
       </div>
 
     </div>
 
     <!-- Observacoes -->
-    <div class="mt-6 shrink-0">
+    <div id="secaoObs" class="mt-6 shrink-0" style="display: none;">
       <div class="mb-4 border-b border-doc-line pb-2">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Observações e Informações</span>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Observações e Informações</span>
       </div>
       <ul class="space-y-2">
         <li class="flex items-start gap-2.5">
           <span class="mt-[5px] w-[5px] h-[5px] shrink-0 rounded-full bg-doc-ink"></span>
-          <p class="text-[8.8px] leading-snug">O valor apresentado é fechado para o conjunto descrito acima; não trabalhamos com venda de peças avulsas nesta proposta.</p>
+          <p class="text-[11.8px] leading-snug" id="dObs">O valor apresentado é fechado para o conjunto descrito acima; não trabalhamos com venda de peças avulsas nesta proposta.</p>
         </li>
       </ul>
     </div>
 
     <!-- Inc / Não Inc -->
-    <div class="mt-6 grid grid-cols-2 gap-4 shrink-0">
+    <div id="secaoIncluso" class="mt-6 grid grid-cols-2 gap-4 shrink-0">
       <div class="rounded-xl bg-doc-card px-5 py-4">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Incluso na proposta</span>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Incluso na proposta</span>
         <ul class="mt-3 space-y-2" id="dIncList">
           <!-- JS injeta inclusos -->
         </ul>
       </div>
       <div class="rounded-xl border border-doc-line px-5 py-4">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Não incluso</span>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-soft">Não incluso</span>
         <ul class="mt-3 space-y-2" id="dNincList">
           <!-- JS injeta nao inclusos -->
         </ul>
@@ -296,68 +353,68 @@ Taxas, licenças e ART da obra civil</textarea>
     </div>
 
     <!-- Condições gerais -->
-    <div class="mt-7 shrink-0">
+    <div id="secaoCondicoes" class="mt-7 shrink-0">
       <div class="mb-4 border-b border-doc-line pb-2">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Condições gerais</span>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Condições gerais</span>
       </div>
       <dl class="space-y-3">
         <div class="flex gap-4" id="rowCondVal">
-          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Validade</dt>
-          <dd class="text-[8.6px] leading-snug text-doc-soft">Esta proposta é válida por <span id="dCondVal">15</span> dias a partir da data de emissão. Após esse prazo os valores podem ser revistos conforme o preço do aço.</dd>
+          <dt class="w-[26mm] shrink-0 text-[12.2px] font-bold">Validade</dt>
+          <dd class="text-[11.6px] leading-snug text-doc-soft">Esta proposta é válida por <span id="dCondVal">15</span> dias a partir da data de emissão. Após esse prazo os valores podem ser revistos conforme o preço do aço.</dd>
         </div>
         <div class="flex gap-4">
-          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Garantia</dt>
-          <dd class="text-[8.6px] leading-snug text-doc-soft">12 meses sobre a estrutura e a solda, contra defeitos de fabricação e montagem, conforme o Código de Defesa do Consumidor.</dd>
+          <dt class="w-[26mm] shrink-0 text-[12.2px] font-bold">Garantia</dt>
+          <dd class="text-[11.6px] leading-snug text-doc-soft">12 meses sobre a estrutura e a solda, contra defeitos de fabricação e montagem, conforme o Código de Defesa do Consumidor.</dd>
         </div>
         <div class="flex gap-4">
-          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Execução</dt>
-          <dd class="text-[8.6px] leading-snug text-doc-soft">O prazo começa a contar após a aprovação da proposta, o pagamento do sinal e a liberação da obra civil (blocos curados e nivelados).</dd>
+          <dt class="w-[26mm] shrink-0 text-[12.2px] font-bold">Execução</dt>
+          <dd class="text-[11.6px] leading-snug text-doc-soft">O prazo começa a contar após a aprovação da proposta, o pagamento do sinal e a liberação da obra civil (blocos curados e nivelados).</dd>
         </div>
         <div class="flex gap-4">
-          <dt class="w-[26mm] shrink-0 text-[9.2px] font-bold">Alterações</dt>
-          <dd class="text-[8.6px] leading-snug text-doc-soft">Qualquer mudança de medidas, cargas ou acabamento após a aprovação será orçada em aditivo, por escrito.</dd>
+          <dt class="w-[26mm] shrink-0 text-[12.2px] font-bold">Alterações</dt>
+          <dd class="text-[11.6px] leading-snug text-doc-soft">Qualquer mudança de medidas, cargas ou acabamento após a aprovação será orçada em aditivo, por escrito.</dd>
         </div>
       </dl>
     </div>
 
     <!-- Garantia -->
-    <div class="mt-6 flex items-center gap-4 rounded-xl bg-doc-card px-5 py-4 shrink-0">
+    <div id="secaoGarantia" class="mt-6 flex items-center gap-4 rounded-xl bg-doc-card px-5 py-4 shrink-0">
       <i data-lucide="shield-check" class="w-5 h-5 shrink-0" stroke-width="1.6"></i>
       <div>
-        <p class="text-[9.4px] font-bold">12 meses de garantia · estrutura calculada e padronizada</p>
-        <p class="mt-0.5 text-[8.3px] text-doc-soft">Trabalhamos com garantia estrutural e materiais com certificação de origem.</p>
+        <p class="text-[12.4px] font-bold">12 meses de garantia · estrutura calculada e padronizada</p>
+        <p class="mt-0.5 text-[11.3px] text-doc-soft">Trabalhamos com garantia estrutural e materiais com certificação de origem.</p>
       </div>
     </div>
 
     <!-- Próximos passos -->
-    <div class="mt-7 shrink-0">
+    <div id="secaoPassos" class="mt-7 shrink-0" style="display: none;">
       <div class="mb-4 border-b border-doc-line pb-2">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Próximos passos</span>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Próximos passos</span>
       </div>
       <div class="grid grid-cols-3 gap-3">
         
         <div class="rounded-xl bg-doc-card px-4 py-4">
           <div class="flex items-center gap-2.5">
-            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">1</span>
-            <p class="text-[9.2px] font-bold leading-tight">Você aprova</p>
+            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[12px] font-extrabold text-doc-yellow">1</span>
+            <p class="text-[12.2px] font-bold leading-tight">Você aprova</p>
           </div>
-          <p class="mt-2 text-[8px] leading-snug text-doc-soft">Assine abaixo ou confirme por mensagem.</p>
+          <p class="mt-2 text-[11px] leading-snug text-doc-soft">Assine abaixo ou confirme por mensagem.</p>
         </div>
         
         <div class="rounded-xl bg-doc-card px-4 py-4">
           <div class="flex items-center gap-2.5">
-            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">2</span>
-            <p class="text-[9.2px] font-bold leading-tight">Sinal e Contrato</p>
+            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[12px] font-extrabold text-doc-yellow">2</span>
+            <p class="text-[12.2px] font-bold leading-tight">Sinal e Contrato</p>
           </div>
-          <p class="mt-2 text-[8px] leading-snug text-doc-soft">Confirmamos os detalhes e agendamos a obra.</p>
+          <p class="mt-2 text-[11px] leading-snug text-doc-soft">Confirmamos os detalhes e agendamos a obra.</p>
         </div>
 
         <div class="rounded-xl bg-doc-card px-4 py-4">
           <div class="flex items-center gap-2.5">
-            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[9px] font-extrabold text-doc-yellow">3</span>
-            <p class="text-[9.2px] font-bold leading-tight">Fabricação e montagem</p>
+            <span class="flex w-[18px] h-[18px] items-center justify-center rounded-full bg-doc-ink text-[12px] font-extrabold text-doc-yellow">3</span>
+            <p class="text-[12.2px] font-bold leading-tight">Fabricação e montagem</p>
           </div>
-          <p class="mt-2 text-[8px] leading-snug text-doc-soft" id="dPrazoStep">Prazo definido em contrato para a entrega.</p>
+          <p class="mt-2 text-[11px] leading-snug text-doc-soft" id="dPrazoStep">Prazo definido em contrato para a entrega.</p>
         </div>
 
       </div>
@@ -366,27 +423,27 @@ Taxas, licenças e ART da obra civil</textarea>
     <div class="flex-1"></div>
 
     <!-- Aprovação -->
-    <div class="mt-7 shrink-0">
+    <div id="secaoAssinatura" class="mt-7 shrink-0" style="display: none;">
       <div class="mb-4 border-b border-doc-line pb-2">
-        <span class="block text-[7.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Aprovação</span>
+        <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-doc-ink">Aprovação</span>
       </div>
       <div class="mt-12 grid grid-cols-2 gap-14">
         <div>
           <div class="border-t border-doc-ink"></div>
-          <p class="mt-2 text-[9.2px] font-bold" id="dAssCliente">Cliente</p>
-          <p class="text-[8px] text-doc-soft">Nome / CNPJ · Data</p>
+          <p class="mt-2 text-[12.2px] font-bold" id="dAssCliente">Cliente</p>
+          <p class="text-[11px] text-doc-soft">Nome / CNPJ · Data</p>
         </div>
         <div>
           <div class="border-t border-doc-ink"></div>
-          <p class="mt-2 text-[9.2px] font-bold">Metalúrgica Oliveira</p>
-          <p class="text-[8px] text-doc-soft">Responsável · Data</p>
+          <p class="mt-2 text-[12.2px] font-bold">Metalúrgica Oliveira</p>
+          <p class="text-[11px] text-doc-soft">Responsável · Data</p>
         </div>
       </div>
     </div>
 
     <!-- Footer Pág -->
     <div class="mt-auto pt-4 flex items-center justify-center border-t border-doc-line shrink-0">
-      <p class="flex items-center gap-1.5 text-[8.5px] font-bold text-doc-soft">
+      <p class="flex items-center gap-1.5 text-[11.5px] font-bold text-doc-soft">
         <i data-lucide="badge-check" class="w-3 h-3 text-amber-500" stroke-width="2"></i>
         METALÚRGICA OLIVEIRA · O SEU PARCEIRO EM ESTRUTURAS METÁLICAS
       </p>
@@ -396,6 +453,10 @@ Taxas, licenças e ART da obra civil</textarea>
 </main>
 
 <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+
 // --- EXTENSO PARA REAIS ---
 // Depende do library extenso, importado via CDN.
 // extenso(148500, { mode: 'currency' }) -> "cento e quarenta e oito mil e quinhentos reais"
@@ -430,20 +491,20 @@ function renderItemsForm() {
     div.innerHTML = `
       <button onclick="rmItem(${i})" class="absolute top-2 right-2 text-red-500 hover:text-red-700 bg-white rounded p-1 shadow-sm"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
       <div class="mb-2 pr-6">
-        <label class="block text-[10px] font-bold mb-1 text-slate-500">Título / Item</label>
+        <label class="block text-[13px] font-bold mb-1 text-slate-500">Título / Item</label>
         <input type="text" class="w-full border rounded p-1.5 text-xs bg-white" value="${it.t}" oninput="items[${i}].t=this.value; up()">
       </div>
       <div class="mb-2">
-        <label class="block text-[10px] font-bold mb-1 text-slate-500">Descrição detalhada</label>
+        <label class="block text-[13px] font-bold mb-1 text-slate-500">Descrição detalhada</label>
         <textarea class="w-full border rounded p-1.5 text-xs bg-white min-h-[40px]" oninput="items[${i}].d=this.value; up()">${it.d}</textarea>
       </div>
       <div class="flex gap-2">
         <div class="flex-1">
-          <label class="block text-[10px] font-bold mb-1 text-slate-500">Qtd / Und</label>
+          <label class="block text-[13px] font-bold mb-1 text-slate-500">Qtd / Und</label>
           <input type="text" class="w-full border rounded p-1.5 text-xs bg-white" placeholder="Ex: 5 un" value="${it.q}" oninput="items[${i}].q=this.value; up()">
         </div>
         <div class="flex-1">
-          <label class="block text-[10px] font-bold mb-1 text-slate-500">V. Unit (R$)</label>
+          <label class="block text-[13px] font-bold mb-1 text-slate-500">V. Unit (R$)</label>
           <input type="number" class="w-full border rounded p-1.5 text-xs bg-white" placeholder="0.00" value="${it.v || ''}" oninput="items[${i}].v=this.value; up()">
         </div>
       </div>
@@ -503,9 +564,42 @@ function up() {
   
   toggleRow("rowDocCliente", g("fDocCliente"));
   toggleRow("rowCliente", g("fCliente"));
+  
   s("dItemPrincipal", g("fItemPrincipal") || "Escopo do fornecimento");
 
+  // Toggles e Condicionais
+  const fMostrarObs = document.getElementById("fMostrarObs");
+  if(fMostrarObs) toggleRow("secaoObs", fMostrarObs.checked);
+  s("dObs", g("fObs"));
+
+  const fMostrarCondicoes = document.getElementById("fMostrarCondicoes");
+  if(fMostrarCondicoes) toggleRow("secaoCondicoes", fMostrarCondicoes.checked);
+
+  const fMostrarGarantia = document.getElementById("fMostrarGarantia");
+  if(fMostrarGarantia) toggleRow("secaoGarantia", fMostrarGarantia.checked);
+
+  const fMostrarPassos = document.getElementById("fMostrarPassos");
+  if(fMostrarPassos) toggleRow("secaoPassos", fMostrarPassos.checked);
+
+  
+  const fMostrarAssinatura = document.getElementById("fMostrarAssinatura");
+  if(fMostrarAssinatura) toggleRow("secaoAssinatura", fMostrarAssinatura.checked);
+
+  // Lógica Ocultar Incluso/Não Incluso
+  const vInc = g("fInc").trim();
+  const vNinc = g("fNinc").trim();
+  const secaoInc = document.getElementById("secaoIncluso");
+  if (secaoInc) {
+    if (vInc === "" && vNinc === "") {
+      secaoInc.style.display = 'none';
+    } else {
+      secaoInc.style.display = '';
+    }
+  }
+
+
   // Valor Total
+
   const total = parseFloat(g("fTotal")) || 0;
   s("dTotalValor", money(total));
   
@@ -554,15 +648,15 @@ function up() {
         const bg = i % 2 === 0 ? "bg-doc-zebra/50" : "";
         itensList.innerHTML += `
           <tr class="${bg}">
-            <td class="py-3 px-2 text-center text-[9px] text-doc-soft font-semibold">${numIdx}</td>
+            <td class="py-3 px-2 text-center text-[12px] text-doc-soft font-semibold">${numIdx}</td>
             <td class="py-3 px-2">
-              <p class="text-[9.6px] font-bold leading-tight text-doc-ink">${it.t}</p>
-              <p class="mt-0.5 text-[8.3px] leading-snug text-doc-soft">${it.d}</p>
+              <p class="text-[12.6px] font-bold leading-tight text-doc-ink">${it.t}</p>
+              <p class="mt-0.5 text-[11.3px] leading-snug text-doc-soft">${it.d}</p>
             </td>
-            <td class="py-3 px-2 text-center text-[9px] font-semibold text-doc-ink">${it.q}</td>
+            <td class="py-3 px-2 text-center text-[12px] font-semibold text-doc-ink">${it.q}</td>
             ${mostrarPreco ? `
-            <td class="py-3 px-2 text-right text-[9px] text-doc-soft">${valU.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-            <td class="py-3 px-2 text-right text-[9px] font-bold text-doc-ink">${subtotalItem.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            <td class="py-3 px-2 text-right text-[12px] text-doc-soft">${valU.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            <td class="py-3 px-2 text-right text-[12px] font-bold text-doc-ink">${subtotalItem.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
             ` : ''}
           </tr>
         `;
@@ -575,7 +669,7 @@ function up() {
   incList.innerHTML = "";
   g("fInc").split('\n').filter(l=>l.trim()).forEach(l => {
     incList.innerHTML += `
-      <li class="flex items-start gap-2.5 text-[8.6px] leading-snug">
+      <li class="flex items-start gap-2.5 text-[11.6px] leading-snug">
         <i data-lucide="check-circle-2" class="mt-[1px] w-3 h-3 shrink-0" stroke-width="1.8"></i>
         ${l}
       </li>
@@ -586,7 +680,7 @@ function up() {
   nincList.innerHTML = "";
   g("fNinc").split('\n').filter(l=>l.trim()).forEach(l => {
     nincList.innerHTML += `
-      <li class="flex items-start gap-2.5 text-[8.6px] leading-snug text-doc-soft">
+      <li class="flex items-start gap-2.5 text-[11.6px] leading-snug text-doc-soft">
         <i data-lucide="x-circle" class="mt-[1px] w-3 h-3 shrink-0 text-doc-disabled" stroke-width="1.8"></i>
         ${l}
       </li>
@@ -612,6 +706,65 @@ document.getElementById("fData").value = new Date().toISOString().split('T')[0];
 lucide.createIcons();
 renderItemsForm();
 up();
+
+// ── AUTO-FILL via parâmetros URL (vem da calculadora) ─────────────────────
+(function autoFillFromURL() {
+  const p = new URLSearchParams(window.location.search);
+  if (!p.get('autoFill')) return;
+
+  // Preenche campos de texto simples
+  const map = {
+    fItemPrincipal: 'fItemPrincipal',
+    fTotal:         'fTotal',
+    fPgto1:         'fPgto1',
+    fPgto2:         'fPgto2',
+    fPrazo1:        'fPrazo1',
+    fPrazo2:        'fPrazo2',
+    fFrete1:        'fFrete1',
+    fFrete2:        'fFrete2',
+    fInc:           'fInc',
+    fNinc:          'fNinc',
+  };
+  for (const [param, fieldId] of Object.entries(map)) {
+    const val = p.get(param);
+    const el  = document.getElementById(fieldId);
+    if (val && el) el.value = val;
+  }
+
+  // Preenche itens da tabela
+  const itensParam = p.get('fItens');
+  if (itensParam) {
+    try {
+      const itens = JSON.parse(itensParam);
+      // Limpa itens existentes
+      window._itens = [];
+      itens.forEach((raw, i) => {
+        const parts = raw.split('|');
+        const desc  = parts[0] || '';
+        const valor = parseFloat(parts[1]) || 0;
+        const el = document.querySelector(`[data-item="${i}"]`);
+        if (!el) {
+          // Adiciona novas linhas
+          const cont = document.getElementById('itensCont');
+          if (cont) {
+            const row = document.createElement('div');
+            row.className = 'flex gap-2 items-center';
+            row.innerHTML = `
+              <input type="text" class="border rounded px-2 py-1 flex-1 text-xs" placeholder="Descrição" data-ikey="${i}" data-ifield="desc" value="${desc.replace(/"/g,'&quot;')}" oninput="up()">
+              <input type="number" class="border rounded px-2 py-1 w-28 text-xs text-right" placeholder="Valor R$" data-ikey="${i}" data-ifield="valor" value="${valor.toFixed(2)}" oninput="up()">
+              <button onclick="removeItem(${i})" class="text-red-400 text-xs px-1">✕</button>
+            `;
+            cont.appendChild(row);
+          }
+        }
+      });
+    } catch(e) {}
+  }
+
+  // Força atualização do PDF preview
+  setTimeout(() => up(), 100);
+})();
+
 </script>
 </body>
 </html>
