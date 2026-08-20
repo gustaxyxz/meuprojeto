@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
@@ -13,6 +13,9 @@
   <meta name="description" content="Calcule o orçamento do seu galpão metálico em 2 minutos. Escolha as medidas, tipo de tesoura e cobertura. Metalúrgica Oliveira — Engenheiro Beltrão - PR.">
         
 
+  <meta name="description" content="Calcule o orçamento do seu galpão metálico em 2 minutos. Escolha as medidas, tipo de tesoura e cobertura. Metalúrgica Oliveira — Engenheiro Beltrão - PR.">
+        
+
 
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -22,33 +25,35 @@
     </head>
     <body>
     
-<nav class="navbar navbar-expand-lg navbar-dark bg-black">
+<nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-secondary border-opacity-25" style="min-height:64px">
     <div class="container">
-        
-        <a class="navbar-brand" href="index.html">
-            <img src="assets/imagens/logo_mo.png" alt="Metalúrgica Oliveira" height="35" class="rounded-circle" style="filter: brightness(0) invert(1);">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+            <img src="assets/imagens/logo-mo.png" alt="Metalúrgica Oliveira" height="40" style="object-fit:contain">
         </a>
-
-        <div class="navbar-nav mx-auto gap-3 fs-10">
-            <a class="nav-link d-flex flex-column align-items-center" href="index.html">
-                <i class="bi bi-house-door mb-1"></i>
-                Início
-            </a>
-            <a class="nav-link d-flex flex-column align-items-center" href="servicos.html">
-                <i class="bi bi-box-seam mb-1"></i>
-                Produtos
-            </a>
-            <a class="nav-link d-flex flex-column align-items-center" href="orcamento.html">
-                <i class="bi bi-calculator mb-1"></i>
-                Orçamento
-            </a>
-            <a class="nav-link d-flex flex-column align-items-center" href="contato.html">
-                <i class="bi bi-telephone mb-1"></i>
-                Contato
-            </a>
-            <a class="nav-link d-flex flex-column align-items-center fw-bold active" href="calculadora.html" style="color:#ffc107!important">
-                <i class="bi bi-calculator-fill mb-1" style="color:#ffc107"></i>
-                Calcule seu Galpão
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <div class="navbar-nav mx-auto gap-2">
+                <a class="nav-link d-flex flex-column align-items-center" href="index.html">
+                    <i class="bi bi-house-door mb-1"></i>
+                    Início
+                </a>
+                <a class="nav-link d-flex flex-column align-items-center" href="servicos.html">
+                    <i class="bi bi-box-seam mb-1"></i>
+                    Produtos
+                </a>
+                <a class="nav-link d-flex flex-column align-items-center" href="orcamento.html">
+                    <i class="bi bi-file-text mb-1"></i>
+                    Orçamento
+                </a>
+                <a class="nav-link d-flex flex-column align-items-center" href="contato.html">
+                    <i class="bi bi-telephone mb-1"></i>
+                    Contato
+                </a>
+            </div>
+            <a href="calculadora.html" class="btn btn-warning btn-sm fw-bold px-3 active" style="letter-spacing:.04em">
+                <i class="bi bi-calculator-fill me-1"></i> Simular Galpão
             </a>
         </div>
     </div>
@@ -247,7 +252,7 @@
 .contact-field input,
 .contact-field textarea { width: 100%; border: 2px solid var(--borda); border-radius: 8px; padding: .6rem .9rem; font-size: .95rem; outline: none; transition: border .2s; font-family: inherit; }
 .contact-field input:focus,
-.contact-field textarea:focus { border-color: var(--preto); }
+.contact-field textarea:focus { border-color: #000; }
 
 /* ── Resultado Final ────────────────── */
 .result-header { text-align: center; padding: 1.2rem 0 .8rem; }
@@ -345,30 +350,50 @@
           <div class="option-grid">
             <div class="option-card" data-group="tesoura" data-val="duas_aguas" onclick="selectCard(this,'tesoura')">
               <div class="check-badge">✓</div>
-              <img src="assets/img/duas_aguas.png" alt="Duas Águas" onerror="this.style.display='none'">
+              <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:70px;color:#555">
+                <path d="M8 34 L32 10 L56 34" />
+                <path d="M8 34 H56" />
+                <path d="M8 34 V34 M56 34 V34" />
+                <path d="M32 10 V34" stroke-dasharray="3 2" stroke-width="1" />
+                <path d="M20 22 H44" stroke-dasharray="3 2" stroke-width="1" />
+              </svg>
               <div class="card-name">Duas Águas</div>
-              <div class="card-desc">Modelo clássico e simétrico. Ideal para galpões industriais e armazéns.</div>
+              <div class="card-desc">Modelo clássico simétrico. Ideal para galpões industriais e armazéns.</div>
               <div class="card-price">Referência base</div>
             </div>
             <div class="option-card" data-group="tesoura" data-val="uma_agua" onclick="selectCard(this,'tesoura')">
               <div class="check-badge">✓</div>
-              <img src="assets/img/uma_agua.png" alt="Uma Água" onerror="this.style.display='none'">
+              <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:70px;color:#555">
+                <path d="M8 34 H56 V14" />
+                <path d="M8 34 L56 14" />
+                <path d="M8 34 V34 M56 14 V34" />
+              </svg>
               <div class="card-name">Uma Água</div>
-              <div class="card-desc">Uma só inclinação. Ótimo para laterais de muro, garagens e coberturas simples.</div>
+              <div class="card-desc">Uma só inclinação. Ótimo para laterais de muro e coberturas simples.</div>
               <div class="card-price">~35% mais econômico</div>
             </div>
             <div class="option-card" data-group="tesoura" data-val="arco_abaulado" onclick="selectCard(this,'tesoura')">
               <div class="check-badge">✓</div>
-              <img src="assets/img/arco_abaulado.png" alt="Arco Abaulado" onerror="this.style.display='none'">
+              <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:70px;color:#555">
+                <path d="M8 34 Q32 6 56 34" />
+                <path d="M8 34 H56" />
+                <path d="M8 34 V34 M56 34 V34" />
+              </svg>
               <div class="card-name">Arco Abaulado</div>
-              <div class="card-desc">Curvado e elegante. Alta resistência ao vento. Muito usado em igrejas e salões.</div>
+              <div class="card-desc">Curvado, vão livre amplo. Alta resistência ao vento.</div>
               <div class="card-price">~35% adicional</div>
             </div>
             <div class="option-card" data-group="tesoura" data-val="scissor" onclick="selectCard(this,'tesoura')">
               <div class="check-badge">✓</div>
-              <img src="assets/img/scissor.png" alt="Scissor" onerror="this.style.display='none'">
+              <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:70px;color:#555">
+                <path d="M8 34 L32 8 L56 34" />
+                <path d="M8 22 L56 22" stroke-dasharray="3 2" stroke-width="1" />
+                <path d="M18 34 L44 14" stroke-dasharray="3 2" stroke-width="1" />
+                <path d="M46 34 L20 14" stroke-dasharray="3 2" stroke-width="1" />
+                <path d="M8 34 H56" />
+              </svg>
               <div class="card-name">Scissor (Tesoura X)</div>
-              <div class="card-desc">Pé-direito alto no centro. Efeito visual impressionante para showrooms e eventos.</div>
+              <div class="card-desc">Pé-direito alto no centro. Efeito visual impressionante para showrooms.</div>
               <div class="card-price">~50% adicional</div>
             </div>
           </div>
@@ -386,23 +411,31 @@
           <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(185px,1fr))">
             <div class="option-card" data-group="coluna" data-val="perfil_u" onclick="selectCard(this,'coluna')">
               <div class="check-badge">✓</div>
-              <span class="card-icon">⊏</span>
+              <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:70px;color:#555">
+                <path d="M22 8 H30 V36 H22" />
+                <path d="M42 8 H34 V36 H42" />
+              </svg>
               <div class="card-name">Perfil U (Calha)</div>
-              <div class="card-desc">Aço dobrado em U. Econômico, muito usado em galpões leves e médios até 15m de vão.</div>
+              <div class="card-desc">Aço dobrado em U. Econômico, muito usado em galpões leves até 15m de vão.</div>
               <div class="card-price">Mais econômico</div>
             </div>
             <div class="option-card" data-group="coluna" data-val="tubo_ret" onclick="selectCard(this,'coluna')">
               <div class="check-badge">✓</div>
-              <span class="card-icon">▭</span>
+              <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:70px;color:#555">
+                <rect x="20" y="10" width="24" height="24" />
+                <rect x="24" y="14" width="16" height="16" />
+              </svg>
               <div class="card-name">Tubo Retangular</div>
-              <div class="card-desc">Alta resistência à torção. Acabamento limpo. Ideal para vãos médios (15–25m).</div>
+              <div class="card-desc">Alta resistência à torsão. Acabamento limpo. Ideal para vãos médios (15–25m).</div>
               <div class="card-price">Intermediário</div>
             </div>
             <div class="option-card" data-group="coluna" data-val="perfil_w" onclick="selectCard(this,'coluna')">
               <div class="check-badge">✓</div>
-              <span class="card-icon">I</span>
+              <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:70px;color:#555">
+                <path d="M18 10 H46 V14 H35 V30 H46 V34 H18 V30 H29 V14 H18 Z" />
+              </svg>
               <div class="card-name">Perfil W (Duplo I)</div>
-              <div class="card-desc">Máxima resistência à flexão. Para galpões pesados, pontes rolantes e vãos acima de 25m.</div>
+              <div class="card-desc">Máxima resistência à flexão. Para galpões pesados e vãos acima de 25m.</div>
               <div class="card-price">Premium</div>
             </div>
           </div>
@@ -415,55 +448,65 @@
 
         <!-- ETAPA 4: COBERTURA -->
         <div class="step-section" id="step-4">
-          <div class="step-title"><i class="bi bi-house-roof me-2"></i>Cobertura e Telhas</div>
-          <div class="step-subtitle">Escolha o tipo de telha e as terças que vão sustentar a cobertura.</div>
-
+          <div class="step-title"><i class="bi bi-house-gear me-2"></i>Cobertura e Terças</div>
+          <div class="step-subtitle">Escolha a telha e o suporte estrutural superior.</div>
           <div class="mb-4">
             <div class="fw-bold small text-uppercase mb-2 text-muted">Tipo de Telha</div>
             <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(172px,1fr))">
               <div class="option-card" data-group="telha" data-val="ondulada_043" onclick="selectCard(this,'telha')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon">〰️</span>
+                <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:65px;color:#555">
+                  <path d="M4 22 q5 -7 10 0 q5 7 10 0 q5 -7 10 0 q5 7 10 0 q5 -7 10 0" />
+                </svg>
                 <div class="card-name">Ondulada 0,43mm</div>
-                <div class="card-desc">Galvanizada. A mais popular para depósitos e garagens. Boa durabilidade e custo.</div>
+                <div class="card-desc">Galvanizada. A mais popular para depósitos e garagens.</div>
                 <div class="card-price">R$ 32/m²</div>
               </div>
               <div class="option-card" data-group="telha" data-val="trapezoidal_050" onclick="selectCard(this,'telha')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon">⌇</span>
+                <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:65px;color:#555">
+                  <path d="M4 27 H10 L14 14 H20 L24 27 H32 L36 14 H42 L46 27 H54 L58 14 H60" />
+                </svg>
                 <div class="card-name">Trapezoidal 0,50mm</div>
-                <div class="card-desc">Perfil trapezoidal, maior rigidez. Excelente para galpões industriais e comerciais.</div>
+                <div class="card-desc">Perfil trapezoidal, maior rigidez. Excelente para galpões industriais.</div>
                 <div class="card-price">R$ 45/m²</div>
               </div>
               <div class="option-card" data-group="telha" data-val="sanduiche" onclick="selectCard(this,'telha')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon">🧊</span>
-                <div class="card-name">Sanduíche Isotérmica</div>
-                <div class="card-desc">Dupla face com isolamento interno. Conforto térmico e acústico superior.</div>
+                <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:65px;color:#555">
+                  <path d="M4 14 H60 M4 26 H60" />
+                  <path d="M10 14 L16 26 M22 14 L28 26 M34 14 L40 26 M46 14 L52 26" />
+                </svg>
+                <div class="card-name">Sandúíche Isotérmica</div>
+                <div class="card-desc">Dupla face com isolamento interno. Conforto térmico superior.</div>
                 <div class="card-price">R$ 95/m²</div>
               </div>
             </div>
           </div>
-
           <div>
             <div class="fw-bold small text-uppercase mb-2 text-muted">Tipo de Terça</div>
             <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(172px,1fr))">
               <div class="option-card" data-group="terca" data-val="simples" onclick="selectCard(this,'terca')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon">━</span>
-                <div class="card-name">Terça Simples</div>
+                <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:55px;color:#555">
+                  <path d="M14 10 H24 V30 H14" />
+                  <path d="M50 10 H40 V30 H50" />
+                </svg>
+                <div class="card-name">Terça C Simples</div>
                 <div class="card-desc">Perfil leve. Para vãos curtos e cargas de telha moderadas.</div>
               </div>
               <div class="option-card" data-group="terca" data-val="enrigecida" onclick="selectCard(this,'terca')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon">━━</span>
-                <div class="card-name">Terça Enrijecida</div>
+                <svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:55px;color:#555">
+                  <path d="M14 10 H26 V30 H38" />
+                  <path d="M14 14 V10 M38 26 V30" />
+                </svg>
+                <div class="card-name">Terça Z Enri. (Z)</div>
                 <div class="card-desc">Com enrijecedor. Mais resistente à flambagem. Recomendada para a maioria dos galpões.</div>
                 <div class="card-price">R$ 140/peça 6m</div>
               </div>
             </div>
           </div>
-
           <div class="wizard-nav">
             <button class="btn-prev" onclick="goPrev(4)"><i class="bi bi-arrow-left me-1"></i>Anterior</button>
             <button class="btn-next" onclick="goNext(4)">Próximo <i class="bi bi-arrow-right ms-1"></i></button>
@@ -480,15 +523,21 @@
             <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(155px,1fr))">
               <div class="option-card" data-group="fechamento" data-val="sem" onclick="selectCard(this,'fechamento')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon">🌬️</span>
+                <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:65px;color:#555">
+                  <path d="M8 36 H56" />
+                  <path d="M8 36 V14 M56 36 V14" stroke-dasharray="3 3" />
+                </svg>
                 <div class="card-name">Sem Fechamento</div>
                 <div class="card-desc">Estrutura aberta. Para garagens, coberturas abertas e pátios.</div>
               </div>
               <div class="option-card" data-group="fechamento" data-val="meia_parede" onclick="selectCard(this,'fechamento')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon">▪️</span>
+                <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:65px;color:#555">
+                  <path d="M8 14 V36 H56 V14" stroke-dasharray="3 3" />
+                  <rect x="8" y="24" width="48" height="12" />
+                </svg>
                 <div class="card-name">Meia Parede</div>
-                <div class="card-desc">Fechamento até a metade da altura. Ventilação com proteção parcial.</div>
+                <div class="card-desc">Fechamento até metade da altura. Ventilação com proteção parcial.</div>
               </div>
               <div class="option-card" data-group="fechamento" data-val="completo" onclick="selectCard(this,'fechamento')">
                 <div class="check-badge">✓</div>
@@ -504,19 +553,30 @@
             <div class="option-grid" style="grid-template-columns:repeat(auto-fill,minmax(155px,1fr))">
               <div class="option-card" data-group="portao" data-val="sem" onclick="selectCard(this,'portao')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon">—</span>
+                <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:65px;color:#555">
+                  <path d="M12 36 H52 M20 36 V20 M44 36 V20" stroke-dasharray="3 3" />
+                </svg>
                 <div class="card-name">Sem Portão</div>
                 <div class="card-desc">Abertura livre ou portão por conta do cliente.</div>
               </div>
               <div class="option-card" data-group="portao" data-val="basculante" onclick="selectCard(this,'portao')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon" style="font-size:1.6rem"><i class="bi bi-arrow-up-square"></i></span>
+                <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:65px;color:#555">
+                  <rect x="16" y="14" width="32" height="20" />
+                  <path d="M16 20 H48 M16 26 H48" />
+                  <path d="M52 14 q6 6 0 12" stroke-dasharray="3 2" />
+                </svg>
                 <div class="card-name">Basculante</div>
                 <div class="card-desc">Abre de baixo para cima. Ótimo para caminhões e garagens altas.</div>
               </div>
               <div class="option-card" data-group="portao" data-val="deslizante" onclick="selectCard(this,'portao')">
                 <div class="check-badge">✓</div>
-                <span class="card-icon" style="font-size:1.6rem"><i class="bi bi-arrow-left-right"></i></span>
+                <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:65px;color:#555">
+                  <rect x="14" y="14" width="26" height="20" />
+                  <path d="M20 14 V34 M27 14 V34 M34 14 V34" stroke-width="1" />
+                  <path d="M12 37 H52" />
+                  <path d="M44 23 H54 M50 19 L54 23 L50 27" />
+                </svg>
                 <div class="card-name">Deslizante</div>
                 <div class="card-desc">Desliza lateralmente. Ideal quando não há espaço para abrir frontal.</div>
               </div>
@@ -574,12 +634,14 @@
             Este orçamento é uma <strong>estimativa de referência</strong>. O valor final pode variar conforme dificuldades de acesso, tipo de solo, frete e personalizações. Nossa equipe confirmará todos os detalhes.
           </div>
 
+          <!-- Botão principal: Gerar Proposta Formal -->
+          <button onclick="abrirPropostaFormal()" class="btn btn-dark w-100 fw-bold py-3 mb-2" style="font-size:1rem;letter-spacing:.04em;background:#111">
+            <i class="bi bi-file-earmark-pdf-fill me-2 text-warning"></i>Gerar Proposta Formal em PDF
+          </button>
+
           <a id="btn-whatsapp" href="#" target="_blank" class="btn btn-success w-100 fw-bold py-3 mb-2" style="font-size:1.05rem">
             <i class="bi bi-whatsapp me-2"></i>Enviar Orçamento pelo WhatsApp
           </a>
-          <button onclick="imprimirOrcamentoPDF()" class="btn btn-dark w-100 fw-bold py-2 mb-2">
-            <i class="bi bi-file-earmark-pdf me-2"></i>Baixar Orçamento em PDF
-          </button>
           <div id="salvando-msg" style="text-align:center;font-size:.75rem;color:#aaa;margin-top:.3rem;display:none">
             <i class="bi bi-cloud-upload me-1"></i>Salvando orçamento...
           </div>
@@ -842,6 +904,48 @@ async function salvarOrcamentoSupabase(r, nome, fone, cidade, obs) {
 
 function imprimirOrcamentoPDF() {
   window.print();
+}
+
+function abrirPropostaFormal() {
+  const r = calcAll();
+  const lT={duas_aguas:'Duas Águas',uma_agua:'Uma Água',arco_abaulado:'Arco Abaulado',scissor:'Scissor'};
+  const lC={perfil_u:'Perfil U',tubo_ret:'Tubo Retangular',perfil_w:'Perfil W'};
+  const lTe={ondulada_043:'Ondulada 0,43mm',trapezoidal_050:'Trapezoidal 0,50mm',sanduiche:'Sandúíche Isotérmica'};
+  const lTr={simples:'Terça C Simples',enrigecida:'Terça Z Enriçecida'};
+  const lF={sem:'Sem fechamento',meia_parede:'Meia parede',completo:'Fechamento completo'};
+  const lP={sem:'Sem portão',basculante:'Basculante',deslizante:'Deslizante'};
+
+  const nTesouras = Math.ceil((sel.comprimento||0) / 3) + 1;
+  const nColunas  = nTesouras * 2;
+  const area      = (sel.comprimento||0) * (sel.largura||0);
+
+  const itens = [];
+  if(r.estrutura) itens.push(`${nTesouras} tesouras ${lT[sel.tesoura]||''} (vão ${sel.largura}m)|${r.estrutura.toFixed(2)}`);
+  if(r.colunas)   itens.push(`${nColunas} colunas ${lC[sel.coluna]||''} pé-direito ${sel.pe_direito}m|${r.colunas.toFixed(2)}`);
+  if(r.terca)     itens.push(`Terças ${lTr[sel.terca]||''}|${r.terca.toFixed(2)}`);
+  if(r.tirante)   itens.push(`Tirantes e contraventamento|${r.tirante.toFixed(2)}`);
+  if(r.chumbador) itens.push(`Chumbadores e fixações (${nColunas} conjuntos)|${r.chumbador.toFixed(2)}`);
+  if(r.telha)     itens.push(`Telhas ${lTe[sel.telha]||''} (${(area*1.08).toFixed(0)} m²)|${r.telha.toFixed(2)}`);
+  if(r.fechamento && r.fechamento>0) itens.push(`Fechamento lateral ${lF[sel.fechamento]||''}|${r.fechamento.toFixed(2)}`);
+  if(r.portao && r.portao>0) itens.push(`Portão ${lP[sel.portao]||''}|${r.portao.toFixed(2)}`);
+
+  const desc = `Galpão ${sel.comprimento}x${sel.largura}m — Pé direito ${sel.pe_direito}m`;
+
+  const params = new URLSearchParams({
+    autoFill: '1',
+    fItemPrincipal: desc,
+    fTotal: (r.total||0).toFixed(2),
+    fPgto1: '50% na assinatura',
+    fPgto2: '50% na entrega',
+    fPrazo1: '35 dias corridos',
+    fPrazo2: 'após aprovação e sinal',
+    fFrete1: 'Frete incluso',
+    fFrete2: 'até 80 km da fábrica',
+    fInc: `Projeto executivo e detalhamento\nFabricação em nosso galpão\nTransporte até a obra (até 80 km)\nMontagem com equipe própria`,
+    fNinc: `Obra civil, blocos e baldrames\nCobertura em telha (orçada à parte)\nEnergia e água no local da montagem`,
+    fItens: JSON.stringify(itens)
+  });
+  window.open('orcamento-pdf.html?' + params.toString(), '_blank');
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -706,6 +706,65 @@ document.getElementById("fData").value = new Date().toISOString().split('T')[0];
 lucide.createIcons();
 renderItemsForm();
 up();
+
+// ── AUTO-FILL via parâmetros URL (vem da calculadora) ─────────────────────
+(function autoFillFromURL() {
+  const p = new URLSearchParams(window.location.search);
+  if (!p.get('autoFill')) return;
+
+  // Preenche campos de texto simples
+  const map = {
+    fItemPrincipal: 'fItemPrincipal',
+    fTotal:         'fTotal',
+    fPgto1:         'fPgto1',
+    fPgto2:         'fPgto2',
+    fPrazo1:        'fPrazo1',
+    fPrazo2:        'fPrazo2',
+    fFrete1:        'fFrete1',
+    fFrete2:        'fFrete2',
+    fInc:           'fInc',
+    fNinc:          'fNinc',
+  };
+  for (const [param, fieldId] of Object.entries(map)) {
+    const val = p.get(param);
+    const el  = document.getElementById(fieldId);
+    if (val && el) el.value = val;
+  }
+
+  // Preenche itens da tabela
+  const itensParam = p.get('fItens');
+  if (itensParam) {
+    try {
+      const itens = JSON.parse(itensParam);
+      // Limpa itens existentes
+      window._itens = [];
+      itens.forEach((raw, i) => {
+        const parts = raw.split('|');
+        const desc  = parts[0] || '';
+        const valor = parseFloat(parts[1]) || 0;
+        const el = document.querySelector(`[data-item="${i}"]`);
+        if (!el) {
+          // Adiciona novas linhas
+          const cont = document.getElementById('itensCont');
+          if (cont) {
+            const row = document.createElement('div');
+            row.className = 'flex gap-2 items-center';
+            row.innerHTML = `
+              <input type="text" class="border rounded px-2 py-1 flex-1 text-xs" placeholder="Descrição" data-ikey="${i}" data-ifield="desc" value="${desc.replace(/"/g,'&quot;')}" oninput="up()">
+              <input type="number" class="border rounded px-2 py-1 w-28 text-xs text-right" placeholder="Valor R$" data-ikey="${i}" data-ifield="valor" value="${valor.toFixed(2)}" oninput="up()">
+              <button onclick="removeItem(${i})" class="text-red-400 text-xs px-1">✕</button>
+            `;
+            cont.appendChild(row);
+          }
+        }
+      });
+    } catch(e) {}
+  }
+
+  // Força atualização do PDF preview
+  setTimeout(() => up(), 100);
+})();
+
 </script>
 </body>
 </html>
