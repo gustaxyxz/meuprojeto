@@ -1,4 +1,4 @@
-﻿<?php include "includes/header.php"; ?>
+<?php include "includes/header.php"; ?>
 <?php include "includes/conexao.php"; ?>
 
 <?php
@@ -33,20 +33,20 @@ $resultadoServicos = $pdo->query($sqlServicos);
         <div class="row g-4 text-center">
             <div class="col-md-4">
                 <div class="caixa-destaque p-4 h-100 shadow-sm rounded">
-        <h5>Projeto Sob Medida</h5>
-                    <p>Fabricamos sua estrutura com base no seu projeto, garantindo tipo de uso e normas de segurança.</p>
+                    <h5>Projeto Sob Medida</h5>
+                    <p>Fabricamos sua estrutura com base no seu projeto, garantindo qualidade e normas de segurança.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="caixa-destaque p-4 h-100 shadow-sm rounded">
-        <h5>Fabricação precisa</h5>
+                    <h5>Fabricação Precisa</h5>
                     <p>Produção de peças com acabamento e tolerância adequada para montagem eficiente.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="caixa-destaque p-4 h-100 shadow-sm rounded">
-        <h5>Montagem especializada</h5>
-                    <p>Equipe qualificada para montagem com segurança e agilidade.</p>
+                    <h5>Montagem Especializada</h5>
+                    <p>Equipe qualificada para montagem com segurança e agilidade em todo o Paraná.</p>
                 </div>
             </div>
         </div>
@@ -67,10 +67,12 @@ $resultadoServicos = $pdo->query($sqlServicos);
             </div>
             <div class="col-lg-6">
                 <div class="ratio ratio-16x9 rounded overflow-hidden border" style="box-shadow: 0 10px 25px 3px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);">
-                    <img src="assets\imagens\Firefly_Gemini Flash_Crie uma imagem realista e profissional de uma estrutura metálica de galpão em proces 452220.png" alt="Estrutura metálica" class="object-fit-cover w-100 h-100 rounded">
+                    <img src="assets/imagens/Firefly_Gemini Flash_Crie uma imagem realista e profissional de uma estrutura metálica de galpão em proces 452220.png" alt="Estrutura metálica" class="object-fit-cover w-100 h-100 rounded">
                 </div>
             </div>
         </div>
+    </section>
+
     <section class="bg-dark text-white rounded p-4 p-md-5 my-5 shadow-lg position-relative overflow-hidden" style="background: linear-gradient(135deg, #111 0%, #222 100%);">
         <div class="row align-items-center">
             <div class="col-lg-8">

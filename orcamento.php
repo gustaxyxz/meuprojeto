@@ -115,7 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <section class="card shadow-sm mb-4">
         <div class="card-body">
-            <h5 class="card-title">Solicitar orçamento</h5>
             <form method="POST" action="orcamento.php" class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Nome completo</label>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
@@ -90,14 +90,20 @@
 
     .loading-full { min-height: 400px; display: flex; align-items: center; justify-content: center; color: #aaa; flex-direction: column; gap: 1rem; font-size: 1rem; }
 
+    @page { size: A4 portrait; margin: 0; }
     @media print {
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-sizing: border-box !important;
+      }
       .admin-nav, .action-bar { display: none !important; }
-      body { background: #fff !important; }
-      .doc-wrapper { margin: 0; padding: 0; max-width: 100%; }
-      .doc-a4 { box-shadow: none !important; border-radius: 0; padding: 18mm 20mm; }
+      html, body { background: #fff !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      .doc-wrapper { margin: 0 auto !important; padding: 0 !important; max-width: 210mm !important; width: 210mm !important; }
+      .doc-a4 { box-shadow: none !important; border-radius: 0; padding: 14mm 16mm !important; min-height: 297mm; max-width: 210mm !important; width: 210mm !important; box-sizing: border-box !important; }
     }
     @media(max-width:600px) {
-      .doc-a4 { padding: 24px; }
+      .doc-a4 { padding: 20px; }
       .info-grid { grid-template-columns: 1fr; }
       .assinaturas { grid-template-columns: 1fr; gap: 24px; }
     }

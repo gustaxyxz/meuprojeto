@@ -1,4 +1,4 @@
-﻿<?php include "includes/header.php"; ?>
+<?php include "includes/header.php"; ?>
 
 <style>
 /* ── Variáveis do site ─────────────────── */
@@ -127,6 +127,9 @@
 .option-card:hover  { border-color: #555; box-shadow: 0 4px 16px rgba(0,0,0,.1); transform: translateY(-3px); }
 .option-card.selected { border-color: var(--amarelo); background: #fffbea; box-shadow: 0 4px 16px rgba(255,193,7,.2); }
 .option-card img { width: 100%; height: 85px; object-fit: contain; border-radius: 6px; margin-bottom: .5rem; background: #f8f9fa; }
+.option-card .card-svg { width: 100%; height: 85px; display: flex; align-items: center; justify-content: center; margin-bottom: .5rem; }
+.option-card .card-svg svg { width: 100%; height: 80px; }
+.option-card.selected .card-svg svg { stroke: #b38600; }
 .option-card .card-icon { font-size: 2rem; display: block; margin-bottom: .4rem; }
 .option-card .card-name { font-weight: 700; font-size: .88rem; color: #111; margin-bottom: .2rem; }
 .option-card .card-desc { font-size: .72rem; color: #777; line-height: 1.3; }
@@ -290,30 +293,103 @@
           <div class="step-title"><i class="bi bi-triangle me-2"></i>Tipo de Estrutura / Tesoura</div>
           <div class="step-subtitle">O formato do telhado define resistência, estética e custo da obra.</div>
           <div class="option-grid">
+            <!-- Duas Águas -->
             <div class="option-card" data-group="tesoura" data-val="duas_aguas" onclick="selectCard(this,'tesoura')">
               <div class="check-badge">✓</div>
-              <img src="assets/img/duas_aguas.png" alt="Duas Águas" onerror="this.style.display='none'">
+              <div class="card-svg">
+                <svg viewBox="0 0 120 60" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <!-- telhado duas águas -->
+                  <line x1="10" y1="45" x2="60" y2="12" />
+                  <line x1="110" y1="45" x2="60" y2="12" />
+                  <!-- paredes -->
+                  <line x1="10" y1="45" x2="10" y2="52" />
+                  <line x1="110" y1="45" x2="110" y2="52" />
+                  <!-- base -->
+                  <line x1="10" y1="52" x2="110" y2="52" />
+                  <!-- tirante horizontal -->
+                  <line x1="10" y1="45" x2="110" y2="45" stroke-dasharray="4 2" stroke="#aaa" />
+                  <!-- montante central -->
+                  <line x1="60" y1="12" x2="60" y2="45" stroke="#aaa" />
+                  <!-- diagonais (treliça) -->
+                  <line x1="35" y1="45" x2="60" y2="12" stroke="#bbb" stroke-width="1" />
+                  <line x1="85" y1="45" x2="60" y2="12" stroke="#bbb" stroke-width="1" />
+                </svg>
+              </div>
               <div class="card-name">Duas Águas</div>
               <div class="card-desc">Modelo clássico e simétrico. Ideal para galpões industriais e armazéns.</div>
               <div class="card-price">Referência base</div>
             </div>
+            <!-- Uma Água -->
             <div class="option-card" data-group="tesoura" data-val="uma_agua" onclick="selectCard(this,'tesoura')">
               <div class="check-badge">✓</div>
-              <img src="assets/img/uma_agua.png" alt="Uma Água" onerror="this.style.display='none'">
+              <div class="card-svg">
+                <svg viewBox="0 0 120 60" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <!-- telhado uma água -->
+                  <line x1="10" y1="48" x2="110" y2="16" />
+                  <!-- paredes -->
+                  <line x1="10" y1="48" x2="10" y2="54" />
+                  <line x1="110" y1="16" x2="110" y2="54" />
+                  <!-- base -->
+                  <line x1="10" y1="54" x2="110" y2="54" />
+                  <!-- montante e diagonais (treliça) -->
+                  <line x1="10" y1="48" x2="110" y2="16" stroke-dasharray="4 2" stroke="#aaa" />
+                  <line x1="60" y1="32" x2="60" y2="54" stroke="#aaa" />
+                  <line x1="10" y1="48" x2="60" y2="54" stroke="#bbb" stroke-width="1" />
+                  <line x1="60" y1="32" x2="110" y2="54" stroke="#bbb" stroke-width="1" />
+                </svg>
+              </div>
               <div class="card-name">Uma Água</div>
               <div class="card-desc">Uma só inclinação. Ótimo para laterais de muro, garagens e coberturas simples.</div>
               <div class="card-price">~35% mais econômico</div>
             </div>
+            <!-- Arco Abaulado -->
             <div class="option-card" data-group="tesoura" data-val="arco_abaulado" onclick="selectCard(this,'tesoura')">
               <div class="check-badge">✓</div>
-              <img src="assets/img/arco_abaulado.png" alt="Arco Abaulado" onerror="this.style.display='none'">
+              <div class="card-svg">
+                <svg viewBox="0 0 120 65" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <!-- arco abaulado (bezier) -->
+                  <path d="M10 50 Q30 8 60 8 Q90 8 110 50" />
+                  <!-- paredes -->
+                  <line x1="10" y1="50" x2="10" y2="56" />
+                  <line x1="110" y1="50" x2="110" y2="56" />
+                  <!-- base -->
+                  <line x1="10" y1="56" x2="110" y2="56" />
+                  <!-- montante central -->
+                  <line x1="60" y1="8" x2="60" y2="50" stroke="#aaa" />
+                  <!-- tirante -->
+                  <line x1="10" y1="50" x2="110" y2="50" stroke-dasharray="4 2" stroke="#aaa" />
+                  <!-- diagonais -->
+                  <line x1="35" y1="50" x2="60" y2="8" stroke="#bbb" stroke-width="1" />
+                  <line x1="85" y1="50" x2="60" y2="8" stroke="#bbb" stroke-width="1" />
+                </svg>
+              </div>
               <div class="card-name">Arco Abaulado</div>
               <div class="card-desc">Curvado e elegante. Alta resistência ao vento. Muito usado em igrejas e salões.</div>
               <div class="card-price">~35% adicional</div>
             </div>
+            <!-- Scissor -->
             <div class="option-card" data-group="tesoura" data-val="scissor" onclick="selectCard(this,'tesoura')">
               <div class="check-badge">✓</div>
-              <img src="assets/img/scissor.png" alt="Scissor" onerror="this.style.display='none'">
+              <div class="card-svg">
+                <svg viewBox="0 0 120 65" fill="none" stroke="#333" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Scissor truss: banzo superior duas águas -->
+                  <line x1="10" y1="50" x2="60" y2="12" />
+                  <line x1="110" y1="50" x2="60" y2="12" />
+                  <!-- banzo inferior cruzado (scissor) -->
+                  <line x1="10" y1="50" x2="60" y2="32" />
+                  <line x1="110" y1="50" x2="60" y2="32" />
+                  <!-- paredes -->
+                  <line x1="10" y1="50" x2="10" y2="56" />
+                  <line x1="110" y1="50" x2="110" y2="56" />
+                  <!-- base -->
+                  <line x1="10" y1="56" x2="110" y2="56" />
+                  <!-- montante central -->
+                  <line x1="60" y1="12" x2="60" y2="32" stroke="#aaa" />
+                  <!-- cruzamentos X -->
+                  <line x1="35" y1="41" x2="60" y2="32" stroke="#bbb" stroke-width="1.5" />
+                  <line x1="85" y1="41" x2="60" y2="32" stroke="#bbb" stroke-width="1.5" />
+                </svg>
+              </div>
               <div class="card-name">Scissor (Tesoura X)</div>
               <div class="card-desc">Pé-direito alto no centro. Efeito visual impressionante para showrooms e eventos.</div>
               <div class="card-price">~50% adicional</div>

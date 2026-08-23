@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="navbar-brand d-flex align-items-center gap-2" href="index.php">
-            <img src="assets/imagens/logo_mo.png" alt="Metalúrgica Oliveira" height="36" class="bg-white rounded px-2 py-1 shadow-sm" style="object-fit:contain">
+            <img src="assets/imagens/logo_mo.png" alt="Metalúrgica Oliveira" style="height:40px;width:auto;display:block;object-fit:contain;">
             <span class="d-none d-sm-inline-block text-white fw-bold text-start" style="font-size:0.85rem;line-height:1.15;letter-spacing:0.02em;text-transform:uppercase">
                 Metalúrgica<br><span style="color:#ffc107">Oliveira</span>
             </span>
