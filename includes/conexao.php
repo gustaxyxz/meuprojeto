@@ -8,6 +8,8 @@ $configs = [
     ['host' => '192.168.56.20', 'banco' => 'metalurgica_oliveira', 'usuario' => 'admin', 'senha' => '12345'],
 ];
 
+// Conexao tolerante a falhas. Como o projeto agora utiliza Supabase no frontend,
+// caso o MySQL nao esteja rodando, nao interrompe o carregamento da pagina com die().
 $pdo = null;
 foreach ($configs as $cfg) {
     try {
@@ -15,16 +17,12 @@ foreach ($configs as $cfg) {
             "mysql:host={$cfg['host']};dbname={$cfg['banco']};charset=utf8mb4",
             $cfg['usuario'],
             $cfg['senha'],
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_TIMEOUT => 2]
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT, PDO::ATTR_TIMEOUT => 1]
         );
-        break; // conectou, sai do loop
-    } catch (PDOException $e) {
+        break;
+    } catch (Throwable $e) {
         $pdo = null;
     }
 }
-
-if ($pdo === null) {
-    die("Erro ao conectar com o banco de dados. Verifique se o MySQL está rodando no Laragon.");
-}
-
+// Se pdo for null, o frontend carrega normalmente via Supabase.
 ?>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Gerador de Proposta — Metalúrgica Oliveira</title>
+<title id="pageTitle">Orçamento 0142/2026 - Metalúrgica Oliveira</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -125,7 +125,7 @@
 
     aside#sidebarForm {
       width: 100% !important;
-      height: calc(100vh - 56px) !important;
+      height: calc(100vh - 54px) !important;
       border-right: none !important;
     }
 
@@ -135,9 +135,11 @@
 
     main#mainPreview {
       width: 100% !important;
-      height: calc(100vh - 56px) !important;
-      padding: 16px 8px 30px !important;
+      height: calc(100vh - 54px) !important;
+      padding: 16px 4px 40px !important;
       overflow-x: auto !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
     }
 
     main#mainPreview.hidden-mobile {
@@ -147,30 +149,48 @@
     .preview-scaler {
       display: flex;
       justify-content: center;
+      align-items: flex-start;
       width: 100%;
-      overflow: visible;
+      min-height: 100%;
     }
 
     .doc-page {
       transform-origin: top center;
       transform: scale(0.46);
       margin-bottom: -150mm;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.15) !important;
     }
 
-    @media (min-width: 400px) and (max-width: 500px) {
+    /* Otimizado para iPhone 15 (393px) e Samsung S24 (360-412px) */
+    @media (min-width: 360px) and (max-width: 430px) {
       .doc-page {
-        transform: scale(0.52);
-        margin-bottom: -130mm;
+        transform: scale(0.48);
+        margin-bottom: -142mm;
       }
     }
 
-    @media (min-width: 501px) and (max-width: 768px) {
+    @media (min-width: 431px) and (max-width: 550px) {
       .doc-page {
-        transform: scale(0.7);
-        margin-bottom: -80mm;
+        transform: scale(0.55);
+        margin-bottom: -120mm;
       }
     }
+
+    @media (min-width: 551px) and (max-width: 768px) {
+      .doc-page {
+        transform: scale(0.72);
+        margin-bottom: -75mm;
+      }
+    }
+  }
+
+  /* Barra de rolagem suave para os chips */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   @media screen and (min-width: 769px) {
@@ -204,7 +224,7 @@
       <i data-lucide="eye" class="w-3.5 h-3.5"></i> Prévia PDF
     </button>
   </div>
-  <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-black px-3 py-1.5 rounded-lg text-xs font-extrabold transition flex items-center gap-1.5 shadow">
+  <button onclick="triggerPrint()" class="bg-amber-500 hover:bg-amber-600 text-black px-3 py-1.5 rounded-lg text-xs font-extrabold transition flex items-center gap-1.5 shadow">
     <i data-lucide="printer" class="w-3.5 h-3.5"></i> Imprimir
   </button>
 </div>
@@ -213,11 +233,14 @@
 <aside id="sidebarForm" class="w-[430px] flex-shrink-0 bg-white border-r border-slate-200 shadow-lg flex flex-col h-full no-print z-10 relative">
   <div class="bg-[#111111] text-white p-4 flex justify-between items-center shadow-md shrink-0">
     <div class="font-bold flex items-center gap-2.5">
-      <img src="assets/imagens/logo_mo.png" alt="MO" style="height:32px;width:auto;object-fit:contain;" onerror="this.style.display='none'">
-      <span>Gerador de Proposta <span class="text-amber-500">PRO</span></span>
+      <img src="assets/imagens/logo_mo.png" alt="MO" class="rounded-full bg-neutral-800 p-0.5 border border-neutral-700" style="height:32px;width:32px;object-fit:cover;" onerror="this.style.display='none'">
+      <div class="flex flex-col text-start leading-none">
+        <span class="font-extrabold text-sm tracking-tight">CRM Oliveira <span class="text-amber-500">PRO</span></span>
+        <span class="text-[9.5px] text-neutral-400 font-semibold tracking-wider uppercase mt-0.5">Gestor Comercial & Vendas</span>
+      </div>
     </div>
     <div class="flex gap-2">
-      <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-black px-3 py-1.5 rounded-lg text-xs font-extrabold transition flex items-center gap-1.5 shadow">
+      <button onclick="triggerPrint()" class="bg-amber-500 hover:bg-amber-600 text-black px-3 py-1.5 rounded-lg text-xs font-extrabold transition flex items-center gap-1.5 shadow">
         <i data-lucide="printer" class="w-4 h-4"></i> Imprimir PDF
       </button>
     </div>
@@ -225,14 +248,32 @@
 
   <div class="overflow-y-auto p-4 md:p-5 flex flex-col gap-6 flex-1 pb-24">
     
+    <!-- Finalidade / Modelo do Documento -->
+    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-xs">
+      <label class="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <i data-lucide="file-check-2" class="w-4 h-4 text-amber-500"></i> Modelo do Documento
+      </label>
+      <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-200/80 rounded-lg">
+        <button type="button" id="btnTipoOrcamento" onclick="setDocTipo('orcamento')" class="py-2 px-2 rounded-md text-xs font-bold transition flex items-center justify-center gap-1.5 bg-white text-slate-900 shadow-sm border border-slate-300">
+          <i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-600"></i> Orçamento
+        </button>
+        <button type="button" id="btnTipoVenda" onclick="setDocTipo('venda')" class="py-2 px-2 rounded-md text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900">
+          <i data-lucide="handshake" class="w-3.5 h-3.5 text-emerald-600"></i> Pedido de Venda
+        </button>
+      </div>
+      <p class="text-[10.5px] text-slate-500 mt-2 leading-tight" id="descTipoDoc">
+        <strong>Modo Orçamento:</strong> Para cotações e propostas comerciais com prazo de validade.
+      </p>
+    </div>
+
     <!-- Meta -->
     <div>
       <h3 class="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4 text-amber-500"></i> Documento</h3>
       <div class="grid grid-cols-2 gap-3 mb-3">
-        <div><label class="block text-xs font-bold mb-1 text-slate-600">Nº Proposta</label><input type="text" id="fNum" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-amber-500 focus:outline-none" value="0142 / 2026" oninput="up()"></div>
+        <div><label class="block text-xs font-bold mb-1 text-slate-600" id="lblNumDoc">Nº Orçamento</label><input type="text" id="fNum" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-amber-500 focus:outline-none" value="0142 / 2026" oninput="up()"></div>
         <div><label class="block text-xs font-bold mb-1 text-slate-600">Data Emissão</label><input type="date" id="fData" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-amber-500 focus:outline-none" oninput="up()"></div>
       </div>
-      <div><label class="block text-xs font-bold mb-1 text-slate-600">Validade (dias)</label><input type="number" id="fVal" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-amber-500 focus:outline-none" value="15" oninput="up()"></div>
+      <div id="boxValidade"><label class="block text-xs font-bold mb-1 text-slate-600">Validade da Proposta (dias)</label><input type="number" id="fVal" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-amber-500 focus:outline-none" value="15" oninput="up()"></div>
     </div>
 
     <!-- Cliente -->
@@ -252,17 +293,70 @@
 
     <!-- Valores -->
     <div class="border-t border-slate-200 pt-5">
-      <h3 class="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="circle-dollar-sign" class="w-4 h-4 text-amber-500"></i> Valor Total</h3>
-      <div class="mb-3"><label class="block text-xs font-bold mb-1 text-slate-600">Valor do Fornecimento (R$)</label><input type="number" id="fTotal" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-amber-500 focus:outline-none font-bold text-slate-800" value="148500" step="100" oninput="up()"></div>
-      <div class="flex items-center gap-2">
-        <input type="checkbox" id="fMostrarExtenso" onchange="up()" class="w-4 h-4 cursor-pointer accent-amber-500" checked>
+      <h3 class="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="circle-dollar-sign" class="w-4 h-4 text-amber-500"></i> Valores & Condições</h3>
+      <div class="mb-3">
+        <label class="block text-xs font-bold mb-1 text-slate-600" id="lblTotalInput">Valor Total da Proposta (R$)</label>
+        <input type="number" id="fTotal" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:border-amber-500 focus:outline-none font-bold text-slate-800" value="148500" step="100" oninput="onTotalChange()">
+      </div>
+      
+      <div class="mb-3">
+        <label class="block text-[11px] font-bold mb-1 text-slate-600">Subtítulo do Valor no PDF (Opcional)</label>
+        <input type="text" id="fSubtituloValor" class="w-full border border-slate-300 rounded-lg p-2 text-xs focus:border-amber-500 focus:outline-none" value="" placeholder="Opcional: deixe em branco para ocultar" oninput="up()">
+      </div>
+
+      <div class="flex items-center gap-2 mb-3">
+        <input type="checkbox" id="fMostrarExtenso" onchange="up()" class="w-4 h-4 cursor-pointer accent-amber-500">
         <label for="fMostrarExtenso" class="text-xs font-bold text-slate-700 cursor-pointer">Exibir Valor por Extenso no PDF</label>
+      </div>
+
+      <!-- Card de Sinal / Recibo de Entrada (Ativado em Pedido de Venda) -->
+      <div id="sidebarBlocoSinal" class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-2.5" style="display:none;">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-900 flex items-center gap-1.5">
+            <i data-lucide="receipt" class="w-3.5 h-3.5 text-emerald-600"></i> Sinal / Recibo de Entrada
+          </span>
+          <div class="flex items-center gap-1.5">
+            <input type="checkbox" id="fMostrarRecibo" onchange="up()" class="w-3.5 h-3.5 cursor-pointer accent-emerald-600" checked>
+            <label for="fMostrarRecibo" class="text-[11px] font-bold text-slate-700 cursor-pointer">Exibir no PDF</label>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10.5px] font-bold text-slate-600 mb-0.5">Valor do Sinal (R$)</label>
+            <input type="number" id="fSinalValor" class="w-full border border-slate-300 rounded-lg p-1.5 text-xs bg-white focus:border-emerald-500 focus:outline-none font-bold text-emerald-800" value="74250" step="100" oninput="this.dataset.userEdited='true'; up()">
+          </div>
+          <div>
+            <label class="block text-[10.5px] font-bold text-slate-600 mb-0.5">Forma do Sinal</label>
+            <input type="text" id="fSinalForma" class="w-full border border-slate-300 rounded-lg p-1.5 text-xs bg-white focus:border-emerald-500 focus:outline-none" value="Via PIX na assinatura" oninput="up()">
+          </div>
+        </div>
+        <div>
+          <label class="block text-[10.5px] font-bold text-slate-600 mb-0.5">Condição do Saldo Restante</label>
+          <input type="text" id="fSaldoCondicao" class="w-full border border-slate-300 rounded-lg p-1.5 text-xs bg-white focus:border-emerald-500 focus:outline-none" value="Na entrega e conclusão da montagem" oninput="up()">
+        </div>
       </div>
     </div>
 
     <!-- Escopo (Itens) -->
     <div class="border-t border-slate-200 pt-5">
       <h3 class="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-3 flex items-center gap-2"><i data-lucide="list" class="w-4 h-4 text-amber-500"></i> Escopo do Fornecimento</h3>
+      
+      <!-- PRODUTOS PRÉ-DEFINIDOS (ESCOLHA RÁPIDA) -->
+      <div class="mb-4 bg-slate-900 text-white p-3 rounded-xl shadow-sm border border-neutral-800">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-amber-400">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> Produtos Pré-definidos
+          </div>
+          <button type="button" onclick="openPredefinedModal()" class="text-[11px] font-bold text-neutral-300 hover:text-white bg-neutral-800 hover:bg-neutral-700 px-2 py-1 rounded transition flex items-center gap-1">
+            <i data-lucide="settings-2" class="w-3 h-3"></i> Gerenciar
+          </button>
+        </div>
+        <p class="text-[10.5px] text-neutral-400 mb-2.5 leading-tight">Adicione produtos e serviços da Metalúrgica com 1 toque:</p>
+        <div id="quickChipsContainer" class="flex flex-wrap gap-1.5">
+          <!-- Injetado dinamicamente via JS -->
+        </div>
+      </div>
+
       <div class="flex items-center gap-2 mb-4 bg-amber-50 border border-amber-200 p-2.5 rounded-lg">
         <input type="checkbox" id="fMostrarPrecos" onchange="up()" class="w-4 h-4 cursor-pointer accent-amber-500">
         <label for="fMostrarPrecos" class="text-xs font-bold text-amber-800 cursor-pointer">Mostrar Preços Unitários no PDF</label>
@@ -361,7 +455,7 @@ Taxas, licenças e ART da obra civil</textarea>
         <button onclick="zap()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg p-2.5 text-xs font-bold transition flex justify-center items-center gap-1.5 shadow">
           <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
         </button>
-        <button onclick="window.print()" class="flex-1 bg-[#111111] hover:bg-neutral-800 text-white rounded-lg p-2.5 text-xs font-bold transition flex justify-center items-center gap-1.5 shadow">
+        <button onclick="triggerPrint()" class="flex-1 bg-[#111111] hover:bg-neutral-800 text-white rounded-lg p-2.5 text-xs font-bold transition flex justify-center items-center gap-1.5 shadow">
           <i data-lucide="printer" class="w-4 h-4"></i> Gerar PDF
         </button>
       </div>
@@ -380,7 +474,7 @@ Taxas, licenças e ART da obra civil</textarea>
       <!-- Header Integrado -->
       <header class="flex items-start justify-between border-b-[3px] border-doc-ink pb-4 shrink-0">
         <div class="flex items-center gap-3.5 min-w-0 flex-1 pr-2">
-          <img src="assets/imagens/logo_mo.png" alt="Metalúrgica Oliveira" style="height: 36px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
+          <img src="assets/imagens/logo_mo.png" alt="Metalúrgica Oliveira" style="height: 70px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
           <div class="min-w-0">
             <h1 class="text-[19px] font-black uppercase tracking-tight text-doc-ink leading-none">Metalúrgica Oliveira</h1>
             <p class="text-[11.5px] font-bold text-doc-soft mt-1">Fabricação e Venda de Estruturas Metálicas</p>
@@ -392,11 +486,12 @@ Taxas, licenças e ART da obra civil</textarea>
           </div>
         </div>
         
-        <div class="w-[58mm] rounded-xl bg-doc-ink px-4 py-3 text-right shadow-sm shrink-0">
-          <span class="block text-[11px] font-bold uppercase tracking-widest text-doc-mute">Orçamento Técnico</span>
-          <p class="mt-1 text-xl font-extrabold text-white" id="dNum">0142 / 2026</p>
-          <p class="mt-1 text-[11px] text-doc-mute font-medium" id="dEmit">Emissão 12/08/2026</p>
+        <div class="w-[58mm] rounded-xl bg-doc-ink px-3 py-3 text-center flex flex-col items-center justify-center shadow-sm shrink-0">
+          <span class="block text-[11.5px] font-black uppercase tracking-widest text-amber-400" id="dTipoDocBadge">Orçamento</span>
+          <p class="mt-1 text-xl font-extrabold text-white tracking-wide" id="dNum">0142 / 2026</p>
+          <p class="mt-1 text-[11px] text-doc-mute font-medium" id="dEmit">Emissão 17/09/2026</p>
           <p class="mt-0.5 text-[11px] font-bold text-doc-yellow" id="dVal">Válida por 15 dias</p>
+          <p class="mt-0.5 text-[10.5px] font-bold text-emerald-400" id="dStatusVenda" style="display:none;">✓ Venda Confirmada</p>
         </div>
       </header>
 
@@ -444,21 +539,47 @@ Taxas, licenças e ART da obra civil</textarea>
       <!-- Spacer flexível -->
       <div class="flex-1 min-h-[10px]"></div>
 
-      <!-- Valor Total (Design Elegante e Imponente em Preto e Dourado) -->
-      <div class="mt-5 rounded-xl bg-doc-ink px-5 py-4 shrink-0 shadow-md border border-neutral-800">
+      <!-- Valor Total (Limpo, Direto e Focado no Valor) -->
+      <div class="mt-5 rounded-xl bg-doc-ink px-6 py-4 shrink-0 shadow-md border border-neutral-800">
         <div class="flex items-center justify-between gap-4">
           <div>
-            <span class="block text-[10.5px] font-bold uppercase tracking-[0.18em] text-amber-400">Valor Total do Fornecimento</span>
-            <span class="block text-[10.5px] text-neutral-400 font-medium mt-0.5">Preço global acordado com material e execução</span>
+            <span class="block text-[11.5px] font-bold uppercase tracking-[0.18em] text-amber-400" id="dTotalTitulo">Valor Total</span>
+            <span class="block text-[11px] text-neutral-300 font-medium mt-0.5" id="dTotalSubtitulo" style="display: none;"></span>
           </div>
           <div class="text-right">
-            <p class="text-[25px] font-black leading-none text-doc-yellow tracking-tight" id="dTotalValor">R$ 148.500,00</p>
+            <p class="text-[28px] font-black leading-none text-doc-yellow tracking-tight" id="dTotalValor">R$ 148.500,00</p>
           </div>
         </div>
-        <div id="rowExtenso" class="mt-2.5 pt-2 border-t border-neutral-800 flex items-center justify-between text-[11px]">
-          <span class="font-bold uppercase tracking-widest text-neutral-400 text-[10px]">Por Extenso:</span>
-          <span class="font-bold text-neutral-200 uppercase tracking-wide truncate max-w-[80%]" id="dTotalExtenso">CENTO E QUARENTA E OITO MIL E QUINHENTOS REAIS</span>
+        <div id="rowExtenso" class="mt-2.5 pt-2 border-t border-neutral-800/80 flex items-center justify-between text-[11px]" style="display: none;">
+          <span class="text-[10px] text-neutral-400 font-medium">Por extenso:</span>
+          <span class="font-semibold text-neutral-300 italic text-right truncate max-w-[85%]" id="dTotalExtenso"></span>
         </div>
+      </div>
+
+      <!-- Card de Recibo / Confirmação de Sinal (Ativo no Pedido de Venda / Fechamento) -->
+      <div id="secaoReciboSinal" class="mt-4 rounded-xl border border-emerald-300 bg-emerald-50/50 px-4 py-3 shrink-0" style="display: none;">
+        <div class="flex items-center justify-between border-b border-emerald-200/80 pb-1.5 mb-2">
+          <div class="flex items-center gap-1.5 text-emerald-900 font-bold text-xs">
+            <i data-lucide="receipt" class="w-4 h-4 text-emerald-600"></i>
+            <span class="uppercase tracking-wider text-[10px] font-extrabold">Recibo de Sinal & Condições de Pagamento</span>
+          </div>
+          <span class="text-[9.5px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Venda Formalizada</span>
+        </div>
+        <div class="grid grid-cols-2 gap-4 text-xs">
+          <div>
+            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Entrada / Sinal Acordado</span>
+            <span class="text-[13px] font-extrabold text-emerald-800" id="dSinalValorView">R$ 74.250,00</span>
+            <span class="text-[10.5px] text-slate-600 font-medium block mt-0.5" id="dSinalFormaView">Via PIX na assinatura</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Saldo Restante</span>
+            <span class="text-[13px] font-extrabold text-slate-800" id="dSaldoValorView">R$ 74.250,00</span>
+            <span class="text-[10.5px] text-slate-600 font-medium block mt-0.5" id="dSaldoCondicaoView">Na entrega e conclusão da obra</span>
+          </div>
+        </div>
+        <p class="text-[10px] text-emerald-950 mt-2 pt-1.5 border-t border-emerald-200/60 leading-tight italic" id="dReciboTexto">
+          ✓ Declaramos o recebimento/acordo do sinal de entrada. Este pedido de venda firma o compromisso de fornecimento e execução entre as partes.
+        </p>
       </div>
 
       <!-- Cards Info -->
@@ -588,21 +709,27 @@ Taxas, licenças e ART da obra civil</textarea>
         </div>
       </div>
 
-      <!-- Aprovação -->
-      <div id="secaoAssinatura" class="mt-6 shrink-0" style="display: none;">
-        <div class="mb-3 border-b border-doc-line pb-1">
-          <span class="block text-[10px] font-bold uppercase tracking-[0.16em] text-doc-ink">Aprovação</span>
+      <!-- Aprovação e Assinaturas (Formalização do Acordo) -->
+      <div id="secaoAssinatura" class="mt-5 shrink-0" style="display: none;">
+        <div class="mb-2 border-b border-doc-line pb-1 flex items-center justify-between">
+          <span class="block text-[10px] font-bold uppercase tracking-[0.16em] text-doc-ink" id="dAssTitulo">Formalização & Assinaturas</span>
+          <span class="text-[9.5px] text-doc-soft font-medium" id="dAssSubtitulo">Vias de igual teor e forma</span>
         </div>
-        <div class="mt-8 grid grid-cols-2 gap-10">
+        <p class="text-[10.5px] text-doc-soft mb-5 leading-tight" id="dAssTermo">
+          As partes confirmam a contratação e concordância com os itens, valores, prazos e condições detalhados neste documento.
+        </p>
+        <div class="grid grid-cols-2 gap-8 text-center">
           <div>
-            <div class="border-t border-doc-ink"></div>
-            <p class="mt-1.5 text-[11.8px] font-bold" id="dAssCliente">Cliente</p>
-            <p class="text-[10.5px] text-doc-soft">Nome / CNPJ · Data</p>
+            <div class="border-t border-doc-ink pt-1.5">
+              <p class="text-[11.5px] font-bold text-doc-ink leading-tight" id="dAssCliente">Construtora Exemplo Ltda.</p>
+              <p class="text-[10px] text-doc-soft uppercase tracking-wider mt-0.5">Contratante / Cliente</p>
+            </div>
           </div>
           <div>
-            <div class="border-t border-doc-ink"></div>
-            <p class="mt-1.5 text-[11.8px] font-bold">Metalúrgica Oliveira</p>
-            <p class="text-[10.5px] text-doc-soft">Responsável · Data</p>
+            <div class="border-t border-doc-ink pt-1.5">
+              <p class="text-[11.5px] font-bold text-doc-ink leading-tight">Metalúrgica Oliveira</p>
+              <p class="text-[10px] text-doc-soft uppercase tracking-wider mt-0.5">Contratada &middot; CNPJ 46.401.359/0001-71</p>
+            </div>
           </div>
         </div>
       </div>
@@ -708,28 +835,151 @@ const fd = (dateStr) => {
 };
 const money = (val) => "R$ " + parseFloat(val || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
+let currentDocTipo = 'orcamento'; // 'orcamento' ou 'venda'
+
+function setDocTipo(tipo) {
+  currentDocTipo = tipo;
+  const isVenda = tipo === 'venda';
+  
+  const btnOrc = document.getElementById('btnTipoOrcamento');
+  const btnVen = document.getElementById('btnTipoVenda');
+  const desc = document.getElementById('descTipoDoc');
+  const lblNum = document.getElementById('lblNumDoc');
+  const lblTotal = document.getElementById('lblTotalInput');
+  const boxValidade = document.getElementById('boxValidade');
+  const blocoSinal = document.getElementById('sidebarBlocoSinal');
+  const fSubtitulo = document.getElementById('fSubtituloValor');
+  const chkAssinatura = document.getElementById('fMostrarAssinatura');
+
+  if (isVenda) {
+    if (btnVen) btnVen.className = 'py-2 px-2 rounded-md text-xs font-bold transition flex items-center justify-center gap-1.5 bg-white text-slate-900 shadow-sm border border-slate-300';
+    if (btnOrc) btnOrc.className = 'py-2 px-2 rounded-md text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900';
+    if (desc) desc.innerHTML = '<strong>Modo Pedido de Venda:</strong> Ideal para formalizar o fechamento ("colocar no papel"), com recibo de sinal e assinaturas de contrato.';
+    if (lblNum) lblNum.textContent = 'Nº do Pedido de Venda';
+    if (lblTotal) lblTotal.textContent = 'Valor Total Contratado (R$)';
+    if (boxValidade) boxValidade.style.display = 'none';
+    if (blocoSinal) blocoSinal.style.display = '';
+    
+    
+    
+    if (chkAssinatura) chkAssinatura.checked = true;
+  } else {
+    if (btnOrc) btnOrc.className = 'py-2 px-2 rounded-md text-xs font-bold transition flex items-center justify-center gap-1.5 bg-white text-slate-900 shadow-sm border border-slate-300';
+    if (btnVen) btnVen.className = 'py-2 px-2 rounded-md text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900';
+    if (desc) desc.innerHTML = '<strong>Modo Orçamento:</strong> Para cotações e propostas comerciais com prazo de validade.';
+    if (lblNum) lblNum.textContent = 'Nº do Orçamento';
+    if (lblTotal) lblTotal.textContent = 'Valor Total da Proposta (R$)';
+    if (boxValidade) boxValidade.style.display = '';
+    if (blocoSinal) blocoSinal.style.display = 'none';
+
+    
+  }
+
+  up();
+}
+
+function formatarExtensoBonito(texto) {
+  if (!texto) return '';
+  const trimmed = texto.trim().toLowerCase();
+  return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+}
+
+function onTotalChange() {
+  const total = parseFloat(g("fTotal")) || 0;
+  const fSinal = document.getElementById("fSinalValor");
+  if (fSinal && (!fSinal.dataset.userEdited || fSinal.dataset.userEdited === 'false')) {
+    fSinal.value = (total / 2).toFixed(2);
+  }
+  up();
+}
+
+function getSanitizedFileName() {
+  const isVenda = currentDocTipo === 'venda';
+  const prefixo = isVenda ? 'Pedido_Venda' : 'Orcamento';
+  
+  let rawNum = g('fNum') || '01';
+  let cleanNum = rawNum
+    .replace(/[^\w\d-]/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^_|_$/g, '');
+  if (!cleanNum) cleanNum = '01';
+
+  let rawCliente = g('fCliente') || '';
+  let cleanCliente = rawCliente
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\d\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '_')
+    .substring(0, 30);
+
+  if (cleanCliente) {
+    return `${prefixo}_${cleanNum}_Metalurgica_Oliveira_${cleanCliente}`;
+  } else {
+    return `${prefixo}_${cleanNum}_Metalurgica_Oliveira`;
+  }
+}
+
+function updateBrowserTitle() {
+  const isVenda = currentDocTipo === 'venda';
+  const tipoStr = isVenda ? 'Pedido de Venda' : 'Orçamento';
+  const num = g('fNum') || '';
+  const cliente = g('fCliente') || '';
+  const title = `${tipoStr} ${num} - Metalúrgica Oliveira${cliente ? ' | ' + cliente : ''}`;
+  document.title = title;
+  const el = document.getElementById('pageTitle');
+  if (el) el.textContent = title;
+}
+
+function triggerPrint() {
+  const fileName = getSanitizedFileName();
+  document.title = fileName;
+  window.print();
+  setTimeout(updateBrowserTitle, 1200);
+}
+
+window.addEventListener('beforeprint', () => {
+  document.title = getSanitizedFileName();
+});
+
+window.addEventListener('afterprint', () => {
+  setTimeout(updateBrowserTitle, 500);
+});
+
 function up() {
-  const num = g("fNum") || "—";
+  const num = g("fNum") || "-";
   const data = g("fData");
   const val = g("fVal");
+  const isVenda = currentDocTipo === 'venda';
   
   s("dNum", num);
   s("dEmit", "Emissão " + fd(data));
   
   function toggleRow(id, val) { const el = document.getElementById(id); if(el) el.style.display = val ? '' : 'none'; };
   
-  if (val) {
-    s("dVal", "Válida por " + val + " dias");
-    toggleRow("dVal", true);
-    s("dCondVal", val);
-    toggleRow("rowCondVal", true);
-  } else {
-    toggleRow("dVal", false);
+  // Header Badge (Orçamento vs Venda)
+  s("dTipoDocBadge", isVenda ? "Pedido de Venda" : "Orçamento");
+  const dStatusVenda = document.getElementById("dStatusVenda");
+  const dValEl = document.getElementById("dVal");
+
+  if (isVenda) {
+    if (dValEl) dValEl.style.display = 'none';
+    if (dStatusVenda) dStatusVenda.style.display = '';
     toggleRow("rowCondVal", false);
+  } else {
+    if (dStatusVenda) dStatusVenda.style.display = 'none';
+    if (val) {
+      s("dVal", "Válida por " + val + " dias");
+      if (dValEl) dValEl.style.display = '';
+      s("dCondVal", val);
+      toggleRow("rowCondVal", true);
+    } else {
+      if (dValEl) dValEl.style.display = 'none';
+      toggleRow("rowCondVal", false);
+    }
   }
 
-  s("dCliente", g("fCliente") || "—");
-  s("dAssCliente", g("fCliente") || "Cliente");
+  s("dCliente", g("fCliente") || "-");
+  s("dAssCliente", g("fCliente") || (isVenda ? "Contratante / Cliente" : "Cliente"));
   s("dDocClienteView", g("fDocCliente") || "Não informado");
   
   s("dContato", g("fContato"));
@@ -741,7 +991,7 @@ function up() {
   toggleRow("rowDocCliente", g("fDocCliente"));
   toggleRow("rowCliente", g("fCliente"));
   
-  s("dItemPrincipal", g("fItemPrincipal") || "Escopo do fornecimento");
+  s("dItemPrincipal", g("fItemPrincipal") || (isVenda ? "Objeto do Contrato & Fornecimento" : "Escopo do fornecimento"));
 
   const fMostrarObs = document.getElementById("fMostrarObs");
   if (fMostrarObs) toggleRow("secaoObs", fMostrarObs.checked);
@@ -756,8 +1006,16 @@ function up() {
   const fMostrarPassos = document.getElementById("fMostrarPassos");
   if (fMostrarPassos) toggleRow("secaoPassos", fMostrarPassos.checked);
   
+  // Assinaturas
   const fMostrarAssinatura = document.getElementById("fMostrarAssinatura");
   if (fMostrarAssinatura) toggleRow("secaoAssinatura", fMostrarAssinatura.checked);
+  if (isVenda) {
+    s("dAssTitulo", "Formalização do Pedido de Venda");
+    s("dAssTermo", "As partes confirmam a contratação e pleno acordo com os itens, valores, prazos e condições especificados neste instrumento, autorizando a execução.");
+  } else {
+    s("dAssTitulo", "Formalização & Assinaturas");
+    s("dAssTermo", "De acordo com os itens, valores, prazos e condições técnicas detalhados nesta proposta comercial.");
+  }
 
   // Incluso / Não Incluso Inteligente
   const vInc = g("fInc").trim();
@@ -787,22 +1045,55 @@ function up() {
     }
   }
 
-  // Valor Total e Extenso
+  // Valor Total e Extenso (Design Limpo e Elegante)
   const total = parseFloat(g("fTotal")) || 0;
   s("dTotalValor", money(total));
+  s("dTotalTitulo", isVenda ? "Valor Total do Pedido" : "Valor Total");
+
+  const subVal = (document.getElementById("fSubtituloValor") ? document.getElementById("fSubtituloValor").value : '').trim();
+  const dSub = document.getElementById("dTotalSubtitulo");
+  if (dSub) {
+    if (subVal) {
+      dSub.textContent = subVal;
+      dSub.style.display = '';
+    } else {
+      dSub.style.display = 'none';
+    }
+  }
   
   const fMostrarExtenso = document.getElementById("fMostrarExtenso");
-  const mostrarExtenso = fMostrarExtenso ? fMostrarExtenso.checked : true;
-  toggleRow("rowExtenso", mostrarExtenso && total > 0);
+  const mostrarExtenso = fMostrarExtenso ? fMostrarExtenso.checked : false;
 
+  let extensoTexto = "";
   try {
     if (window.extenso && total > 0) {
-       const extensoText = extenso(total.toString(), { mode: 'currency' });
-       s("dTotalExtenso", extensoText.toUpperCase());
-    } else {
-       s("dTotalExtenso", "PREÇO GLOBAL ACORDADO");
+      const bruto = extenso(total.toString(), { mode: 'currency' });
+      extensoTexto = "(" + formatarExtensoBonito(bruto) + ")";
     }
-  } catch(e) { s("dTotalExtenso", "PREÇO GLOBAL ACORDADO"); }
+  } catch(e) {
+    extensoTexto = "";
+  }
+  s("dTotalExtenso", extensoTexto);
+  toggleRow("rowExtenso", mostrarExtenso && total > 0 && extensoTexto !== "");
+
+  // Card de Recibo / Sinal (Modo Venda / Fechamento)
+  const secaoRecibo = document.getElementById("secaoReciboSinal");
+  const chkRecibo = document.getElementById("fMostrarRecibo");
+  const mostrarRecibo = chkRecibo ? chkRecibo.checked : isVenda;
+
+  if (secaoRecibo) {
+    if (isVenda && mostrarRecibo && total > 0) {
+      secaoRecibo.style.display = '';
+      const vSinal = parseFloat(g("fSinalValor")) || (total / 2);
+      const vSaldo = Math.max(0, total - vSinal);
+      s("dSinalValorView", money(vSinal));
+      s("dSinalFormaView", g("fSinalForma") || "Via PIX na assinatura");
+      s("dSaldoValorView", money(vSaldo));
+      s("dSaldoCondicaoView", g("fSaldoCondicao") || "Na entrega e conclusão da obra");
+    } else {
+      secaoRecibo.style.display = 'none';
+    }
+  }
 
   s("dPgto1", g("fPgto1")); s("dPgto2", g("fPgto2"));
   toggleRow("cardPgto", g("fPgto1") || g("fPgto2"));
@@ -876,6 +1167,7 @@ function up() {
     });
   }
 
+  updateBrowserTitle();
   lucide.createIcons();
 }
 
@@ -883,11 +1175,310 @@ function zap() {
   const fTel = g("fTelSend");
   let telOnly = fTel.match(/\d+/g);
   telOnly = telOnly ? telOnly.join('') : "";
-  const msg = `Olá! Tudo bem?\n\nSegue o resumo da nossa Proposta Comercial (Nº ${g("fNum")}):\n\n*Valor Total:* ${money(g("fTotal"))}\n*Prazo:* ${g("fPrazo1")} ${g("fPrazo2")}\n\nO PDF completo com os detalhes de projeto e materiais pode ser gerado e enviado.\n\nFico no aguardo, Metalúrgica Oliveira.`;
+  const isVenda = currentDocTipo === 'venda';
+  const tipoDoc = isVenda ? 'Pedido de Venda & Contrato' : 'Orçamento Comercial';
+  
+  let msg = '';
+  if (isVenda) {
+    msg = `Olá! Tudo bem?\n\nSegue a confirmação do nosso *${tipoDoc} (Nº ${g("fNum")})*:\n\n*Item:* ${g("fItemPrincipal")}\n*Valor Total:* ${money(g("fTotal"))}\n*Pagamento:* ${g("fPgto1")} | ${g("fPgto2")}\n*Prazo Acordado:* ${g("fPrazo1")} ${g("fPrazo2")}\n\nO documento formal em PDF para assinatura e arquivo pode ser gerado e enviado.\n\nAtenciosamente,\nMetalúrgica Oliveira.`;
+  } else {
+    msg = `Olá! Tudo bem?\n\nSegue o resumo da nossa Proposta Comercial / Orçamento (Nº ${g("fNum")}):\n\n*Item:* ${g("fItemPrincipal")}\n*Valor Total:* ${money(g("fTotal"))}\n*Prazo Estimado:* ${g("fPrazo1")} ${g("fPrazo2")}\n*Validade:* ${g("fVal")} dias\n\nO PDF completo com os detalhes de projeto e materiais pode ser gerado e enviado.\n\nFico no aguardo,\nMetalúrgica Oliveira.`;
+  }
   const url = `https://wa.me/${telOnly ? '55'+telOnly : ''}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 }
+// ============================================================
+// PRODUTOS PRÉ-DEFINIDOS (ESCOLHA RÁPIDA, ADICIONAR E REMOVER)
+// ============================================================
+const DEFAULT_PREDEFINED = [
+  {
+    id: "pred-1",
+    t: "Barracão em estrutura metálica",
+    d: "Área total de 240 m². Pé-direito de 5,00 m, vão livre sem pilar central.",
+    q: "1 un",
+    v: "85000"
+  },
+  {
+    id: "pred-2",
+    t: "Tesouras treliçadas",
+    d: "Vão de 12 m em perfil metálico, espaçamento de 5 m entre eixos.",
+    q: "5 un",
+    v: "4500"
+  },
+  {
+    id: "pred-3",
+    t: "Terças e travamentos",
+    d: "Perfil U enrijecido 150 × 60 × 20 × #2,25 mm, com correntes.",
+    q: "conj.",
+    v: "12000"
+  },
+  {
+    id: "pred-4",
+    t: "Tratamento e pintura anticorrosiva",
+    d: "Limpeza mecânica, fundo anticorrosivo zarcão e acabamento esmalte sintético.",
+    q: "240 m²",
+    v: "40"
+  },
+  {
+    id: "pred-5",
+    t: "Montagem no local com içamento",
+    d: "Mão de obra especializada, equipamentos e içamento de segurança inclusos.",
+    q: "serviço",
+    v: "18500"
+  },
+  {
+    id: "pred-6",
+    t: "Galpão Metálico 10x20m (200 m²)",
+    d: "Pé-direito 5,00m, tesouras duas águas, terças enrijecidas e pintura.",
+    q: "1 un",
+    v: "72000"
+  },
+  {
+    id: "pred-7",
+    t: "Portão Basculante Industrial",
+    d: "Estrutura tubular reforçada, caixa de contrapeso blindada e chapa frisada.",
+    q: "1 un",
+    v: "6500"
+  },
+  {
+    id: "pred-8",
+    t: "Mezanino Metálico Carga Pesada",
+    d: "Vigas I estruturais laminadas, capacidade 500 kg/m², para piso wall.",
+    q: "1 m²",
+    v: "380"
+  },
+  {
+    id: "pred-9",
+    t: "Telha Sanduíche Termoacústica EPS 30mm",
+    d: "Telha + EPS 30mm + Telha Galvalume TP-40, redução térmica e acústica.",
+    q: "1 m²",
+    v: "115"
+  }
+];
 
+let predefinedProducts = [];
+
+function loadPredefined() {
+  try {
+    const saved = localStorage.getItem('oliveira_crm_predefined_v1');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        predefinedProducts = parsed;
+        renderPredefined();
+        return;
+      }
+    }
+  } catch(e) {}
+  predefinedProducts = JSON.parse(JSON.stringify(DEFAULT_PREDEFINED));
+  savePredefined();
+  renderPredefined();
+}
+
+function savePredefined() {
+  try {
+    localStorage.setItem('oliveira_crm_predefined_v1', JSON.stringify(predefinedProducts));
+  } catch(e) {}
+}
+
+function resetPredefinedProducts() {
+  if (!confirm('Deseja restaurar a lista de produtos pré-definidos padrão de fábrica?')) return;
+  predefinedProducts = JSON.parse(JSON.stringify(DEFAULT_PREDEFINED));
+  savePredefined();
+  renderPredefined();
+  showAppToast('Produtos padrão restaurados!');
+}
+
+function openPredefinedModal() {
+  const modal = document.getElementById('modalPredefined');
+  if (modal) {
+    modal.classList.remove('hidden');
+    const search = document.getElementById('searchPredefined');
+    if (search) search.value = '';
+    renderPredefinedList();
+    setTimeout(() => { if (search) search.focus(); }, 100);
+  }
+}
+
+function closePredefinedModal() {
+  const modal = document.getElementById('modalPredefined');
+  if (modal) modal.classList.add('hidden');
+  toggleNewProductForm(false);
+}
+
+function toggleNewProductForm(show) {
+  const form = document.getElementById('formNewProduct');
+  if (!form) return;
+  if (show === undefined) {
+    form.classList.toggle('hidden');
+  } else if (show) {
+    form.classList.remove('hidden');
+  } else {
+    form.classList.add('hidden');
+  }
+}
+
+function saveNewPredefinedProduct() {
+  const title = document.getElementById('newProdTitle')?.value.trim();
+  const desc = document.getElementById('newProdDesc')?.value.trim();
+  const qtd = document.getElementById('newProdQtd')?.value.trim() || '1 un';
+  const price = document.getElementById('newProdPrice')?.value.trim() || '';
+
+  if (!title) {
+    alert('Informe ao menos o título do produto!');
+    return;
+  }
+
+  const newProd = {
+    id: 'prod-' + Date.now(),
+    t: title,
+    d: desc,
+    q: qtd,
+    v: price
+  };
+
+  predefinedProducts.unshift(newProd);
+  savePredefined();
+  toggleNewProductForm(false);
+  document.getElementById('newProdTitle').value = '';
+  document.getElementById('newProdDesc').value = '';
+  document.getElementById('newProdPrice').value = '';
+  renderPredefined();
+  showAppToast(`"${title}" salvo nos pré-definidos!`);
+}
+
+function removePredefinedProduct(id, e) {
+  if (e) e.stopPropagation();
+  const item = predefinedProducts.find(p => p.id === id);
+  const name = item ? item.t : 'este produto';
+  if (!confirm(`Remover "${name}" dos produtos pré-definidos?`)) return;
+
+  predefinedProducts = predefinedProducts.filter(p => p.id !== id);
+  savePredefined();
+  renderPredefined();
+  showAppToast('Produto removido dos pré-definidos!');
+}
+
+function addPredefinedToDoc(id) {
+  const prod = predefinedProducts.find(p => p.id === id);
+  if (!prod) return;
+
+  // Se o primeiro item estiver vazio, substitui
+  if (items.length === 1 && !items[0].t && !items[0].d && !items[0].v) {
+    items[0] = { t: prod.t, d: prod.d, q: prod.q, v: prod.v };
+  } else {
+    items.push({ t: prod.t, d: prod.d, q: prod.q, v: prod.v });
+  }
+
+  renderItemsForm();
+  calcAutoTotal();
+  up();
+  showAppToast(`"${prod.t}" adicionado ao orçamento!`);
+}
+
+function renderPredefined() {
+  renderQuickChips();
+  renderPredefinedList();
+}
+
+function renderQuickChips() {
+  const container = document.getElementById('quickChipsContainer');
+  if (!container) return;
+  // Exibe os primeiros 5 produtos como botões rápidos de 1 toque
+  const quickItems = predefinedProducts.slice(0, 6);
+  container.innerHTML = quickItems.map(p => `
+    <button type="button" onclick="addPredefinedToDoc('${p.id}')"
+      class="text-[10.5px] font-bold bg-neutral-800 hover:bg-amber-500 hover:text-black text-neutral-200 px-2.5 py-1 rounded-md transition flex items-center gap-1 active:scale-95 border border-neutral-700">
+      <i data-lucide="plus" class="w-3 h-3 text-amber-400"></i> ${p.t.split(' ')[0]} ${p.t.split(' ')[1] || ''}
+    </button>
+  `).join('');
+  lucide.createIcons();
+}
+
+function renderPredefinedList() {
+  const container = document.getElementById('predefinedListContainer');
+  if (!container) return;
+
+  const searchInput = document.getElementById('searchPredefined');
+  const term = (searchInput ? searchInput.value : '').toLowerCase().trim();
+
+  const filtered = predefinedProducts.filter(p => {
+    return !term || p.t.toLowerCase().includes(term) || (p.d && p.d.toLowerCase().includes(term));
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="py-8 text-center text-slate-400 text-xs">
+        <p class="font-bold text-slate-600">Nenhum produto encontrado</p>
+        <p class="mt-1">Cadastre um novo produto usando o botão acima.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => `
+    <div class="py-2.5 px-2 hover:bg-amber-50/50 rounded-xl transition flex items-center justify-between gap-3 group">
+      <div class="min-w-0 flex-1">
+        <h4 class="text-xs font-bold text-slate-900 group-hover:text-amber-800 truncate">${p.t}</h4>
+        ${p.d ? `<p class="text-[11px] text-slate-500 mt-0.5 leading-snug line-clamp-1">${p.d}</p>` : ''}
+        <div class="mt-1 flex items-center gap-2 text-[10.5px] text-slate-500">
+          <span>Qtd: <strong>${p.q || '1 un'}</strong></span>
+          <span>•</span>
+          <span>Preço: <strong class="text-emerald-700 font-bold">${p.v ? money(p.v) : 'Sob Consulta'}</strong></span>
+        </div>
+      </div>
+      <div class="flex items-center gap-1 shrink-0">
+        <button type="button" onclick="addPredefinedToDoc('${p.id}')"
+          class="bg-amber-500 hover:bg-amber-600 text-black px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i> Inserir
+        </button>
+        <button type="button" onclick="removePredefinedProduct('${p.id}', event)"
+          title="Remover dos pré-definidos"
+          class="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  lucide.createIcons();
+}
+
+function calcAutoTotal() {
+  let soma = 0;
+  let temValor = false;
+  items.forEach(it => {
+    const v = parseFloat(it.v) || 0;
+    let q = parseFloat(String(it.q).replace(',', '.')) || 1;
+    if (isNaN(q) || q === 0) q = 1;
+    if (v > 0) {
+      soma += v * q;
+      temValor = true;
+    }
+  });
+  if (temValor && soma > 0) {
+    const totalEl = document.getElementById('fTotal');
+    if (totalEl) {
+      totalEl.value = soma.toFixed(2);
+      up();
+    }
+  }
+}
+
+function showAppToast(msg) {
+  const toast = document.getElementById('appToast');
+  const toastMsg = document.getElementById('appToastMsg');
+  if (!toast) return;
+  if (toastMsg) toastMsg.textContent = msg;
+  toast.classList.remove('translate-y-20', 'opacity-0');
+  toast.classList.add('translate-y-0', 'opacity-100');
+  setTimeout(() => {
+    toast.classList.remove('translate-y-0', 'opacity-100');
+    toast.classList.add('translate-y-20', 'opacity-0');
+  }, 2200);
+}
+
+loadPredefined();
 document.getElementById("fData").value = new Date().toISOString().split('T')[0];
 lucide.createIcons();
 renderItemsForm();
@@ -922,5 +1513,96 @@ up();
   setTimeout(() => up(), 100);
 })();
 </script>
+
+<!-- ============================================================ -->
+<!-- MODAL DE GERENCIAMENTO DE PRODUTOS PRÉ-DEFINIDOS             -->
+<!-- ============================================================ -->
+<div id="modalPredefined" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 hidden no-print" onclick="if(event.target===this) closePredefinedModal()">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200">
+    
+    <!-- Modal Header -->
+    <div class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-500 flex items-center justify-center font-bold">
+          <i data-lucide="boxes" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h2 class="text-sm font-bold text-white leading-tight">Produtos Pré-definidos</h2>
+          <p class="text-[11px] text-slate-400">Escolha rápida, adicione novos ou remova produtos da lista</p>
+        </div>
+      </div>
+      <button type="button" onclick="closePredefinedModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Barra de Ações & Cadastro -->
+    <div class="p-3.5 bg-slate-50 border-b border-slate-200 space-y-3 shrink-0">
+      <div class="flex items-center justify-between gap-2">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="searchPredefined" oninput="renderPredefinedList()" placeholder="Filtrar por nome ou medida..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
+        </div>
+        <button type="button" onclick="toggleNewProductForm()" class="bg-amber-500 hover:bg-amber-600 text-black px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 shadow-sm shrink-0">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Novo Produto
+        </button>
+      </div>
+
+      <!-- Formulário para Cadastrar Novo Produto Pré-definido -->
+      <div id="formNewProduct" class="hidden bg-white p-3 rounded-xl border border-amber-300 shadow-sm">
+        <h4 class="text-xs font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+          <i data-lucide="plus" class="w-3.5 h-3.5 text-amber-500"></i> Cadastrar Produto Pré-definido
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Título do Produto / Peça</label>
+            <input type="text" id="newProdTitle" placeholder="Ex: Galpão Metálico 12x25m" class="w-full border rounded p-1.5 text-xs">
+          </div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Qtd Padrão</label>
+              <input type="text" id="newProdQtd" placeholder="Ex: 1 un" value="1 un" class="w-full border rounded p-1.5 text-xs">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Preço Padrão (R$)</label>
+              <input type="number" step="0.01" id="newProdPrice" placeholder="0.00" class="w-full border rounded p-1.5 text-xs">
+            </div>
+          </div>
+        </div>
+        <div class="mb-2">
+          <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Descrição Técnica Detalhada</label>
+          <input type="text" id="newProdDesc" placeholder="Dimensões, vão livre, perfis, pintura..." class="w-full border rounded p-1.5 text-xs">
+        </div>
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="toggleNewProductForm(false)" class="px-2.5 py-1 text-xs text-slate-600 hover:text-slate-900 font-semibold">Cancelar</button>
+          <button type="button" onclick="saveNewPredefinedProduct()" class="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-black text-xs font-bold rounded shadow-sm">Salvar na Lista</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista com Opção de Adicionar e Remover -->
+    <div class="p-3 overflow-y-auto flex-1 divide-y divide-slate-100" id="predefinedListContainer">
+      <!-- Injetado dinamicamente via JS -->
+    </div>
+
+    <!-- Footer Modal -->
+    <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 shrink-0">
+      <button type="button" onclick="resetPredefinedProducts()" class="text-slate-400 hover:text-red-500 text-[11px] underline">
+        Restaurar padrões de fábrica
+      </button>
+      <button type="button" onclick="closePredefinedModal()" class="px-4 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-lg transition text-xs">
+        Fechar
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST FEEDBACK -->
+<div id="appToast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl z-50 text-xs font-semibold flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none no-print">
+  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+  <span id="appToastMsg">Item adicionado!</span>
+</div>
+
 </body>
 </html>
