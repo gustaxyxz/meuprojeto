@@ -1,4 +1,5 @@
 <?php
+define('BUILD_DIST', true);
 // Build dist - usa include + ob para evitar problemas de encoding do HTTP
 ini_set('default_charset', 'UTF-8');
 mb_internal_encoding('UTF-8');

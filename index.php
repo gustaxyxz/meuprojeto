@@ -2,8 +2,12 @@
 <?php include "includes/conexao.php"; ?>
 
 <?php
-$sqlServicos = "SELECT * FROM produtos ORDER BY id_produto LIMIT 3";
-$resultadoServicos = $pdo->query($sqlServicos);
+$resultadoServicos = null;
+if ($pdo) {
+    try {
+        $resultadoServicos = $pdo->query("SELECT * FROM produtos ORDER BY id_produto LIMIT 3");
+    } catch (Throwable $e) { }
+}
 ?>
 
 <main>

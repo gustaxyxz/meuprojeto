@@ -573,12 +573,8 @@ Taxas, licenças e ART da obra civil</textarea>
             <dd class="text-[11.2px] leading-snug text-doc-soft">Esta proposta é válida por <span id="dCondVal">15</span> dias a partir da data de emissão. Após esse prazo os valores podem ser revistos conforme o preço do aço.</dd>
           </div>
           <div class="flex gap-3">
-            <dt class="w-[24mm] shrink-0 text-[11.8px] font-bold">Garantia</dt>
-            <dd class="text-[11.2px] leading-snug text-doc-soft">12 meses sobre a estrutura e a solda, contra defeitos de fabricação e montagem, conforme o Código de Defesa do Consumidor.</dd>
-          </div>
-          <div class="flex gap-3">
             <dt class="w-[24mm] shrink-0 text-[11.8px] font-bold">Execução</dt>
-            <dd class="text-[11.2px] leading-snug text-doc-soft">O prazo começa a contar após a aprovação da proposta, o pagamento do sinal e a liberação da obra civil (blocos curados e nivelados).</dd>
+            <dd class="text-[11.2px] leading-snug text-doc-soft">O prazo começa a contar após a aprovação da proposta, e pagamento do sinal.</dd>
           </div>
           <div class="flex gap-3">
             <dt class="w-[24mm] shrink-0 text-[11.8px] font-bold">Alterações</dt>

@@ -2,9 +2,20 @@
 <?php include "includes/conexao.php"; ?>
 
 <?php
-$sqlProdutos = "SELECT * FROM produtos ORDER BY id_produto";
-$stmtProdutos = $pdo->query($sqlProdutos);
-$produtos = $stmtProdutos->fetchAll(PDO::FETCH_ASSOC);
+$produtos = [];
+if ($pdo) {
+    try {
+        $stmtProdutos = $pdo->query("SELECT * FROM produtos ORDER BY id_produto");
+        if ($stmtProdutos) $produtos = $stmtProdutos->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) { }
+}
+if (empty($produtos)) {
+    $produtos = [
+        ['id_produto' => 1, 'nome_produto' => 'Estrutura de Galpão 8x15 — 120m²', 'valor' => 18000],
+        ['id_produto' => 2, 'nome_produto' => 'Estrutura de Galpão 12x20 — 240m²', 'valor' => 27000],
+        ['id_produto' => 3, 'nome_produto' => 'Estrutura de Galpão 15x45 — 675m²', 'valor' => 45000],
+    ];
+}
 
 $nomeCliente = $_POST["nome"] ?? "";
 $telefoneCliente = $_POST["telefone"] ?? "";
