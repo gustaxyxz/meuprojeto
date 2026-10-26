@@ -270,18 +270,48 @@
     @media screen and (max-width: 768px) {
       body {
         flex-direction: column !important;
-        height: 100% !important;
-        min-height: 100vh !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        overflow: hidden !important;
       }
 
       #mobileTopNav {
         display: flex !important;
+        flex-shrink: 0 !important;
       }
 
       aside#sidebarForm {
         width: 100% !important;
-        height: calc(100vh - 54px) !important;
+        height: calc(100dvh - 54px) !important;
+        max-height: calc(100dvh - 54px) !important;
         border-right: none !important;
+        flex-shrink: 0 !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      /* Overflow scrollable no conteúdo interno do sidebar em mobile */
+      aside#sidebarForm > div.overflow-y-auto {
+        flex: 1 1 auto !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding-bottom: max(80px, env(safe-area-inset-bottom, 80px)) !important;
+      }
+
+      /* Barra de ações no topo do sidebar (neutral-900) - compactar em mobile */
+      aside#sidebarForm > div[class*="neutral-900"] {
+        flex-shrink: 0 !important;
+        overflow-x: auto !important;
+        scrollbar-width: none !important;
+      }
+      aside#sidebarForm > div[class*="neutral-900"]::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      /* Cabeçalho do sidebar (ink bg) */
+      aside#sidebarForm > div[class*="bg-\\[\\#111111\\]"] {
+        flex-shrink: 0 !important;
       }
 
       aside#sidebarForm.hidden-mobile {
@@ -290,8 +320,9 @@
 
       main#mainPreview {
         width: 100% !important;
-        height: calc(100vh - 54px) !important;
-        padding: 16px 4px 40px !important;
+        height: calc(100dvh - 54px) !important;
+        max-height: calc(100dvh - 54px) !important;
+        padding: 16px 4px 60px !important;
         overflow-x: auto !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch;
@@ -311,16 +342,16 @@
 
       .doc-page {
         transform-origin: top center;
-        transform: scale(0.46);
-        margin-bottom: -150mm;
+        transform: scale(0.42);
+        margin-bottom: -158mm;
         box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15) !important;
       }
 
       /* Otimizado para iPhone 15 (393px) e Samsung S24 (360-412px) */
       @media (min-width: 360px) and (max-width: 430px) {
         .doc-page {
-          transform: scale(0.48);
-          margin-bottom: -142mm;
+          transform: scale(0.46);
+          margin-bottom: -148mm;
         }
       }
 
@@ -336,6 +367,11 @@
           transform: scale(0.72);
           margin-bottom: -75mm;
         }
+      }
+
+      /* Ocultar o cabeçalho desktop do sidebar em mobile (mobileTopNav já substitui) */
+      #sidebarDesktopHeader {
+        display: none !important;
       }
     }
 
@@ -407,7 +443,7 @@
   <!-- SIDEBAR FORM -->
   <aside id="sidebarForm"
     class="w-[430px] flex-shrink-0 bg-white border-r border-slate-200 shadow-lg flex flex-col h-full no-print z-10 relative">
-    <div class="bg-[#111111] text-white p-3.5 flex justify-between items-center shadow-md shrink-0">
+    <div id="sidebarDesktopHeader" class="bg-[#111111] text-white p-3.5 flex justify-between items-center shadow-md shrink-0">
       <div class="font-bold flex items-center gap-2.5 min-w-0 pr-1">
         <img src="assets/imagens/logo_mo.png" alt="Logo Metalúrgica Oliveira"
           class="rounded-full bg-[#111111] p-0.5 border border-amber-500/70 shrink-0"
@@ -1061,25 +1097,7 @@ Taxas, licenças e ART da obra civil</textarea>
               <p class="text-[11px] text-doc-soft font-medium mt-0.5" id="dSaldoCondicaoView">Na entrega e conclusão da
                 montagem</p>
             </div>
-          
-        <!-- Box Oficial de Chave PIX da Metalúrgica no Pedido de Venda -->
-        <div id="boxPixOficial" class="mt-2.5 p-2.5 bg-white border border-emerald-300 rounded-lg flex items-center justify-between text-left">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs">
-              PIX
-            </div>
-            <div>
-              <span class="text-[9.5px] font-black uppercase tracking-wider text-emerald-800 block">Chave PIX Oficial (CNPJ)</span>
-              <span class="text-[13px] font-black text-slate-900 tracking-wide font-mono select-all">46.401.359/0001-71</span>
-              <span class="text-[10px] text-slate-500 block">Metalúrgica Oliveira • Enviar comprovante para (44) 99767-1935</span>
-            </div>
           </div>
-          <div class="hidden sm:block text-right pr-1">
-            <span class="text-[9.5px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Titular Verificado</span>
-          </div>
-        </div>
-
-      </div>
         </div>
 
         <!-- Valor Total (Limpo, Direto e Focado no Valor) -->
@@ -3224,13 +3242,7 @@ Taxas, licenças e ART da obra civil</textarea>
         }
       }
 
-      // Exibição do Box PIX Oficial da Metalúrgica no Pedido
-      const chkPix = document.getElementById("fMostrarPix");
-      const boxPixOficial = document.getElementById("boxPixOficial");
-      const mostrarPix = chkPix ? chkPix.checked : isVenda;
-      if (boxPixOficial) {
-        boxPixOficial.style.display = (mostrarPix && secaoRecibo && secaoRecibo.style.display !== 'none') ? '' : 'none';
-      }
+
 
       const itensList = document.getElementById("dItensList");
       const fMostrarPrecos = document.getElementById("fMostrarPrecos");
@@ -3322,9 +3334,7 @@ Taxas, licenças e ART da obra civil</textarea>
       if (isVenda) {
                 const totalFormatado = _modoPermutaAtivo ? 'NEGOCIAÇÃO EM PERMUTA' : money(g("fTotal"));
         let extraPermuta = _modoPermutaAtivo && g("fPermutaDesc") ? `\n*Bem em Permuta:* ${g("fPermutaDesc")}` : '';
-        const chkPix = document.getElementById("fMostrarPix");
-        let extraPix = (chkPix && chkPix.checked) ? `\n\n💳 *Chave PIX Oficial (CNPJ):* 46.401.359/0001-71\n*Favorecido:* Metalúrgica Oliveira` : '';
-        msg = `Olá! Tudo bem?\n\nSegue a confirmação do nosso *${tipoDoc} (Nº ${g("fNum")})*:\n\n*Item:* ${g("fItemPrincipal")}\n*Valor:* ${totalFormatado}${extraPermuta}\n*Condição de Pgto:* ${g("fPgto1")} | ${g("fPgto2")}\n*Prazo:* ${g("fPrazo1")} ${g("fPrazo2")}\n*Transporte:* ${g("fFrete1")} ${g("fFrete2")}${extraPix}\n\nO documento formal em PDF para assinatura e arquivo pode ser gerado e enviado.\n\nAtenciosamente,\nMetalúrgica Oliveira.`;
+        msg = `Olá! Tudo bem?\n\nSegue a confirmação do nosso *${tipoDoc} (Nº ${g("fNum")})*:\n\n*Item:* ${g("fItemPrincipal")}\n*Valor:* ${totalFormatado}${extraPermuta}\n*Condição de Pgto:* ${g("fPgto1")} | ${g("fPgto2")}\n*Prazo:* ${g("fPrazo1")} ${g("fPrazo2")}\n*Transporte:* ${g("fFrete1")} ${g("fFrete2")}\n\nO documento formal em PDF para assinatura e arquivo pode ser gerado e enviado.\n\nAtenciosamente,\nMetalúrgica Oliveira.`;
       } else {
         msg = `Olá! Tudo bem?\n\nSegue o resumo da nossa Proposta Comercial / Orçamento (Nº ${g("fNum")}):\n\n*Item:* ${g("fItemPrincipal")}\n*Valor Total:* ${money(g("fTotal"))}\n*Prazo Estimado:* ${g("fPrazo1")} ${g("fPrazo2")}\n*Validade:* ${g("fVal")} dias\n\nO PDF completo com os detalhes de projeto e materiais pode ser gerado e enviado.\n\nFico no aguardo,\nMetalúrgica Oliveira.`;
       }
